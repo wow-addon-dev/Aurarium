@@ -1,0 +1,29 @@
+## Interface: 110105
+## Title: Aurarium
+## Author: diomsg (Diom-Antonidas EU)
+
+## Version: @project-version@
+## IconTexture: Interface\AddOns\Aurarium\media\icon.blp
+## LoadOnDemand: 0
+## DefaultState: enabled
+## AllowLoadGameType: mainline
+
+## Notes: A World of Warcraft addon that saves the account balance of gold and various currencies and can display it over time.
+## Notes-deDE: Ein World of Warcraft Addon, das den Kontostand von Gold und verschiedenen Währungen speichert und im zeitlichen Verlauf anzeigen kann.
+## Notes-ruRU: Аддон для World of Warcraft, сохраняющий количество золота и различных валют на аккаунте и отображающий его в истории.
+
+## LoadSavedVariablesFirst: 1
+## SavedVariables: Aurarium_Options, Aurarium_DataCharacter, Aurarium_DataDates, Aurarium_DataBalance
+
+## AddonCompartmentFuncOnEnter: Aurarium_CompartmentOnEnter
+## AddonCompartmentFuncOnLeave: Aurarium_CompartmentOnLeave
+## AddonCompartmentFunc: Aurarium_CompartmentOnClick
+
+## X-Flavor: Retail
+## X-BuildDate: @build-date@
+## X-E-Mail: feedback@wow-addon.dev
+## X-Github: https://github.com/diomsg-code/Aurarium
+## X-Curseforge: https://www.curseforge.com/wow/addons/Aurarium
+
+Aurarium.xml
+Aurarium.lua
