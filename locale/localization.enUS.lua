@@ -1,11 +1,11 @@
-local _, GCT = ...
+local _, AUR = ...
 
-GCT.localization = setmetatable({},{__index=function(self,key)
-        geterrorhandler()("Gold & Currency Tracker (Debug): Missing entry for '" .. tostring(key) .. "'")
+AUR.localization = setmetatable({},{__index=function(self,key)
+        geterrorhandler()("Aurarium (Debug): Missing entry for '" .. tostring(key) .. "'")
         return key
     end})
 
-local L = GCT.localization
+local L = AUR.localization
 
 -- Generel
 

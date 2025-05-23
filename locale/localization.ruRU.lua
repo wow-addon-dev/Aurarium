@@ -1,8 +1,8 @@
-local _, GCT = ...
+local _, AUR = ...
 
 if GetLocale() ~= "ruRU" then return end
 
-local L = GCT.localization
+local L = AUR.localization
 
 -- Generel
 

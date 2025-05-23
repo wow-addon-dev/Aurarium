@@ -1,6 +1,6 @@
-local addonName, GCT = ...
+local addonName, AUR = ...
 
-local L = GCT.localization
+local L = AUR.localization
 
 local Utils = {}
 
@@ -47,27 +47,27 @@ end
 ---------------------
 
 function Utils:PrintDebug(msg)
-    if GCT.data.options["debug-mode"] then
+    if AUR.data.options["debug-mode"] then
         local notfound = true
 
         for i = 1, NUM_CHAT_WINDOWS do
             local name, _, _, _, _, _, shown, locked, docked, uni = GetChatWindowInfo(i)
 
             if name == "Debug" and docked ~= nil then
-                _G['ChatFrame' .. i]:AddMessage(WrapTextInColorCode("Gold & Currency Tracker (Debug): ", GCT.ORANGE_FONT_COLOR) .. msg)
+                _G['ChatFrame' .. i]:AddMessage(WrapTextInColorCode("Gold & Currency Tracker (Debug): ", AUR.ORANGE_FONT_COLOR) .. msg)
                 notfound = false
                 break
             end
         end
 
         if notfound then
-            DEFAULT_CHAT_FRAME:AddMessage(WrapTextInColorCode("Gold & Currency Tracker (Debug): ", GCT.ORANGE_FONT_COLOR)  .. msg)
+            DEFAULT_CHAT_FRAME:AddMessage(WrapTextInColorCode("Gold & Currency Tracker (Debug): ", AUR.ORANGE_FONT_COLOR)  .. msg)
         end
 	end
 end
 
 function Utils:PrintMessage(msg)
-    DEFAULT_CHAT_FRAME:AddMessage(WrapTextInColorCode(addonName .. ": ", GCT.NORMAL_FONT_COLOR) .. msg)
+    DEFAULT_CHAT_FRAME:AddMessage(WrapTextInColorCode(addonName .. ": ", AUR.NORMAL_FONT_COLOR) .. msg)
 end
 
 function Utils:InitializeDatabase()
@@ -79,8 +79,8 @@ function Utils:InitializeDatabase()
         Aurarium_Options = {}
     end
 
-    GCT.data = {}
-    GCT.data.options = Aurarium_Options
+    AUR.data = {}
+    AUR.data.options = Aurarium_Options
 
     -- Dates
 
@@ -88,7 +88,7 @@ function Utils:InitializeDatabase()
        Aurarium_DataDates = {}
     end
 
-    GCT.data.dates = Aurarium_DataDates
+    AUR.data.dates = Aurarium_DataDates
 
     -- Character
 
@@ -96,10 +96,10 @@ function Utils:InitializeDatabase()
         Aurarium_DataCharacter = {}
     end
 
-    GCT.data.character = Aurarium_DataCharacter
+    AUR.data.character = Aurarium_DataCharacter
 
-    GCT.data.character[realm] =  GCT.data.character[realm] or {}
-    GCT.data.character[realm][char] =  GCT.data.character[realm][char] or {}
+    AUR.data.character[realm] =  AUR.data.character[realm] or {}
+    AUR.data.character[realm][char] =  AUR.data.character[realm][char] or {}
 
     -- Balance
 
@@ -107,26 +107,26 @@ function Utils:InitializeDatabase()
         Aurarium_DataBalance = {}
     end
 
-    GCT.data.balance = Aurarium_DataBalance
+    AUR.data.balance = Aurarium_DataBalance
 
-    GCT.data.balance =  GCT.data.balance or {}
-    GCT.data.balance["Warband"] =  GCT.data.balance["Warband"] or {}
+    AUR.data.balance =  AUR.data.balance or {}
+    AUR.data.balance["Warband"] =  AUR.data.balance["Warband"] or {}
 
-    GCT.data.balance[realm] =  GCT.data.balance[realm] or {}
-    GCT.data.balance[realm][char] =  GCT.data.balance[realm][char] or {}
+    AUR.data.balance[realm] =  AUR.data.balance[realm] or {}
+    AUR.data.balance[realm][char] =  AUR.data.balance[realm][char] or {}
 end
 
 function Utils:InitializeMinimapButton()
     local LDB = LibStub("LibDataBroker-1.1"):NewDataObject("Aurarium", {
         type     = "launcher",
         text     = "Aurarium",
-        icon     = GCT.MEDIA_PATH .. "icon-round.blp",
+        icon     = AUR.MEDIA_PATH .. "icon-round.blp",
         OnClick  = function(self, button)
             if button == "LeftButton" then
-                if GCT.overview:IsShown() then
-                    GCT.overview:Hide()
+                if AUR.overview:IsShown() then
+                    AUR.overview:Hide()
                 else
-                    GCT.overview:Show()
+                    AUR.overview:Show()
                 end
             elseif button == "RightButton" then
                 Settings.OpenToCategory("Aurarium")
@@ -134,19 +134,19 @@ function Utils:InitializeMinimapButton()
         end,
         OnTooltipShow = function(tooltip)
             tooltip:SetText(addonName)
-            tooltip:AddLine(WrapTextInColorCode(GCT.ADDON_VERSION .. " (" .. GCT.ADDON_BUILD_DATE .. ")", GCT.WHITE_FONT_COLOR))
+            tooltip:AddLine(WrapTextInColorCode(AUR.ADDON_VERSION .. " (" .. AUR.ADDON_BUILD_DATE .. ")", AUR.WHITE_FONT_COLOR))
             tooltip:AddLine(" ")
-            tooltip:AddLine(L["minimap-button.tooltip"]:format(GCT.LINK_FONT_COLOR, GCT.LINK_FONT_COLOR), 1, 1, 1)
+            tooltip:AddLine(L["minimap-button.tooltip"]:format(AUR.LINK_FONT_COLOR, AUR.LINK_FONT_COLOR), 1, 1, 1)
         end,
     })
 
     local zone = {}
-    zone.hide = GCT.data.options["minimap-button-hide"]
-    zone.minimapPos = GCT.data.options["minimap-button-position"]
+    zone.hide = AUR.data.options["minimap-button-hide"]
+    zone.minimapPos = AUR.data.options["minimap-button-position"]
 
     local zone = {
-        hide = GCT.data.options["minimap-button-hide"],
-        minimapPos = GCT.data.options["minimap-button-position"],
+        hide = AUR.data.options["minimap-button-hide"],
+        minimapPos = AUR.data.options["minimap-button-position"],
     }
 
     self.minimapButton = LibStub("LibDBIcon-1.0")
@@ -154,4 +154,4 @@ function Utils:InitializeMinimapButton()
     self.minimapButton:Lock("Aurarium")
 end
 
-GCT.utils = Utils
+AUR.utils = Utils

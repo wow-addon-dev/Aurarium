@@ -1,7 +1,7 @@
-local addonName, GCT = ...
+local addonName, AUR = ...
 
-local L =  GCT.localization
-local Utils = GCT.utils
+local L =  AUR.localization
+local Utils = AUR.utils
 
 local Overview = {}
 
@@ -48,7 +48,7 @@ local function FormatMonthText(prefix)
 
     if not month or not year then return prefix end
 
-    local key = GCT.MONTH_KEYS[tonumber(month)]
+    local key = AUR.MONTH_KEYS[tonumber(month)]
     local name = L[key] or key
 
     return string.format("%s %s", name, year)
@@ -89,11 +89,11 @@ local function FormatCurrencyDiff(diff, selectedCurrency)
 end
 
 local function BuildCharacterHistory(realm, char, currencyKey)
-    local rawData = GCT.data.balance[realm][char]
+    local rawData = AUR.data.balance[realm][char]
 
     local entries = {}
     local lastValue = 0
-    local dates = GCT.data.dates
+    local dates = AUR.data.dates
     local startIndex = nil
 
     for i, date in ipairs(dates) do
@@ -128,11 +128,11 @@ local function BuildCharacterHistory(realm, char, currencyKey)
 end
 
 local function BuildCharacterHistoryLookup(realm, char, currencyKey)
-    local rawData = GCT.data.balance[realm][char]
+    local rawData = AUR.data.balance[realm][char]
 
     local entries = {}
     local lastValue = 0
-    local dates = GCT.data.dates
+    local dates = AUR.data.dates
     local startIndex = nil
 
     for i, date in ipairs(dates) do
@@ -167,11 +167,11 @@ local function BuildCharacterHistoryLookup(realm, char, currencyKey)
 end
 
 local function BuildWarbandHistory(currencyKey)
-    local rawData = GCT.data.balance["Warband"]
+    local rawData = AUR.data.balance["Warband"]
 
     local entries = {}
     local lastValue = 0
-    local dates = GCT.data.dates
+    local dates = AUR.data.dates
     local startIndex = nil
 
     for i, date in ipairs(dates) do
@@ -206,11 +206,11 @@ local function BuildWarbandHistory(currencyKey)
 end
 
 local function BuildAccountHistory(currencyKey)
-    local dates = GCT.data.dates
+    local dates = AUR.data.dates
     local temp = {}
     local entries = {}
 
-    for realm, realmData in pairs(GCT.data.balance) do
+    for realm, realmData in pairs(AUR.data.balance) do
         if realm ~= "Warband" then
             for char, _ in pairs(realmData) do
                 local characterHistory = BuildCharacterHistoryLookup(realm, char, currencyKey)
@@ -407,7 +407,7 @@ end
 local function InitializeFrames()
     local tabs = {}
 
-    overviewFrame = CreateFrame("Frame", "GCT_OverviewFrame", UIParent, "PortraitFrameTemplate")
+    overviewFrame = CreateFrame("Frame", "AUR_OverviewFrame", UIParent, "PortraitFrameTemplate")
     overviewFrame:SetPoint("CENTER")
     overviewFrame:SetSize(470, 550)
     overviewFrame:SetFrameStrata("HIGH")
@@ -422,7 +422,7 @@ local function InitializeFrames()
 
     local portrait = overviewFrame:GetPortrait()
     portrait:SetPoint('TOPLEFT', -5, 8)
-    portrait:SetTexture(GCT.MEDIA_PATH .. "icon-round.blp")
+    portrait:SetTexture(AUR.MEDIA_PATH .. "icon-round.blp")
 
     local background = CreateFrame("Frame", nil, overviewFrame, "InsetFrameTemplate4")
     background:SetSize(450, 420)
@@ -459,7 +459,7 @@ local function InitializeFrames()
         end)
         tabs[i] = tab
 
-        local scrollFrame = CreateFrame("ScrollFrame", nil, background, "GTC_OverviewScrollFrameTemplate")
+        local scrollFrame = CreateFrame("ScrollFrame", nil, background, "Aurarium_OverviewScrollFrameTemplate")
         scrollFrame:SetPoint("TOPLEFT", background, "TOPLEFT", 15, -15)
         scrollFrame:SetPoint("BOTTOMRIGHT", background, "BOTTOMRIGHT", -25, 15)
 
@@ -538,13 +538,13 @@ local function InitializeFrames()
 
                 root:CreateDivider()
 
-                for _, categoryKey in ipairs(GCT.CURRENCY_CATEGORY_ORDER) do
-                    if GCT.CHARACTER_CURRENCIES[categoryKey] then
+                for _, categoryKey in ipairs(AUR.CURRENCY_CATEGORY_ORDER) do
+                    if AUR.CHARACTER_CURRENCIES[categoryKey] then
                         local categoryButton = root:CreateButton(L["currency-category." .. categoryKey])
 
                         local sortedList = {}
 
-                        for _, currencyID in ipairs(GCT.CHARACTER_CURRENCIES[categoryKey]) do
+                        for _, currencyID in ipairs(AUR.CHARACTER_CURRENCIES[categoryKey]) do
                             local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
                             if info then
                                 table.insert(sortedList, {id = "c-" .. currencyID, name = info.name, iconFileID = info.iconFileID})
@@ -588,13 +588,13 @@ local function InitializeFrames()
                     UpdateWarbandOverview()
                 end
 
-                for _, categoryKey in ipairs(GCT.CURRENCY_CATEGORY_ORDER) do
-                    if GCT.WARBAND_CURRENCIES[categoryKey] then
+                for _, categoryKey in ipairs(AUR.CURRENCY_CATEGORY_ORDER) do
+                    if AUR.WARBAND_CURRENCIES[categoryKey] then
                         local categoryButton = root:CreateButton(L["currency-category." .. categoryKey])
 
                         local sortedList = {}
 
-                        for _, currencyID in ipairs(GCT.WARBAND_CURRENCIES[categoryKey]) do
+                        for _, currencyID in ipairs(AUR.WARBAND_CURRENCIES[categoryKey]) do
                             local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
                             if info then
                                 table.insert(sortedList, {id = "w-" .. currencyID, name = info.name, iconFileID = info.iconFileID})
@@ -647,7 +647,7 @@ local function InitializeFrames()
                 end
 
                 local realms = {}
-                for realm, _ in pairs(GCT.data.balance) do
+                for realm, _ in pairs(AUR.data.balance) do
                     if realm ~= "Warband" then
                         table.insert(realms, realm)
                     end
@@ -658,7 +658,7 @@ local function InitializeFrames()
                     local realmButton = root:CreateButton(realmKey)
 
                     local chars = {}
-                    for charName, _ in pairs(GCT.data.balance[realmKey]) do
+                    for charName, _ in pairs(AUR.data.balance[realmKey]) do
                         table.insert(chars, charName)
                     end
 
@@ -668,11 +668,11 @@ local function InitializeFrames()
                         local charButton = realmButton:CreateRadio(charKey, IsSelected, SetSelected, realmKey .. "-" .. charKey)
                         charButton:AddInitializer(function(button, description, menu)
                             local factionFileID = 0
-                            local classColor = GCT.WHITE_FONT_COLOR
+                            local classColor = AUR.WHITE_FONT_COLOR
 
-                            if GCT.data.character[realmKey][charKey] then
-                                local class = GCT.data.character[realmKey][charKey].class
-                                local faction = GCT.data.character[realmKey][charKey].faction
+                            if AUR.data.character[realmKey][charKey] then
+                                local class = AUR.data.character[realmKey][charKey].class
+                                local faction = AUR.data.character[realmKey][charKey].faction
 
                                 classColor = C_ClassColor.GetClassColor(class):GenerateHexColor()
 
@@ -740,4 +740,4 @@ function Overview:IsShown()
     return overviewFrame:IsShown()
 end
 
-GCT.overview = Overview
+AUR.overview = Overview

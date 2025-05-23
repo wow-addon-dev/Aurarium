@@ -1,7 +1,7 @@
-local _, GCT = ...
+local _, AUR = ...
 
-local L =  GCT.localization
-local Utils = GCT.utils
+local L =  AUR.localization
+local Utils = AUR.utils
 
 local Dialog = {}
 
@@ -17,7 +17,7 @@ local resetOptionsDialog
 ---------------------
 
 function Dialog:InitializeDialog()
-    copyAddressDialog = CreateFrame("Frame", "GCT_CopyAddressDialog", UIParent, "TranslucentFrameTemplate")
+    copyAddressDialog = CreateFrame("Frame", "AUR_CopyAddressDialog", UIParent, "TranslucentFrameTemplate")
     copyAddressDialog:SetSize(400, 10)
     copyAddressDialog:SetPoint("CENTER", 0, 200)
 
@@ -54,7 +54,7 @@ function Dialog:InitializeDialog()
 
     copyAddressDialog:SetHeight(copyAddressDialog:GetTop() - buttonClose:GetBottom() + 20)
 
-    resetOptionsDialog = CreateFrame("Frame", "GCT_ResetOptionsDialog", UIParent, "TranslucentFrameTemplate")
+    resetOptionsDialog = CreateFrame("Frame", "AUR_ResetOptionsDialog", UIParent, "TranslucentFrameTemplate")
     resetOptionsDialog:SetSize(350, 10)
     resetOptionsDialog:SetPoint("CENTER", 0, 200)
 
@@ -78,7 +78,7 @@ function Dialog:InitializeDialog()
     buttonYes:SetSize(100, 22)
     buttonYes:SetText(YES)
     buttonYes:SetScript("OnClick", function()
-        local options = GCT.data.options
+        local options = AUR.data.options
         options["open-on-login"] = false
         options["minimap-button-hide"] = false
         options["minimap-button-position"] = 250
@@ -121,4 +121,4 @@ function Dialog:ShowResetOptionsDialog()
     end
 end
 
-GCT.dialog = Dialog
+AUR.dialog = Dialog

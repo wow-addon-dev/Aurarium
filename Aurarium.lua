@@ -1,17 +1,17 @@
-local addonName, GCT = ...
+local addonName, AUR = ...
 
-local L = GCT.localization
-local Utils = GCT.utils
-local Dialog = GCT.dialog
-local Options = GCT.options
-local Overview = GCT.overview
+local L = AUR.localization
+local Utils = AUR.utils
+local Dialog = AUR.dialog
+local Options = AUR.options
+local Overview = AUR.overview
 
 ----------------------
 --- Local funtions ---
 ----------------------
 
 local function SavedDate(dateStr)
-    local dates = GCT.data.dates
+    local dates = AUR.data.dates
 
     for _, d in ipairs(dates) do
         if d == dateStr then
@@ -27,7 +27,7 @@ local function SaveCharacterInfo(realm, char)
     local classFilename = UnitClassBase("player")
     local englishFaction = UnitFactionGroup("player")
 
-    GCT.data.character[realm][char] = {class = classFilename, faction = englishFaction}
+    AUR.data.character[realm][char] = {class = classFilename, faction = englishFaction}
 end
 
 local function SaveBalance()
@@ -37,11 +37,11 @@ local function SaveBalance()
     SavedDate(today)
     SaveCharacterInfo(realm, char)
 
-    local warbandHistory  = GCT.data.balance["Warband"]
-    local characterHistory  = GCT.data.balance[realm][char]
+    local warbandHistory  = AUR.data.balance["Warband"]
+    local characterHistory  = AUR.data.balance[realm][char]
 
-    GCT.data.balance["Warband"][today] = GCT.data.balance["Warband"][today] or {}
-    GCT.data.balance[realm][char][today] = GCT.data.balance[realm][char][today] or {}
+    AUR.data.balance["Warband"][today] = AUR.data.balance["Warband"][today] or {}
+    AUR.data.balance[realm][char][today] = AUR.data.balance[realm][char][today] or {}
 
     local newGold  = Utils:GetGold()
     local prevGold = 0
@@ -59,12 +59,12 @@ local function SaveBalance()
 
     if newGold ~= prevGold then
         isChangedC1 = true
-        GCT.data.balance[realm][char][today]["gold"] = newGold
+        AUR.data.balance[realm][char][today]["gold"] = newGold
     else
-        GCT.data.balance[realm][char][today]["gold"] = nil
+        AUR.data.balance[realm][char][today]["gold"] = nil
     end
 
-    for _, currencies in pairs(GCT.CHARACTER_CURRENCIES) do
+    for _, currencies in pairs(AUR.CHARACTER_CURRENCIES) do
         for _, currencyID in ipairs(currencies) do
             local key   = "c-" .. tostring(currencyID)
             local info  = C_CurrencyInfo.GetCurrencyInfo(currencyID)
@@ -84,14 +84,14 @@ local function SaveBalance()
 
             if newQty ~= prevQty then
                 isChangedC1 = true
-                GCT.data.balance[realm][char][today][key] = info.quantity
+                AUR.data.balance[realm][char][today][key] = info.quantity
             else
-                GCT.data.balance[realm][char][today][key] = nil
+                AUR.data.balance[realm][char][today][key] = nil
             end
         end
     end
 
-    for _, currencies in pairs(GCT.WARBAND_CURRENCIES) do
+    for _, currencies in pairs(AUR.WARBAND_CURRENCIES) do
         for _, currencyID in ipairs(currencies) do
             local key   = "w-" .. tostring(currencyID)
             local info  = C_CurrencyInfo.GetCurrencyInfo(currencyID)
@@ -111,19 +111,19 @@ local function SaveBalance()
 
             if newQty ~= prevQty then
                 isChangedC2 = true
-                GCT.data.balance["Warband"][today][key] = info.quantity
+                AUR.data.balance["Warband"][today][key] = info.quantity
             else
-                GCT.data.balance["Warband"][today][key] = nil
+                AUR.data.balance["Warband"][today][key] = nil
             end
         end
     end
 
     if not isChangedC1 then
-        GCT.data.balance[realm][char][today] = nil
+        AUR.data.balance[realm][char][today] = nil
     end
 
     if not isChangedC2 then
-       GCT.data.balance["Warband"][today] = nil
+       AUR.data.balance["Warband"][today] = nil
     end
 
     Utils:PrintDebug("Gold and currency balance saved.")
@@ -143,18 +143,50 @@ end
 --- Frames ---
 --------------
 
-local goldCurrencyTrackerFrame = CreateFrame("Frame", "GoldCurrencyTracker")
+local AurariumFrame = CreateFrame("Frame", "Aurarium")
 
 ---------------------
 --- Main funtions ---
 ---------------------
 
-function goldCurrencyTrackerFrame:OnEvent(event, ...)
+function AurariumFrame:OnEvent(event, ...)
 	self[event](self, event, ...)
 end
 
-function goldCurrencyTrackerFrame:ADDON_LOADED(_, addOnName)
+function AurariumFrame:ADDON_LOADED(_, addOnName)
     if addOnName == addonName then
+		if GoldCurrencyTracker_Options then
+			Aurarium_Options = GoldCurrencyTracker_Options
+
+			GoldCurrencyTracker_Options = nil
+
+			print("GoldCurrencyTracker_Options imported and deleted")
+		end
+
+		if GoldCurrencyTracker_DataCharacter then
+			Aurarium_DataCharacter = GoldCurrencyTracker_DataCharacter
+
+			GoldCurrencyTracker_DataCharacter = nil
+
+			print("GoldCurrencyTracker_DataCharacter imported and deleted")
+		end
+
+		if GoldCurrencyTracker_DataDates then
+			Aurarium_DataDates = GoldCurrencyTracker_DataDates
+
+			GoldCurrencyTracker_DataDates = nil
+
+			print("GoldCurrencyTracker_DataDates imported and deleted")
+		end
+
+		if GoldCurrencyTracker_DataBalance_v2 then
+			Aurarium_DataBalance = GoldCurrencyTracker_DataBalance_v2
+
+			GoldCurrencyTracker_DataBalance_v2 = nil
+
+			print("GoldCurrencyTracker_DataBalance_v2 imported and deleted")
+		end
+
         Utils:InitializeDatabase()
         Utils:InitializeMinimapButton()
         Dialog:InitializeDialog()
@@ -165,7 +197,7 @@ function goldCurrencyTrackerFrame:ADDON_LOADED(_, addOnName)
     end
 end
 
-function goldCurrencyTrackerFrame:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
+function AurariumFrame:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
     Utils:PrintDebug("Event 'PLAYER_ENTERING_WORLD' fired. Payload: isInitialLogin=" .. tostring(isInitialLogin) .. ", isReloadingUi=" .. tostring(isReloadingUi))
 
     if (isInitialLogin or isReloadingUi) then
@@ -173,29 +205,29 @@ function goldCurrencyTrackerFrame:PLAYER_ENTERING_WORLD(_, isInitialLogin, isRel
             SaveBalance()
         end)
 
-        if GCT.data.options["open-on-login"]then
+        if AUR.data.options["open-on-login"]then
             Overview:Show()
         end
     end
 end
 
-function goldCurrencyTrackerFrame:PLAYER_MONEY(...)
+function AurariumFrame:PLAYER_MONEY(...)
     Utils:PrintDebug("Event 'PLAYER_MONEY' fired. No payload.")
 
     SaveBalance()
 end
 
-function goldCurrencyTrackerFrame:CURRENCY_DISPLAY_UPDATE(...)
+function AurariumFrame:CURRENCY_DISPLAY_UPDATE(...)
     Utils:PrintDebug("Event 'CURRENCY_DISPLAY_UPDATE' fired. No payload.")
 
     SaveBalance()
 end
 
-goldCurrencyTrackerFrame:RegisterEvent("ADDON_LOADED")
-goldCurrencyTrackerFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-goldCurrencyTrackerFrame:RegisterEvent("PLAYER_MONEY")
-goldCurrencyTrackerFrame:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
-goldCurrencyTrackerFrame:SetScript("OnEvent", goldCurrencyTrackerFrame.OnEvent)
+AurariumFrame:RegisterEvent("ADDON_LOADED")
+AurariumFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+AurariumFrame:RegisterEvent("PLAYER_MONEY")
+AurariumFrame:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
+AurariumFrame:SetScript("OnEvent", AurariumFrame.OnEvent)
 
 SLASH_Aurarium1, SLASH_Aurarium2 = '/aur', '/Aurarium'
 

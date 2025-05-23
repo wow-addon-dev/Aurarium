@@ -1,8 +1,8 @@
-local addonName, GCT = ...
+local addonName, AUR = ...
 
-local L = GCT.localization
-local Utils = GCT.utils
-local Dialog = GCT.dialog
+local L = AUR.localization
+local Utils = AUR.utils
+local Dialog = AUR.dialog
 
 local Options = {}
 
@@ -13,14 +13,14 @@ local Options = {}
 local minimapProxy = setmetatable({}, {
     __index = function(_, key)
         if key == "minimap-button-hide" then
-            return not GCT.data.options["minimap-button-hide"]
+            return not AUR.data.options["minimap-button-hide"]
         else
-            return GCT.data.options[key]
+            return AUR.data.options[key]
         end
     end,
     __newindex = function(_, key, value)
         if key == "minimap-button-hide" then
-            GCT.data.options["minimap-button-hide"] = not value
+            AUR.data.options["minimap-button-hide"] = not value
 
             if value then
                 Utils.minimapButton:Show("GoldCurrencyTracker")
@@ -28,17 +28,17 @@ local minimapProxy = setmetatable({}, {
                 Utils.minimapButton:Hide("GoldCurrencyTracker")
             end
         elseif key == "minimap-button-position" then
-            GCT.data.options["minimap-button-position"] = value
+            AUR.data.options["minimap-button-position"] = value
 
             local zone = {
-                hide = GCT.data.options["minimap-button-hide"],
-                minimapPos = GCT.data.options["minimap-button-position"],
+                hide = AUR.data.options["minimap-button-hide"],
+                minimapPos = AUR.data.options["minimap-button-position"],
             }
 
             Utils.minimapButton:Refresh("GoldCurrencyTracker", zone)
             Utils.minimapButton:Lock("GoldCurrencyTracker")
         else
-            GCT.data.options[key] = value
+            AUR.data.options[key] = value
         end
     end,
 })
@@ -169,7 +169,7 @@ function Options:Initialize()
         text:SetJustifyH("LEFT")
         text:SetSpacing(2)
         text:SetWordWrap(true)
-        text:SetText(L["info.about.text"]:format(GCT.GAME_VERSION .. " (" .. GCT.GAME_FLAVOR .. ")",GCT.ADDON_VERSION .. " (" .. GCT.ADDON_BUILD_DATE .. ")", GCT.ADDON_AUTHOR))
+        text:SetText(L["info.about.text"]:format(AUR.GAME_VERSION .. " (" .. AUR.GAME_FLAVOR .. ")",AUR.ADDON_VERSION .. " (" .. AUR.ADDON_BUILD_DATE .. ")", AUR.ADDON_AUTHOR))
 
         local divider = aboutFrame:CreateTexture(nil, "BACKGROUND")
         divider:SetPoint("TOP", text, "BOTTOM", 0, -10)
@@ -183,7 +183,7 @@ function Options:Initialize()
         buttonGithub:SetSize(150, 22)
         buttonGithub:SetText(L["info.help.github-button.name"])
         buttonGithub:SetScript("OnClick", function(self)
-            Dialog:ShowCopyAddressDialog(GCT.LINK_GITHUB)
+            Dialog:ShowCopyAddressDialog(AUR.LINK_GITHUB)
         end)
         buttonGithub:SetScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
@@ -200,7 +200,7 @@ function Options:Initialize()
         buttonCurseforge:SetSize(150, 22)
         buttonCurseforge:SetText(L["info.help.curseforge-button.name"])
         buttonCurseforge:SetScript("OnClick", function(self)
-            Dialog:ShowCopyAddressDialog(GCT.LINK_CURSEFORGE)
+            Dialog:ShowCopyAddressDialog(AUR.LINK_CURSEFORGE)
         end)
         buttonCurseforge:SetScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
@@ -222,7 +222,7 @@ function Options:Initialize()
     local mainCategory = Settings.RegisterCanvasLayoutCategory(canvasFrame, addonName)
     mainCategory.ID = addonName
 
-    local variableTable = GCT.data.options
+    local variableTable = AUR.data.options
     local category, layout = Settings.RegisterVerticalLayoutSubcategory(mainCategory, L["options"])
 
     local parentSettingMinimapButton
@@ -265,7 +265,7 @@ function Options:Initialize()
         options:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right)
         local subSetting = Settings.CreateSlider(category, setting, options, tooltip)
 
-        subSetting:SetParentInitializer(parentSettingMinimapButton, function() return not GCT.data.options["minimap-button-hide"] end)
+        subSetting:SetParentInitializer(parentSettingMinimapButton, function() return not AUR.data.options["minimap-button-hide"] end)
     end
 
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.other"]))
@@ -283,4 +283,4 @@ function Options:Initialize()
     Settings.RegisterAddOnCategory(mainCategory)
 end
 
-GCT.options = Options
+AUR.options = Options

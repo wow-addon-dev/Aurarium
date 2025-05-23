@@ -1,29 +1,29 @@
-local addonName, GCT = ...
+local addonName, AUR = ...
 
-GCT.ADDON_AUTHOR = C_AddOns.GetAddOnMetadata(addonName, "Author")
-GCT.ADDON_VERSION = C_AddOns.GetAddOnMetadata(addonName, "Version")
-GCT.ADDON_BUILD_DATE = C_AddOns.GetAddOnMetadata(addonName, "X-BuildDate")
+AUR.ADDON_AUTHOR = C_AddOns.GetAddOnMetadata(addonName, "Author")
+AUR.ADDON_VERSION = C_AddOns.GetAddOnMetadata(addonName, "Version")
+AUR.ADDON_BUILD_DATE = C_AddOns.GetAddOnMetadata(addonName, "X-BuildDate")
 
-GCT.GAME_VERSION = GetBuildInfo()
-GCT.GAME_FLAVOR = C_AddOns.GetAddOnMetadata(addonName, "X-Flavor")
+AUR.GAME_VERSION = GetBuildInfo()
+AUR.GAME_FLAVOR = C_AddOns.GetAddOnMetadata(addonName, "X-Flavor")
 
-GCT.LINK_GITHUB = C_AddOns.GetAddOnMetadata(addonName, "X-Github")
-GCT.LINK_CURSEFORGE = C_AddOns.GetAddOnMetadata(addonName, "X-Curseforge")
+AUR.LINK_GITHUB = C_AddOns.GetAddOnMetadata(addonName, "X-Github")
+AUR.LINK_CURSEFORGE = C_AddOns.GetAddOnMetadata(addonName, "X-Curseforge")
 
-GCT.NORMAL_FONT_COLOR = "ffFFD200"      -- #1
-GCT.WHITE_FONT_COLOR = "ffFFFFFF"       -- #2
-GCT.ORANGE_FONT_COLOR = "ffFF8040"      -- 13
-GCT.GOLD_FONT_COLOR = "ffF2E699"        -- #22
-GCT.LINK_FONT_COLOR = "ff66BBFF"        -- #36
+AUR.NORMAL_FONT_COLOR = "ffFFD200"      -- #1
+AUR.WHITE_FONT_COLOR = "ffFFFFFF"       -- #2
+AUR.ORANGE_FONT_COLOR = "ffFF8040"      -- 13
+AUR.GOLD_FONT_COLOR = "ffF2E699"        -- #22
+AUR.LINK_FONT_COLOR = "ff66BBFF"        -- #36
 
-GCT.MEDIA_PATH = "Interface\\AddOns\\" .. addonName .. "\\media\\"
+AUR.MEDIA_PATH = "Interface\\AddOns\\" .. addonName .. "\\media\\"
 
-GCT.MONTH_KEYS = {
+AUR.MONTH_KEYS = {
     "month.jan", "month.feb", "month.mar", "month.apr", "month.may", "month.jun",
     "month.jul", "month.aug", "month.sep", "month.oct", "month.nov", "month.dec"
 }
 
-GCT.CURRENCY_CATEGORY_ORDER = {
+AUR.CURRENCY_CATEGORY_ORDER = {
     "misc",         -- 1
     "pvp",          -- 2
     "dungeonraid",  -- 22
@@ -40,16 +40,16 @@ GCT.CURRENCY_CATEGORY_ORDER = {
     "tww"           -- 260
 }
 
-GCT.WARBAND_CURRENCIES = {
+AUR.WARBAND_CURRENCIES = {
     misc = {
-        2032,	-- Händlerdevisen     
+        2032,	-- Händlerdevisen
     }
 }
 
-GCT.CHARACTER_CURRENCIES = {
+AUR.CHARACTER_CURRENCIES = {
     misc = {
         515,    -- Gewinnlos des Dunkelmond-Jahrmarkts
-        2588	-- Abzeichen: Reiter v. Azeroth        
+        2588	-- Abzeichen: Reiter v. Azeroth
     },
     pvp = {
         391,    -- Belobigungsabzeichen von Tol Barad

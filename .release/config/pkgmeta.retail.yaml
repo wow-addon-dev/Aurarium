@@ -6,3 +6,6 @@ ignore:
 manual-changelog:
   filename: CHANGELOG.md
   markup-type: markdown
+
+  move-folders:
+    Aurarium/GoldCurrencyTracker: GoldCurrencyTracker

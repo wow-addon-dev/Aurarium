@@ -1,0 +1,12 @@
+## Interface: 110105
+## Title: GoldCurrencyTracker
+## Author: diomsg (Diom-Antonidas EU)
+
+## LoadOnDemand: 0
+## DefaultState: enabled
+## AllowLoadGameType: mainline
+
+## LoadSavedVariablesFirst: 1
+## SavedVariables: GoldCurrencyTracker_Options, GoldCurrencyTracker_DataCharacter, GoldCurrencyTracker_DataDates, GoldCurrencyTracker_DataBalance_v2
+
+GoldCurrencyTracker.lua
