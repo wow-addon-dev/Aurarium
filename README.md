@@ -3,7 +3,9 @@
 [![GitHub Release](https://img.shields.io/github/v/release/wow-addon-dev/Aurarium?logo=github&cacheSeconds=600)](https://github.com/wow-addon-dev/Aurarium/releases)
 [![GitHub Release Date](https://img.shields.io/github/release-date/wow-addon-dev/Aurarium?logo=github&cacheSeconds=600)](https://github.com/wow-addon-dev/Aurarium/releases)
 
-Aurarium is an addon that saves the account balance of gold and various currencies and can display it over time.
+*Track your gold & currencies. Know your worth.*
+
+Aurarium is an addon that provides a detailed insight into wealth progression by tracking gold and currencies across all characters and displaying them over time.
 
 ### Features
 
@@ -22,4 +24,4 @@ To open the addon option window, type `/aur` or `/Aurarium` into your chat and h
 
 ### Translation Support
 
-If you would like to help me with the translation, you can do so here: [CurseForge](https://legacy.curseforge.com/wow/addons/gold-currency-tracker/localization) - Many thanks!
+If you would like to help me with the translation, I would be very pleased.
