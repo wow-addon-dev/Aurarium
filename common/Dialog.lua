@@ -89,8 +89,8 @@ function Dialog:InitializeDialog()
             minimapPos = options["minimap-button-position"],
         }
 
-        Utils.minimapButton:Refresh("GoldCurrencyTracker", zone)
-        Utils.minimapButton:Lock("GoldCurrencyTracker")
+        Utils.minimapButton:Refresh("Aurarium", zone)
+        Utils.minimapButton:Lock("Aurarium")
 
         Utils:PrintMessage(L["chat.reset-options.success"])
         resetOptionsDialog:Hide()
