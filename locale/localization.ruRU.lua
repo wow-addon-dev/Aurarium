@@ -58,7 +58,7 @@ L["minimap-button.tooltip"] = "|c%sЛКМ|r - открыть обзор золо
 -- Options
 
 L["info.description"] = "Описание"
-L["info.description.text"] = "Gold & Currency Tracker — это дополнение, сохраняющее количество золота и различных валют на аккаунте и отображающий его в истории.\n\nЕсли Вы нашли ошибку или у Вас есть вопросы по аддону, Вы можете связаться со мной через Github или Curseforge. Вы также можете помочь мне с переводом через эти две платформы. Большое спасибо."
+L["info.description.text"] = "Aurarium is an addon that provides a detailed insight into wealth progression by tracking gold and currencies across all characters and displaying them over time.\n\nIf you find a bug or have questions about the addon, you can contact me via GitHub or CurseForge. You can also help me with the translation via GitHub. Thank you."
 
 L["info.help"] = "Помощь"
 L["info.help.text"] = "В случае возникновения проблем после обновления, Вы можете сбросить настройки здесь."

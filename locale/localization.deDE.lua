@@ -58,7 +58,7 @@ L["minimap-button.tooltip"] = "|c%sLinksklick|r zum Öffnen der Gold- und Währu
 -- Options
 
 L["info.description"] = "Beschreibung"
-L["info.description.text"] = "Der Gold & Currency Tracker ist ein Addon, das den Kontostand von Gold und verschiedenen Währungen speichert und im Zeitverlauf anzeigen kann.\n\nSolltest Du einen Fehler finden oder Fragen zum Addon haben, so kannst Du über Github oder Curseforge Kontakt aufnehmen. Über diese beiden Plattformen kannst Du mir auch bei der Übersetzung helfen. Vielen Dank."
+L["info.description.text"] = "Aurarium ist ein Addon, das einen detaillierten Einblick in die Vermögensentwicklung bietet, indem es Gold und Währungen über alle Charaktere hinweg verfolgt und im Zeitverlauf darstellt.\n\nSolltest Du einen Fehler finden oder Fragen zum Addon haben, so kannst Du über GitHub oder CurseForge Kontakt aufnehmen. Über GitHub kannst Du mir auch bei der Übersetzung helfen. Vielen Dank."
 
 L["info.help"] = "Hilfe"
 L["info.help.text"] = "Bei Problemen nach einem Update oder wenn Du es möchtest, kannst Du hier die Einstellungen zurücksetzen."

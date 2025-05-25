@@ -6,3 +6,4 @@
 - Changed: New addon logo
 - Changed: The version number scheme has been changed
 - Changed: New database structure, the previous data is migrated
+- Updated: deDE, enUS, ruRU localization
