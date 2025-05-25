@@ -12,13 +12,6 @@
 - Changed: New database structure, the previous data is migrated
 - Updated: deDE, enUS, ruRU localization
 
-**v1.0-alpha.1 (2025-05-25)**
-- Changed: New addon name
-- Changed: New addon logo
-- Changed: The version number scheme has been changed
-- Changed: New database structure, the previous data is migrated
-- Updated: deDE, enUS, ruRU localization
-
 **v1.19-alpha.1 (2025-05-25)**
 - Changed: New addon name
 - Changed: New addon logo
