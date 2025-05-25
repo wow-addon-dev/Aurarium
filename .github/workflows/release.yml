@@ -20,16 +20,6 @@ on:
         required: false
         default: true
         type: boolean
-      build-cata:
-        description: 'Cata-Version erstellen'
-        required: false
-        default: true
-        type: boolean
-      build-classic:
-        description: 'Classic-Version erstellen'
-        required: false
-        default: true
-        type: boolean
       release-cf:
         description: 'auf CurseForge veröffentlich'
         required: false
@@ -134,68 +124,10 @@ jobs:
           git fetch origin main
           git reset --hard origin/main
 
-      - name: Delay of 40 seconds
-        run: sleep 40
-
       - name: Package Retail
         run: >
           bash .release/script/packager.sh
           --game retail
-          --version ${{ needs.prework.outputs.new-tag }}
-          --last-release-version ${{ needs.prework.outputs.last-release-tag }}
-          --release-cf ${{ github.event.inputs.release-cf }}
-          --release-wago ${{ github.event.inputs.release-wago }}
-
-  release-cata:
-    name: Release Cata
-    if: github.event.inputs.build-cata == 'true'
-    runs-on: ubuntu-latest
-    needs: prework
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Get the latest version of main from the repository
-        run: |
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          git fetch origin main
-          git reset --hard origin/main
-
-      - name: Delay of 20 seconds
-        run: sleep 20
-
-      - name: Package Cata
-        run: >
-          bash .release/script/packager.sh
-          --game cata
-          --version ${{ needs.prework.outputs.new-tag }}
-          --last-release-version ${{ needs.prework.outputs.last-release-tag }}
-          --release-cf ${{ github.event.inputs.release-cf }}
-          --release-wago ${{ github.event.inputs.release-wago }}
-
-  release-classic:
-    name: Release Classic
-    if: github.event.inputs.build-classic == 'true'
-    runs-on: ubuntu-latest
-    needs: prework
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Get the latest version of main from the repository
-        run: |
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          git fetch origin main
-          git reset --hard origin/main
-
-      - name: Package Classic
-        run: >
-          bash .release/script/packager.sh
-          --game classic
           --version ${{ needs.prework.outputs.new-tag }}
           --last-release-version ${{ needs.prework.outputs.last-release-tag }}
           --release-cf ${{ github.event.inputs.release-cf }}
