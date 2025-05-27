@@ -58,7 +58,7 @@ L["minimap-button.tooltip"] = "|c%sЛКМ|r - открыть обзор золо
 -- Options
 
 L["info.description"] = "Описание"
-L["info.description.text"] = "Aurarium is an addon that provides a detailed insight into wealth progression by tracking gold and currencies across all characters and displaying them over time.\n\nIf you find a bug or have questions about the addon, you can contact me via GitHub or CurseForge. You can also help me with the translation via GitHub. Thank you."
+L["info.description.text"] = "Aurarium — это дополнение, которое дает подробную информацию о прогрессе состояния, отслеживая золото и валюту всех персонажей и отображая их с течением времени.\n\nЕсли Вы нашли ошибку или у Вас есть вопросы по аддону, то можете связаться со мной через Github или Curseforge. Вы также можете помочь мне с переводом через Github. Спасибо."
 
 L["info.help"] = "Помощь"
 L["info.help.text"] = "В случае возникновения проблем после обновления, Вы можете сбросить настройки здесь."
