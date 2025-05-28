@@ -1,3 +1,6 @@
+**v1.20 (2025-05-28)**
+- Updated: ruRU localization (#1 - Thanks to Hollicsh)
+
 **v1.19 (2025-05-25)**
 - Changed: New addon name
 - Changed: New addon logo
