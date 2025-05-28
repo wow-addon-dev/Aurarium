@@ -23,7 +23,7 @@
 - Minor code adjustments
 
 **v17 (2025-05-07)**
-- Updated: ruRU localization (Thanks to Valdemar)
+- Updated: ruRU localization (Thanks to Hollicsh)
 
 **v16 (2025-05-06)**
 - Fixed: Incorrect addon versions were displayed
@@ -33,14 +33,14 @@
 - Added: Currencies from Dragonflight
 - Added: New subpage in the options menu with information about the addon
 - Changed: The classes and factions are now displayed in the character dropdown
-- Updated: ruRU localization (Thanks to Valdemar)
+- Updated: ruRU localization (Thanks to Hollicsh)
 - Refactoring of the addon structure and source code
 
 **v14 (2025-05-02)**
 - Minor code adjustments
 
 **v13 (2025-04-30)**
-- Updated: ruRU localization (Thanks to Valdemar)
+- Updated: ruRU localization (Thanks to Hollicsh)
 - Minor code adjustments
 
 **v12 (2025-04-29)**
@@ -61,7 +61,7 @@
 - Minor code adjustments
 
 **1.3.2 (2025-04-23)**
-- Updated: ruRU localization (Thanks to Valdemar)
+- Updated: ruRU localization (Thanks to Hollicsh)
 - Removed: TOC version for patch 11.1.0 (Retail)
 - Minor code adjustments
 
@@ -70,7 +70,7 @@
 
 **1.3.0 (2025-04-21)**
 - Added: Minimap Button
-- Updated: deDE, enUS, ruRU localization (Thanks to Valdemar)
+- Updated: deDE, enUS, ruRU localization (Thanks to Hollicsh)
 - Minor code adjustments
 
 **1.2.0 (2025-04-19)**
@@ -81,7 +81,7 @@
 - Fixed: The overview window also opened automatically after a zone change
 
 **1.1.0 (2025-04-17)**
-- Added: ruRU localization (Thanks to Valdemar)
+- Added: ruRU localization (Thanks to Hollicsh)
 
 **1.0.1 (2025-04-15)**
 - Added: The overview window can now be closed with the ESC key
