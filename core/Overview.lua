@@ -308,7 +308,7 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
     scrollFrame.rows = {}
 
     local header = scrollFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    header:SetPoint("TOP", 0, 70)
+    header:SetPoint("TOP", 5, 70)
     header:SetText(FormatMonthText(filterPrefix))
     table.insert(scrollFrame.rows, {header})
 
@@ -425,7 +425,7 @@ local function InitializeFrames()
     portrait:SetTexture(AUR.MEDIA_PATH .. "icon-round.blp")
 
     local background = CreateFrame("Frame", nil, overviewFrame, "InsetFrameTemplate4")
-    background:SetSize(450, 420)
+    background:SetSize(454, 420)
     background:SetPoint("BOTTOM", overviewFrame, "BOTTOM", 0, 37)
     background.texture = background:CreateTexture(nil, "BACKGROUND")
     background.texture:SetAllPoints(background)
