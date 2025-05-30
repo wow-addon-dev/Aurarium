@@ -61,7 +61,7 @@ L["minimap-button.tooltip"] = "|c%sLeft-click|r to open the gold and currency ov
 -- Options
 
 L["info.description"] = "Description"
-L["info.description.text"] = "Aurarium is an addon that provides a detailed insight into wealth progression by tracking gold and currencies across all characters and displaying them over time.\n\nIf you find a bug or have questions about the addon, you can contact me via GitHub or CurseForge. You can also help me with the translation via GitHub. Thank you."
+L["info.description.text"] = "Aurarium is an addon that provides a detailed insight into wealth progression by tracking gold and currencies across all characters and displaying them over time.\n\nIf you find a bug or have questions about the addon, you can contact me via GitHub. You can also help me with the translation via GitHub. Thank you."
 
 L["info.help"] = "Help"
 L["info.help.text"] = "In case of problems after an update or if you want to, you can reset the options here."
@@ -69,8 +69,6 @@ L["info.help.reset-button.name"] = "Reset Options"
 L["info.help.reset-button.desc"] = "Resets the options to the default values. This applies to all characters."
 L["info.help.github-button.name"] = "GitHub"
 L["info.help.github-button.desc"] = "Opens a popup window with a link to GitHub."
-L["info.help.curseforge-button.name"] = "CurseForge"
-L["info.help.curseforge-button.desc"] = "Opens a popup window with a link to CurseForge."
 
 L["info.about"] = "About"
 L["info.about.text"] = "|cffF2E699Game version:|r %s\n|cffF2E699Addon version:|r %s\n\n|cffF2E699Author:|r %s"

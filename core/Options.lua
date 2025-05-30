@@ -23,9 +23,9 @@ local minimapProxy = setmetatable({}, {
             AUR.data.options["minimap-button-hide"] = not value
 
             if value then
-                Utils.minimapButton:Show("GoldCurrencyTracker")
+                Utils.minimapButton:Show("Aurarium")
             else
-                Utils.minimapButton:Hide("GoldCurrencyTracker")
+                Utils.minimapButton:Hide("Aurarium")
             end
         elseif key == "minimap-button-position" then
             AUR.data.options["minimap-button-position"] = value
@@ -35,8 +35,8 @@ local minimapProxy = setmetatable({}, {
                 minimapPos = AUR.data.options["minimap-button-position"],
             }
 
-            Utils.minimapButton:Refresh("GoldCurrencyTracker", zone)
-            Utils.minimapButton:Lock("GoldCurrencyTracker")
+            Utils.minimapButton:Refresh("Aurarium", zone)
+            Utils.minimapButton:Lock("Aurarium")
         else
             AUR.data.options[key] = value
         end
@@ -54,8 +54,8 @@ function Options:Initialize()
     local backdrop = {
         bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
         edgeFile = "Interface\\Friendsframe\\UI-Toast-Border",
-        tileEdge = true,
-        edgeSize = 8,
+		tile = true, tileSize = 8, edgeSize = 8,
+		insets = { left = 3, right = 3, top = 3, bottom = 3 }
     }
 
     local canvasFrame = CreateFrame("Frame", nil, UIParent)
@@ -78,7 +78,7 @@ function Options:Initialize()
         descriptionFrame:SetPoint("TOPLEFT", scrollView, "TOPLEFT", 10, offsetY)
         descriptionFrame:SetWidth(615)
         descriptionFrame:SetBackdrop(backdrop)
-        descriptionFrame:SetBackdropColor(0,0,0,0.2)
+    	descriptionFrame:SetBackdropColor(0,0,0,0.4)
 
         descriptionFrame.title = descriptionFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         descriptionFrame.title:SetPoint("TOPLEFT", 8, 15)
@@ -105,7 +105,7 @@ function Options:Initialize()
         helpFrame:SetPoint("TOPLEFT", scrollView, "TOPLEFT", 10, offsetY)
         helpFrame:SetWidth(615)
         helpFrame:SetBackdrop(backdrop)
-        helpFrame:SetBackdropColor(0,0,0,0.2)
+        helpFrame:SetBackdropColor(0,0,0,0.4)
 
         helpFrame.title = helpFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         helpFrame.title:SetPoint("TOPLEFT", 8, 15)
@@ -156,7 +156,7 @@ function Options:Initialize()
         aboutFrame:SetPoint("TOPLEFT", scrollView, "TOPLEFT", 10, offsetY)
         aboutFrame:SetWidth(615)
         aboutFrame:SetBackdrop(backdrop)
-        aboutFrame:SetBackdropColor(0,0,0,0.2)
+        aboutFrame:SetBackdropColor(0,0,0,0.4)
 
         aboutFrame.title = aboutFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         aboutFrame.title:SetPoint("TOPLEFT", 8, 15)
@@ -179,7 +179,7 @@ function Options:Initialize()
         divider:SetVertexColor(Utils:HexToRGB("ffB9B9B9"))
 
         local buttonGithub = CreateFrame("Button", nil, aboutFrame, "UIPanelButtonTemplate")
-        buttonGithub:SetPoint("TOP", divider, "BOTTOM", -100, -10)
+        buttonGithub:SetPoint("TOP", divider, "BOTTOM", 0, -10)
         buttonGithub:SetSize(150, 22)
         buttonGithub:SetText(L["info.help.github-button.name"])
         buttonGithub:SetScript("OnClick", function(self)
@@ -192,23 +192,6 @@ function Options:Initialize()
             GameTooltip:Show()
         end)
         buttonGithub:SetScript("OnLeave", function()
-            GameTooltip:Hide()
-        end)
-
-        local buttonCurseforge = CreateFrame("Button", nil, aboutFrame, "UIPanelButtonTemplate")
-        buttonCurseforge:SetPoint("TOP", divider, "BOTTOM", 100, -10)
-        buttonCurseforge:SetSize(150, 22)
-        buttonCurseforge:SetText(L["info.help.curseforge-button.name"])
-        buttonCurseforge:SetScript("OnClick", function(self)
-            Dialog:ShowCopyAddressDialog(AUR.LINK_CURSEFORGE)
-        end)
-        buttonCurseforge:SetScript("OnEnter", function(self)
-            GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-            GameTooltip:SetText(L["info.help.curseforge-button.name"], 1, 1, 1, true)
-            GameTooltip:AddLine(L["info.help.curseforge-button.desc"], true)
-            GameTooltip:Show()
-        end)
-        buttonCurseforge:SetScript("OnLeave", function()
             GameTooltip:Hide()
         end)
 
