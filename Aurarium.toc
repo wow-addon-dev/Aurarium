@@ -25,7 +25,5 @@
 ## X-Github: https://github.com/wow-addon-dev/Aurarium
 ## X-Curseforge: https://www.curseforge.com/wow/addons/aurarium
 
-## OptionalDeps: GoldCurrencyTracker
-
 Aurarium.xml
 Aurarium.lua

@@ -155,38 +155,6 @@ end
 
 function AurariumFrame:ADDON_LOADED(_, addOnName)
     if addOnName == addonName then
-		if GoldCurrencyTracker_Options then
-			Aurarium_Options = GoldCurrencyTracker_Options
-
-			GoldCurrencyTracker_Options = nil
-
-			print("GoldCurrencyTracker_Options imported and deleted")
-		end
-
-		if GoldCurrencyTracker_DataCharacter then
-			Aurarium_DataCharacter = GoldCurrencyTracker_DataCharacter
-
-			GoldCurrencyTracker_DataCharacter = nil
-
-			print("GoldCurrencyTracker_DataCharacter imported and deleted")
-		end
-
-		if GoldCurrencyTracker_DataDates then
-			Aurarium_DataDates = GoldCurrencyTracker_DataDates
-
-			GoldCurrencyTracker_DataDates = nil
-
-			print("GoldCurrencyTracker_DataDates imported and deleted")
-		end
-
-		if GoldCurrencyTracker_DataBalance_v2 then
-			Aurarium_DataBalance = GoldCurrencyTracker_DataBalance_v2
-
-			GoldCurrencyTracker_DataBalance_v2 = nil
-
-			print("GoldCurrencyTracker_DataBalance_v2 imported and deleted")
-		end
-
         Utils:InitializeDatabase()
         Utils:InitializeMinimapButton()
         Dialog:InitializeDialog()
