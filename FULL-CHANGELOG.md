@@ -1,3 +1,7 @@
+**v1.21 (2025-05-30)**
+- Deprecated: The automatic migration of data from the old data structure will be removed with the next release
+- Minor code adjustments
+
 **v1.20 (2025-05-28)**
 - Updated: ruRU localization (#1 - Thanks to Hollicsh)
 
