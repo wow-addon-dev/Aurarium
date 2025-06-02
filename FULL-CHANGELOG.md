@@ -1,3 +1,8 @@
+**v1.22 (2025-06-02)**
+- Added: TOC version for patch 11.1.7 (Retail)
+- Removed: The automatic migration of data from the old data structure
+- Minor code adjustments
+
 **v1.21 (2025-05-30)**
 - Deprecated: The automatic migration of data from the old data structure will be removed with the next release
 - Minor code adjustments
