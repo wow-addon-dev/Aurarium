@@ -42,7 +42,7 @@
 - Minor code adjustments
 
 **v15 (2025-05-04)**
-- Added: Currencies from Dragonflight
+- Added: Currencies for the expansion 'Dragonflight'
 - Added: New subpage in the options menu with information about the addon
 - Changed: The classes and factions are now displayed in the character dropdown
 - Updated: ruRU localization (Thanks to Hollicsh)
