@@ -1,3 +1,6 @@
+**v1.23 (2025-06-05)**
+- Added: Currencies for the expansion 'Shadowlands'
+
 **v1.22 (2025-06-02)**
 - Added: TOC version for patch 11.1.7 (Retail)
 - Removed: The automatic migration of data from the old data structure
