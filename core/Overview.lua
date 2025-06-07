@@ -321,10 +321,9 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
     end
 
     local offsetY = 0
-    local spacing = 10
 
     local headerDate = scrollFrame.scrollView:CreateFontString(nil,"OVERLAY", "GameFontNormal")
-    headerDate:SetPoint("TOPLEFT", 0, offsetY)
+    headerDate:SetPoint("TOPLEFT", 5, offsetY)
     headerDate:SetText(L["table.date"])
 
     local headerAmount  = scrollFrame.scrollView:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -340,6 +339,23 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
     offsetY = offsetY - 20
 
     for i, entry in ipairs(monthHistory) do
+		local background = CreateFrame("Frame", nil, scrollFrame.scrollView)
+		background:SetSize(414, 20)
+		background:SetPoint("TOPLEFT", scrollFrame.scrollView, "TOPLEFT", 0, offsetY)
+
+		background.texture = background:CreateTexture(nil, "BACKGROUND")
+		background.texture:SetAllPoints()
+		background.texture:SetTexture(AUR.MEDIA_PATH .. "active-table-background.blp")
+		background.texture:SetAlpha(0)
+
+		background:SetScript("OnEnter", function(self)
+			self.texture:SetAlpha(0.3)
+		end)
+
+		background:SetScript("OnLeave", function(self)
+			self.texture:SetAlpha(0)
+		end)
+
         local dateStr = entry.date
         local currentValue = entry.value
 
@@ -350,16 +366,16 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
             prevValue = GetPreviousValueFromHistory(history, dateStr) or 0
         end
 
-        local rowDate = scrollFrame.scrollView:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-        rowDate:SetPoint("TOPLEFT", 0, offsetY)
+        local rowDate = background:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        rowDate:SetPoint("LEFT", 5, 0)
         rowDate:SetText(entry.date)
 
-        local rowAmount = scrollFrame.scrollView:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-        rowAmount:SetPoint("TOPLEFT", 80, offsetY)
+        local rowAmount = background:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        rowAmount:SetPoint("LEFT", 80, 0)
         rowAmount:SetText(FormatCurrency(currentValue, selectedCurrency))
 
-        local rowDifference = scrollFrame.scrollView:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-        rowDifference:SetPoint("TOPLEFT", 230, offsetY)
+        local rowDifference = background:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        rowDifference:SetPoint("LEFT", 230, 0)
 
         local firstDate = history[1].date
 
@@ -367,19 +383,19 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
             local diff = currentValue - prevValue
             rowDifference:SetText(FormatCurrencyDiff(diff, selectedCurrency))
             if diff > 0 then
-                rowDifference:SetTextColor(0,1,0)
+                rowDifference:SetTextColor(0, 1, 0)
             elseif diff < 0 then
-                rowDifference:SetTextColor(1,0.2,0.2)
+                rowDifference:SetTextColor(1, 0.2, 0.2)
             else
-                rowDifference:SetTextColor(1,1,1)
+                rowDifference:SetTextColor(1, 1, 1)
             end
         else
             rowDifference:SetText("-")
-            rowDifference:SetTextColor(1,1,1)
+            rowDifference:SetTextColor(1, 1, 1)
         end
 
-        table.insert(scrollFrame.rows, {rowDate, rowAmount, rowDifference})
-        offsetY = offsetY - rowDate:GetHeight() - spacing
+        table.insert(scrollFrame.rows, {background, rowDate, rowAmount, rowDifference})
+        offsetY = offsetY - 20
     end
 
     scrollFrame.prevButton:SetEnabled(HasAnyDataBeforeMonth(history, filterPrefix))
@@ -409,7 +425,7 @@ local function InitializeFrames()
 
     overviewFrame = CreateFrame("Frame", "AUR_OverviewFrame", UIParent, "PortraitFrameTemplate")
     overviewFrame:SetPoint("CENTER")
-    overviewFrame:SetSize(470, 550)
+    overviewFrame:SetSize(470, 560)
     overviewFrame:SetFrameStrata("HIGH")
     overviewFrame:SetMovable(true)
     overviewFrame:EnableMouse(true)
@@ -425,7 +441,7 @@ local function InitializeFrames()
     portrait:SetTexture(AUR.MEDIA_PATH .. "icon-round.blp")
 
     local background = CreateFrame("Frame", nil, overviewFrame, "InsetFrameTemplate4")
-    background:SetSize(454, 420)
+    background:SetSize(454, 430)
     background:SetPoint("BOTTOM", overviewFrame, "BOTTOM", 0, 37)
     background.texture = background:CreateTexture(nil, "BACKGROUND")
     background.texture:SetAllPoints(background)
@@ -460,8 +476,13 @@ local function InitializeFrames()
         tabs[i] = tab
 
         local scrollFrame = CreateFrame("ScrollFrame", nil, background, "Aurarium_OverviewScrollFrameTemplate")
-        scrollFrame:SetPoint("TOPLEFT", background, "TOPLEFT", 15, -15)
+        scrollFrame:SetPoint("TOPLEFT", background, "TOPLEFT", 10, -15)
         scrollFrame:SetPoint("BOTTOMRIGHT", background, "BOTTOMRIGHT", -25, 15)
+		scrollFrame:EnableMouseWheel(true)
+		scrollFrame:SetScript("OnMouseWheel", function(self, delta)
+			local newValue = math.max(0, math.min(self:GetVerticalScroll() - delta * 20, self:GetVerticalScrollRange()))
+			self:SetVerticalScroll(newValue)
+		end)
 
         if i ~= 1 then scrollFrame:Hide() end
 
