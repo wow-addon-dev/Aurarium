@@ -1,3 +1,6 @@
+**v1.24 (2025-06-07)**
+- Added: Line background for better legibility of the values in the gold and currency overview
+
 **v1.23 (2025-06-05)**
 - Added: Currencies for the expansion 'Shadowlands'
 
