@@ -223,32 +223,30 @@ function Options:Initialize()
     end
 
     do
-        local name = L["options.minimap-button-hide.name"]
-        local tooltip = L["options.minimap-button-hide.tooltip"]
-        local variable = "minimap-button-hide"
-        local defaultValue = false
+        local nameCheckbox = L["options.minimap-button-hide.name"]
+        local tooltipCheckbox = L["options.minimap-button-hide.tooltip"]
+        local variableCheckbox = "minimap-button-hide"
+        local defaultValueCheckbox = false
 
-        local setting = Settings.RegisterAddOnSetting(category, addonName .. "_" .. variable, variable, minimapProxy, Settings.VarType.Boolean, name, not defaultValue)
-        parentSettingMinimapButton = Settings.CreateCheckbox(category, setting, tooltip)
-    end
+        local settingCheckbox = Settings.RegisterAddOnSetting(category, addonName .. "_" .. variableCheckbox, variableCheckbox, minimapProxy, Settings.VarType.Boolean, nameCheckbox, not defaultValueCheckbox)
 
-    do
-        local name = L["options.minimap-button-position.name"]
-        local tooltip = L["options.minimap-button-position.tooltip"]
-        local variable = "minimap-button-position"
-        local defaultValue = 250
+        local nameSlider = L["options.minimap-button-position.name"]
+        local tooltipSlider = L["options.minimap-button-position.tooltip"]
+        local variableSlider = "minimap-button-position"
+        local defaultValueSlider = 250
 
         local minValue = 0
         local maxValue = 360
         local step = 1
 
-        local setting = Settings.RegisterAddOnSetting(category, addonName .. "_" .. variable, variable, minimapProxy, Settings.VarType.Number, name, defaultValue)
-        local options = Settings.CreateSliderOptions(minValue, maxValue, step)
+        local settingSlider = Settings.RegisterAddOnSetting(category, addonName .. "_" .. variableSlider, variableSlider, minimapProxy, Settings.VarType.Number, nameSlider, defaultValueSlider)
+        local optionsSlider = Settings.CreateSliderOptions(minValue, maxValue, step)
 
-        options:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right)
-        local subSetting = Settings.CreateSlider(category, setting, options, tooltip)
+        optionsSlider:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right)
 
-        subSetting:SetParentInitializer(parentSettingMinimapButton, function() return not AUR.data.options["minimap-button-hide"] end)
+        local initializer= CreateSettingsCheckboxSliderInitializer(settingCheckbox, nameCheckbox, tooltipCheckbox, settingSlider, optionsSlider, nameSlider, tooltipSlider)
+
+        layout:AddInitializer(initializer)
     end
 
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.other"]))
