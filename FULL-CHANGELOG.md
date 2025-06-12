@@ -1,3 +1,6 @@
+**v1.25 (2025-06-12)**
+- Minor code adjustments
+
 **v1.24 (2025-06-07)**
 - Added: Line background for better legibility of the values in the gold and currency overview
 
