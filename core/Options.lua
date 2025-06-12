@@ -242,7 +242,7 @@ function Options:Initialize()
 		local optionsSlider = Settings.CreateSliderOptions(minValue, maxValue, step)
         optionsSlider:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right)
 
-        local initializer= CreateSettingsCheckboxSliderInitializer(settingCheckbox, nameCheckbox, tooltipCheckbox, settingSlider, optionsSlider, nameSlider, tooltipSlider)
+        local initializer = CreateSettingsCheckboxSliderInitializer(settingCheckbox, nameCheckbox, tooltipCheckbox, settingSlider, optionsSlider, nameSlider, tooltipSlider)
 
         layout:AddInitializer(initializer)
     end
