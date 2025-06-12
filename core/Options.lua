@@ -78,7 +78,7 @@ function Options:Initialize()
         descriptionFrame:SetPoint("TOPLEFT", scrollView, "TOPLEFT", 10, offsetY)
         descriptionFrame:SetWidth(615)
         descriptionFrame:SetBackdrop(backdrop)
-    	descriptionFrame:SetBackdropColor(0,0,0,0.4)
+    	descriptionFrame:SetBackdropColor(0, 0, 0, 0.4)
 
         descriptionFrame.title = descriptionFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         descriptionFrame.title:SetPoint("TOPLEFT", 8, 15)
@@ -105,7 +105,7 @@ function Options:Initialize()
         helpFrame:SetPoint("TOPLEFT", scrollView, "TOPLEFT", 10, offsetY)
         helpFrame:SetWidth(615)
         helpFrame:SetBackdrop(backdrop)
-        helpFrame:SetBackdropColor(0,0,0,0.4)
+        helpFrame:SetBackdropColor(0, 0, 0, 0.4)
 
         helpFrame.title = helpFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         helpFrame.title:SetPoint("TOPLEFT", 8, 15)
@@ -113,7 +113,7 @@ function Options:Initialize()
 
         local text = helpFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
         text:SetPoint("TOPLEFT", helpFrame, "TOPLEFT", 15, -15)
-        text:SetPoint("TOPRIGHT", helpFrame, "TOPRIGHT",  -15, -15)
+        text:SetPoint("TOPRIGHT", helpFrame, "TOPRIGHT", -15, -15)
         text:SetWidth(helpFrame:GetWidth() - 30)
         text:SetJustifyH("LEFT")
         text:SetSpacing(2)
@@ -208,8 +208,6 @@ function Options:Initialize()
     local variableTable = AUR.data.options
     local category, layout = Settings.RegisterVerticalLayoutSubcategory(mainCategory, L["options"])
 
-    local parentSettingMinimapButton
-
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.general"]))
 
     do
@@ -240,8 +238,8 @@ function Options:Initialize()
         local step = 1
 
         local settingSlider = Settings.RegisterAddOnSetting(category, addonName .. "_" .. variableSlider, variableSlider, minimapProxy, Settings.VarType.Number, nameSlider, defaultValueSlider)
-        local optionsSlider = Settings.CreateSliderOptions(minValue, maxValue, step)
 
+		local optionsSlider = Settings.CreateSliderOptions(minValue, maxValue, step)
         optionsSlider:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right)
 
         local initializer= CreateSettingsCheckboxSliderInitializer(settingCheckbox, nameCheckbox, tooltipCheckbox, settingSlider, optionsSlider, nameSlider, tooltipSlider)

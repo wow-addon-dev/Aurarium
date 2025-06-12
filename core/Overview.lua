@@ -475,7 +475,7 @@ local function InitializeFrames()
         end)
         tabs[i] = tab
 
-        local scrollFrame = CreateFrame("ScrollFrame", nil, background, "Aurarium_OverviewScrollFrameTemplate")
+        local scrollFrame = CreateFrame("ScrollFrame", nil, background, "AurariumOverviewScrollFrameTemplate")
         scrollFrame:SetPoint("TOPLEFT", background, "TOPLEFT", 10, -15)
         scrollFrame:SetPoint("BOTTOMRIGHT", background, "BOTTOMRIGHT", -25, 15)
 		scrollFrame:EnableMouseWheel(true)
