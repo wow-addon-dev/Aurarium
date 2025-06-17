@@ -90,4 +90,4 @@ L["chat.reset-options.success"] = "Einstellungen erfolgreich zurückgesetzt."
 -- Dialog
 
 L["dialog.copy-address.text"] = "Um den Link zu kopieren drücke STRG + C."
-L["dialog.reset-options.text"] = "Sollen die Einstellungen wirklich zurückgesetzt werden?"
+L["dialog.reset-options.text"] = "Sollen die Einstellungen wirklich zurückgesetzt werden?\n|cffFFD200Achtung:|r Es erfolgt ein automatischer Reload der Spieloberfläche!"

@@ -157,7 +157,7 @@ function AurariumFrame:ADDON_LOADED(_, addOnName)
     if addOnName == addonName then
         Utils:InitializeDatabase()
         Utils:InitializeMinimapButton()
-        Dialog:InitializeDialog()
+        Dialog:Initialize()
         Options:Initialize()
         Overview:Initialize()
 

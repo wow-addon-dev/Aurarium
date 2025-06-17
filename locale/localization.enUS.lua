@@ -93,4 +93,4 @@ L["chat.reset-options.success"] = "Options successfully reseted."
 -- Dialog
 
 L["dialog.copy-address.text"] = "To copy the link press CTRL + C."
-L["dialog.reset-options.text"] = "Do you really want to reset the options?"
+L["dialog.reset-options.text"] = "Do you really want to reset the options?\n|cffFFD200Warning:|r The game interface will be automatically reloaded!"

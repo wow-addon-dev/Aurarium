@@ -90,4 +90,4 @@ L["chat.reset-options.success"] = "Параметры успешно сброш�
 -- Dialog
 
 L["dialog.copy-address.text"] = "Чтобы скопировать ссылку, нажмите CTRL + C."
-L["dialog.reset-options.text"] = "Вы действительно хотите сбросить настройки?"
+L["dialog.reset-options.text"] = "Вы действительно хотите сбросить настройки?\n|cffFFD200Warning:|r The game interface will be automatically reloaded!"
