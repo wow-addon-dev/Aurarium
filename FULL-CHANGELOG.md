@@ -1,3 +1,8 @@
+**v1.26 (2025-06-18)**
+- Updated: deDE, enUS, ruRU localization
+- Removed: TOC version for patch 11.1.5 (Retail)
+- Minor code adjustments
+
 **v1.25 (2025-06-12)**
 - Minor code adjustments
 
