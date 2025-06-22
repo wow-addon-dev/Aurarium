@@ -16,7 +16,7 @@ AUR.CURRENCY_CATEGORY_ORDER = {
     --"mop",          -- 133
     --"wod",          -- 137
     --"legion",       -- 141
-    --"bfa",          -- 143
+    "bfa",          -- 143
     "sl",           -- 245
     "df",           -- 250
     "tww"           -- 260
@@ -42,6 +42,17 @@ AUR.CHARACTER_CURRENCIES = {
     dungeonraid = {
         1166	-- Zeitverzerrtes Abzeichen
     },
+	bfa = {
+		1299,	--Kämpfergold
+		1560,	--Kriegsressourcen
+		1710,	--Seefahrerdublone
+		1717,	--Dienstmedaille der 7. Legion
+		1719,	--Verderbte Andenken
+		1721,	--Prismatische Manaperle
+		1755,	--Manifestierte Visionen
+		1803,	--Echos aus Ny'alotha
+
+	},
 	sl = {
 		1767,	--Stygia
 		1813,	--Reservoiranima

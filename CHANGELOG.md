@@ -2,6 +2,5 @@
 ### [@project-version@](https://github.com/wow-addon-dev/Aurarium/tree/@project-version@) (@build-date@)
 [Full Changelog](@full-changelog@) - [Previous Releases](https://github.com/wow-addon-dev/Aurarium/releases)
 
-- Updated: deDE, enUS, ruRU localization
-- Removed: TOC version for patch 11.1.5 (Retail)
-- Minor code adjustments
+- Added: Currencies for the expansion 'Battle for Azeroth'
+- Updated: ruRU localization (#2 - Thanks to Hollicsh)
