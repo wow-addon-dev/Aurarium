@@ -1,3 +1,7 @@
+**v1.27 (2025-06-22)**
+- Added: Currencies for the expansion 'Battle for Azeroth'
+- Updated: ruRU localization (#2 - Thanks to Hollicsh)
+
 **v1.26 (2025-06-18)**
 - Updated: deDE, enUS, ruRU localization
 - Removed: TOC version for patch 11.1.5 (Retail)
