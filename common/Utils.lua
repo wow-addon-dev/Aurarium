@@ -140,10 +140,6 @@ function Utils:InitializeMinimapButton()
         end,
     })
 
-    local zone = {}
-    zone.hide = AUR.data.options["minimap-button-hide"]
-    zone.minimapPos = AUR.data.options["minimap-button-position"]
-
     local zone = {
         hide = AUR.data.options["minimap-button-hide"],
         minimapPos = AUR.data.options["minimap-button-position"],

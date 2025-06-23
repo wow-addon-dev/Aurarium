@@ -1,10 +1,5 @@
 local _, AUR = ...
 
-AUR.MONTH_KEYS = {
-    "month.jan", "month.feb", "month.mar", "month.apr", "month.may", "month.jun",
-    "month.jul", "month.aug", "month.sep", "month.oct", "month.nov", "month.dec"
-}
-
 AUR.CURRENCY_CATEGORY_ORDER = {
     "misc",         -- 1
     "pvp",          -- 2
@@ -15,7 +10,7 @@ AUR.CURRENCY_CATEGORY_ORDER = {
     --"cata",         -- 81
     --"mop",          -- 133
     --"wod",          -- 137
-    --"legion",       -- 141
+    "legion",       -- 141
     "bfa",          -- 143
     "sl",           -- 245
     "df",           -- 250
@@ -42,6 +37,16 @@ AUR.CHARACTER_CURRENCIES = {
     dungeonraid = {
         1166	-- Zeitverzerrtes Abzeichen
     },
+	legion = {
+		1149,    -- Blindes Auge
+		1155,    -- Uraltes Mana
+		1220,    -- Ordensressourcen
+		1226,    -- Nethersplitter
+		1275,    -- Kuriose Münze
+		1342,    -- Kriegsvorräte der Legionsrichter
+		1508,    -- Verschleierter Argunit
+		1533	 -- Erweckende Essenz
+	},
 	bfa = {
 		1299,	--Kämpfergold
 		1560,	--Kriegsressourcen
@@ -50,8 +55,7 @@ AUR.CHARACTER_CURRENCIES = {
 		1719,	--Verderbte Andenken
 		1721,	--Prismatische Manaperle
 		1755,	--Manifestierte Visionen
-		1803,	--Echos aus Ny'alotha
-
+		1803	--Echos aus Ny'alotha
 	},
 	sl = {
 		1767,	--Stygia
@@ -65,7 +69,7 @@ AUR.CHARACTER_CURRENCIES = {
 		1931,	--Katalogisierte Forschung
 		1977,	--Stygische Glut
 		1979,	--Chiffren der Ersten
-		2009,	--Kosmischer Flux
+		2009	--Kosmischer Flux
 	},
     df = {
         2003,	-- Vorräte der Dracheninseln
@@ -74,7 +78,7 @@ AUR.CHARACTER_CURRENCIES = {
         2594,	-- Parakausale Flocken
         2650,	-- Smaragdgrüner Tautropfen
         2657,	-- Mysteriöses Fragmentp
-        2777,	-- Trauminfusion
+        2777	-- Trauminfusion
     },
     tww = {
         2815,	-- Resonanzkristalle

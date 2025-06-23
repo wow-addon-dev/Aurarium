@@ -1,7 +1,6 @@
 local _, AUR = ...
 
 local L =  AUR.localization
-local Utils = AUR.utils
 
 local Dialog = {}
 
