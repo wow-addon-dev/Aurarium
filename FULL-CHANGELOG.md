@@ -1,3 +1,7 @@
+**v1.28 (2025-06-24)**
+- Added: Currencies for the expansion 'Legion'
+- Minor code adjustments
+
 **v1.27 (2025-06-22)**
 - Added: Currencies for the expansion 'Battle for Azeroth'
 - Updated: ruRU localization (#2 - Thanks to Hollicsh)
