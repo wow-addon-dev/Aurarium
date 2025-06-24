@@ -16,8 +16,8 @@ local resetOptionsDialog
 ---------------------
 
 function Dialog:Initialize()
-    copyAddressDialog = CreateFrame("Frame", "AurariumCopyAdressDialog", UIParent, "AurariumCopyAdressDialogTemplate")
-	resetOptionsDialog = CreateFrame("Frame", "AurariumResetOptionsDialog", UIParent, "AurariumResetOptionsDialogTemplate")
+    copyAddressDialog = CreateFrame("Frame", "Aurarium_CopyAdressDialog", UIParent, "Aurarium_CopyAdressDialogTemplate")
+	resetOptionsDialog = CreateFrame("Frame", "Aurarium_ResetOptionsDialog", UIParent, "Aurarium_ResetOptionsDialogTemplate")
 end
 
 function Dialog:ShowCopyAddressDialog(address)

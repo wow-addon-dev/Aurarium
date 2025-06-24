@@ -423,7 +423,7 @@ end
 local function InitializeFrames()
     local tabs = {}
 
-    overviewFrame = CreateFrame("Frame", "AUR_OverviewFrame", UIParent, "PortraitFrameTemplate")
+    overviewFrame = CreateFrame("Frame", "Aurarium_OverviewFrame", UIParent, "PortraitFrameTemplate")
     overviewFrame:SetPoint("CENTER")
     overviewFrame:SetSize(470, 560)
     overviewFrame:SetFrameStrata("HIGH")
@@ -475,7 +475,7 @@ local function InitializeFrames()
         end)
         tabs[i] = tab
 
-        local scrollFrame = CreateFrame("ScrollFrame", nil, background, "AurariumOverviewScrollFrameTemplate")
+        local scrollFrame = CreateFrame("ScrollFrame", nil, background, "Aurarium_OverviewScrollFrameTemplate")
         scrollFrame:SetPoint("TOPLEFT", background, "TOPLEFT", 10, -15)
         scrollFrame:SetPoint("BOTTOMRIGHT", background, "BOTTOMRIGHT", -25, 15)
 		scrollFrame:EnableMouseWheel(true)
@@ -689,13 +689,13 @@ local function InitializeFrames()
                         local charButton = realmButton:CreateRadio(charKey, IsSelected, SetSelected, realmKey .. "-" .. charKey)
                         charButton:AddInitializer(function(button, description, menu)
                             local factionFileID = 0
-                            local classColor = AUR.WHITE_FONT_COLOR
+                            local classColor = WHITE_FONT_COLOR
 
                             if AUR.data.character[realmKey][charKey] then
                                 local class = AUR.data.character[realmKey][charKey].class
                                 local faction = AUR.data.character[realmKey][charKey].faction
 
-                                classColor = C_ClassColor.GetClassColor(class):GenerateHexColor()
+                                classColor = C_ClassColor.GetClassColor(class)
 
                                 if faction == "Alliance" then
                                     factionFileID = 136758
@@ -716,7 +716,7 @@ local function InitializeFrames()
 
                             local fontString = button.fontString
                             fontString:SetPoint("RIGHT")
-                            fontString:SetTextColor(Utils:HexToRGB(classColor))
+                            fontString:SetTextColor(classColor:GetRGB())
 
                             local width = fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20
                             local height = rightTexture:GetHeight() + 4

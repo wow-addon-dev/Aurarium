@@ -53,7 +53,7 @@ L["table.amount"] = "Betrag"
 L["table.difference"] = "Differenz"
 L["table.no-entries"] = "Keine Einträge für diesen Monat."
 
-L["minimap-button.tooltip"] = "|c%sLinksklick|r zum Öffnen der Gold- und Währungsübersicht.\n|c%sRechtsklick|r zum Öffnen der Einstellungen."
+L["minimap-button.tooltip"] = "|cnLINK_FONT_COLOR:Linksklick|r zum Öffnen der Gold- und Währungsübersicht.\n|cnLINK_FONT_COLOR:Rechtsklick|r zum Öffnen der Einstellungen."
 
 -- Options
 
@@ -68,7 +68,7 @@ L["info.help.github-button.name"] = "GitHub"
 L["info.help.github-button.desc"] = "Öffnet ein Popup-Fenster mit einem Link nach GitHub."
 
 L["info.about"] = "Über"
-L["info.about.text"] = "|cffF2E699Spielversion:|r %s\n|cffF2E699Addonversion:|r %s\n\n|cffF2E699Autor:|r %s"
+L["info.about.text"] = "|cnGOLD_FONT_COLOR:Spielversion:|r %s\n|cnGOLD_FONT_COLOR:Addonversion:|r %s\n\n|cnGOLD_FONT_COLOR:Autor:|r %s"
 
 L["options"] = "Einstellungen"
 L["options.general"] = "allgemeine Einstellungen"
@@ -90,4 +90,4 @@ L["chat.reset-options.success"] = "Einstellungen erfolgreich zurückgesetzt."
 -- Dialog
 
 L["dialog.copy-address.text"] = "Um den Link zu kopieren drücke STRG + C."
-L["dialog.reset-options.text"] = "Sollen die Einstellungen wirklich zurückgesetzt werden?\n|cffFFD200Achtung:|r Es erfolgt ein automatischer Reload der Spieloberfläche!"
+L["dialog.reset-options.text"] = "Sollen die Einstellungen wirklich zurückgesetzt werden?\n|cnNORMAL_FONT_COLOR:Achtung:|r Es erfolgt ein automatischer Reload der Spieloberfläche!"

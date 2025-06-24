@@ -2,7 +2,7 @@
 ..\FrameXML\UI.xsd">
 	<Script file="DialogMixin.lua"/>
 
-	<Frame name="AurariumResetOptionsDialogTemplate" inherits="TranslucentFrameTemplate" mixin="AurariumResetOptionsDialogMixin" frameStrata="DIALOG" clampedToScreen="true" hidden="true" virtual="true">
+	<Frame name="Aurarium_ResetOptionsDialogTemplate" inherits="TranslucentFrameTemplate" mixin="Aurarium_ResetOptionsDialogMixin" frameStrata="DIALOG" clampedToScreen="true" hidden="true" virtual="true">
 		<Size x="350" y="100"/>
 		<Anchors>
 			<Anchor point="CENTER">
@@ -57,7 +57,7 @@
 		</Scripts>
 	</Frame>
 
-	<Frame name="AurariumCopyAdressDialogTemplate" inherits="TranslucentFrameTemplate" mixin="AurariumCopyAdressDialogMixin" frameStrata="DIALOG" clampedToScreen="true" hidden="true" virtual="true">
+	<Frame name="Aurarium_CopyAdressDialogTemplate" inherits="TranslucentFrameTemplate" mixin="Aurarium_CopyAdressDialogMixin" frameStrata="DIALOG" clampedToScreen="true" hidden="true" virtual="true">
 		<Size x="400" y="100"/>
 		<Anchors>
 			<Anchor point="CENTER">
