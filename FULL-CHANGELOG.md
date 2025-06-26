@@ -1,3 +1,6 @@
+**v1.29 (2025-06-26)**
+- Minor code adjustments
+
 **v1.28 (2025-06-24)**
 - Added: Currencies for the expansion 'Legion'
 - Minor code adjustments
