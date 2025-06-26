@@ -71,7 +71,7 @@ L["info.help.github-button.name"] = "GitHub"
 L["info.help.github-button.desc"] = "Opens a popup window with a link to GitHub."
 
 L["info.about"] = "About"
-L["info.about.text"] = "|cnGOLD_FONT_COLOR:Game version:|r %s\n|cnGOLD_FONT_COLOR:Addon version:|r %s\n\n|cnGOLD_FONT_COLOR:Author:|r %s"
+L["info.about.text"] = "|cnGOLD_FONT_COLOR:Game Version:|r %s\n|cnGOLD_FONT_COLOR:Addon Version:|r %s\n\n|cnGOLD_FONT_COLOR:Author:|r %s"
 
 L["options"] = "Options"
 L["options.general"] = "General Options"
