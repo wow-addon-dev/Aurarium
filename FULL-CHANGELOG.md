@@ -1,3 +1,6 @@
+**v1.30 (2025-06-29)**
+- Added: Currencies for the expansion 'Warlord of Draenor'
+
 **v1.29 (2025-06-26)**
 - Minor code adjustments
 
