@@ -9,7 +9,7 @@ AUR.CURRENCY_CATEGORY_ORDER = {
     --"wotlk",        -- 21
     --"cata",         -- 81
     --"mop",          -- 133
-    --"wod",          -- 137
+    "wod",          -- 137
     "legion",       -- 141
     "bfa",          -- 143
     "sl",           -- 245
@@ -37,6 +37,11 @@ AUR.CHARACTER_CURRENCIES = {
     dungeonraid = {
         1166	-- Zeitverzerrtes Abzeichen
     },
+	wod = {
+		823,	-- Apexiskristalle
+		824,	-- Garnisonsressourcen
+		1101	-- Öl
+	},
 	legion = {
 		1149,    -- Blindes Auge
 		1155,    -- Uraltes Mana
