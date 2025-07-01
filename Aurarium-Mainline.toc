@@ -25,5 +25,5 @@
 ## X-Curseforge: https://www.curseforge.com/wow/addons/aurarium
 ## X-Wago: https://addons.wago.io/addons/aurarium
 
-Aurarium.xml
-Aurarium.lua
+game/retail/Aurarium.xml
+game/retail/Aurarium.lua

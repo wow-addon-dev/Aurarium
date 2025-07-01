@@ -8,7 +8,7 @@ AUR.CURRENCY_CATEGORY_ORDER = {
     --"tbc",          -- 23
     --"wotlk",        -- 21
     --"cata",         -- 81
-    --"mop",          -- 133
+    "mop",          -- 133
     "wod",          -- 137
     "legion",       -- 141
     "bfa",          -- 143
@@ -37,6 +37,10 @@ AUR.CHARACTER_CURRENCIES = {
     dungeonraid = {
         1166	-- Zeitverzerrtes Abzeichen
     },
+	mop = {
+		738,	-- Geringes Amulett des Glücks
+		777		-- Zeitlose Münze
+	},
 	wod = {
 		823,	-- Apexiskristalle
 		824,	-- Garnisonsressourcen
