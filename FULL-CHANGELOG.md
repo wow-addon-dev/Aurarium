@@ -1,3 +1,6 @@
+**v1.31 (2025-07-01)**
+- Added: Currencies for the expansion 'Mists of Pandaria'
+
 **v1.30 (2025-06-29)**
 - Added: Currencies for the expansion 'Warlord of Draenor'
 
