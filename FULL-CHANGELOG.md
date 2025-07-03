@@ -1,3 +1,6 @@
+**v1.32 (2025-07-03)**
+- Added: Currency 'Hellstone Shard'
+
 **v1.31 (2025-07-01)**
 - Added: Currencies for the expansion 'Mists of Pandaria'
 
