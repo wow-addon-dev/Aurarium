@@ -45,8 +45,8 @@ L["currency-category.df"] = "Dragonflight"
 L["currency-category.tww"] = "The War Within"
 
 L["tab.character"] = "Character"
-L["tab.warband"] = "Warband"
 L["tab.account"] = "Account"
+L["tab.warband"] = "Warband"
 
 L["button.next"] = "Next"
 L["button.prev"] = "Previous"
@@ -61,7 +61,7 @@ L["minimap-button.tooltip"] = "|cnLINK_FONT_COLOR:Left-click|r to open the gold 
 -- Options
 
 L["info.description"] = "Description"
-L["info.description.text"] = "Aurarium is an addon that provides a detailed insight into wealth progression by tracking gold and currencies across all characters and displaying them over time.\n\nIf you find a bug or have questions about the addon, you can contact me via GitHub. You can also help me with the translation via GitHub. Thank you."
+L["info.description.text"] = "Aurarium is an addon that provides a detailed insight into wealth progression by tracking gold across all characters and displaying it over time.\n\nIf you find a bug or have questions about the addon, you can contact me via GitHub. You can also help me with the translation via GitHub. Thank you."
 
 L["info.help"] = "Help"
 L["info.help.text"] = "In case of problems after an update or if you want to, you can reset the options here."

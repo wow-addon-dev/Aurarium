@@ -42,8 +42,8 @@ L["currency-category.df"] = "Драконы"
 L["currency-category.tww"] = "Война Внутри"
 
 L["tab.character"] = "Персонаж"
-L["tab.warband"] = "Отряд"
 L["tab.account"] = "Аккаунт"
+L["tab.warband"] = "Отряд"
 
 L["button.next"] = "Вперёд"
 L["button.prev"] = "Назад"
@@ -58,7 +58,7 @@ L["minimap-button.tooltip"] = "|cnLINK_FONT_COLOR:ЛКМ|r - открыть об
 -- Options
 
 L["info.description"] = "Описание"
-L["info.description.text"] = "Aurarium - это аддон, который дает подробную информацию о прогрессе состояния, отслеживая золото и валюту всех персонажей и отображая их с течением времени.\n\nЕсли Вы нашли ошибку или у Вас есть вопросы по аддону, то можете связаться со мной через Github. Вы также можете помочь мне с переводом через Github. Спасибо."
+L["info.description.text"] = "Aurarium is an addon that provides a detailed insight into wealth progression by tracking gold across all characters and displaying it over time.\n\nIf you find a bug or have questions about the addon, you can contact me via GitHub. You can also help me with the translation via GitHub. Thank you."
 
 L["info.help"] = "Помощь"
 L["info.help.text"] = "В случае возникновения проблем после обновления, Вы можете сбросить настройки здесь."

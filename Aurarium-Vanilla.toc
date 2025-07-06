@@ -1,0 +1,25 @@
+## Interface: 11507
+## Title: Aurarium
+## Author: diomsg (Diom-Antonidas EU)
+
+## Version: @project-version@
+## IconTexture: Interface\AddOns\Aurarium\media\icon.blp
+## LoadOnDemand: 0
+## DefaultState: enabled
+
+## Notes: This addon provides a detailed insight into wealth progression by tracking gold across all characters and displaying it over time.
+## Notes-deDE: Dieses Addon bietet einen detaillierten Einblick in die Vermögensentwicklung, indem es Gold über alle Charaktere hinweg verfolgt und im zeitlichen Verlauf darstellt.
+## Notes-ruRU: This addon provides a detailed insight into wealth progression by tracking gold across all characters and displaying it over time.
+
+## LoadSavedVariablesFirst: 1
+## SavedVariables: Aurarium_Options, Aurarium_DataCharacter, Aurarium_DataDates, Aurarium_DataBalance
+
+## X-Flavor: Classic
+## X-BuildDate: @build-date@
+## X-E-Mail: feedback@wow-addon.dev
+## X-Github: https://github.com/wow-addon-dev/Aurarium
+## X-Curseforge: https://www.curseforge.com/wow/addons/aurarium
+## X-Wago: https://addons.wago.io/addons/aurarium
+
+game/vanilla/Aurarium.xml
+game/vanilla/Aurarium.lua
