@@ -9,7 +9,7 @@
 
 ## Notes: This addon provides a detailed insight into wealth progression by tracking gold and currencies across all characters and displaying them over time.
 ## Notes-deDE: Dieses Addon bietet einen detaillierten Einblick in die Vermögensentwicklung, indem es Gold und Währungen über alle Charaktere hinweg verfolgt und im zeitlichen Verlauf darstellt.
-## Notes-ruRU: Аддон, который дает подробную информацию о прогрессе состояния, отслеживая золото и валюту всех персонажей и отображая их с течением времени.
+## Notes-ruRU: Аддон, который предоставляет подробную информацию о прогрессе состояния, отслеживая золото и валюту всех персонажей и отображая их с течением времени.
 
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: Aurarium_Options, Aurarium_DataCharacter, Aurarium_DataDates, Aurarium_DataBalance
