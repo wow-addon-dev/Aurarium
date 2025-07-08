@@ -1,3 +1,7 @@
+**v1.34 (2025-07-08)**
+- Added: Currencies for the expansion 'Mists of Pandaria' [mists of pandaraia - classic]
+- Updated: ruRU localization (#3 - Thanks to Hollicsh) [all versions]
+
 **v1.33 (2025-07-06)**
 - Added: Support for 'Classic'
 - Added: Support for 'Mists of Pandaria - Classic'
