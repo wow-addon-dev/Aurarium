@@ -1,6 +1,6 @@
 **v1.33 (2025-07-06)**
-- Added: Support for Classic
-- Added: Support for Mists of Pandaria - Classic
+- Added: Support for 'Classic'
+- Added: Support for 'Mists of Pandaria - Classic'
 - Minor code adjustments [all versions]
 
 **v1.32 (2025-07-03)**

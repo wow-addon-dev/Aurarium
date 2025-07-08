@@ -2,4 +2,5 @@
 ..\FrameXML\UI.xsd">
     <Script file="CoreData.lua" />
 	<Script file="CommonData.lua" />
+	<Script file="CurrencyData.lua" />
 </Ui>

@@ -2,6 +2,8 @@
 ### [@project-version@](https://github.com/wow-addon-dev/Aurarium/tree/@project-version@) (@build-date@)
 [Full Changelog](@full-changelog@) - [Previous Releases](https://github.com/wow-addon-dev/Aurarium/releases)
 
-- Added: Support for Classic
-- Added: Support for Mists of Pandaria - Classic
-- Minor code adjustments [all versions]
+[mists of pandaraia - classic]
+- Added: Currencies for the expansion 'Mists of Pandaria'
+
+[all versions]
+- Updated: ruRU localization (#3 - Thanks to Hollicsh)

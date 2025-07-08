@@ -475,6 +475,46 @@ local function InitializeFrames()
                 local height = rightTexture:GetHeight() + 4
                 return width, height
              end)
+
+			 root:CreateDivider()
+
+                for _, categoryKey in ipairs(AUR.CURRENCY_CATEGORY_ORDER) do
+                    if AUR.CHARACTER_CURRENCIES[categoryKey] then
+                        local categoryButton = root:CreateButton(L["currency-category." .. categoryKey])
+
+                        local sortedList = {}
+
+                        for _, currencyID in ipairs(AUR.CHARACTER_CURRENCIES[categoryKey]) do
+                            local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+                            if info then
+                                table.insert(sortedList, {id = "c-" .. currencyID, name = info.name, iconFileID = info.iconFileID})
+                            else
+                                 Utils:PrintDebug("Invalid currency ID: " .. tostring(currencyID))
+                            end
+                        end
+
+                        table.sort(sortedList, function(a, b)
+                            return a.name < b.name
+                        end)
+
+                        for _, entry in ipairs(sortedList) do
+                            local currencyButton = categoryButton:CreateRadio(entry.name, IsSelected, SetSelected, entry.id)
+                            currencyButton:AddInitializer(function(button, description, menu)
+                                local rightTexture = button:AttachTexture()
+                                rightTexture:SetSize(16, 16)
+                                rightTexture:SetPoint("RIGHT")
+                                rightTexture:SetTexture(entry.iconFileID)
+
+                                local fontString = button.fontString
+                                fontString:SetPoint("RIGHT")
+
+                                local width = fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20
+                                local height = rightTexture:GetHeight() + 4
+                                return width, height
+                            end);
+                        end
+                    end
+                end
         end)
 
 		if i == 1 then

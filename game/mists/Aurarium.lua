@@ -31,7 +31,7 @@ local function SaveCharacterInfo(realm, char)
 end
 
 local function SaveBalance()
-    local realm, char = Utils:GetCharacterInfo()
+	local realm, char = Utils:GetCharacterInfo()
     local today = Utils:GetToday()
 
     SavedDate(today)
@@ -45,7 +45,7 @@ local function SaveBalance()
     local prevGold = 0
 
     local lastDate = nil
-    local isChangedChar = false
+    local isChangedC1 = false
 
     for dateKey, dayData in pairs(characterHistory) do
         if dateKey < today and dayData["gold"] ~= nil and (not lastDate or dateKey > lastDate) then
@@ -55,17 +55,49 @@ local function SaveBalance()
     end
 
     if newGold ~= prevGold then
-        isChangedChar = true
+        isChangedC1 = true
         AUR.data.balance[realm][char][today]["gold"] = newGold
     else
         AUR.data.balance[realm][char][today]["gold"] = nil
     end
 
-    if not isChangedChar then
+    for _, currencies in pairs(AUR.CHARACTER_CURRENCIES) do
+        for _, currencyID in ipairs(currencies) do
+            local key   = "c-" .. tostring(currencyID)
+            local info  = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+
+			if not info then
+                Utils:PrintDebug("Invalid currency ID: " .. tostring(currencyID))
+			end
+
+            local newQty = (info and info.quantity) or 0
+
+            local prevQty  = 0
+            lastDate = nil
+
+            for dateKey, dayData in pairs(characterHistory) do
+                if dateKey < today and dayData[key] ~= nil then
+                    if not lastDate or dateKey > lastDate then
+                        lastDate  = dateKey
+                        prevQty   = dayData[key]
+                    end
+                end
+            end
+
+            if newQty ~= prevQty then
+                isChangedC1 = true
+                AUR.data.balance[realm][char][today][key] = info.quantity
+            else
+                AUR.data.balance[realm][char][today][key] = nil
+            end
+        end
+    end
+
+    if not isChangedC1 then
         AUR.data.balance[realm][char][today] = nil
     end
 
-    Utils:PrintDebug("Gold balance saved.")
+    Utils:PrintDebug("Gold and currency balance saved.")
 end
 
 local function SlashCommand(msg, editbox)
@@ -124,9 +156,16 @@ function AurariumFrame:PLAYER_MONEY(...)
     SaveBalance()
 end
 
+function AurariumFrame:CURRENCY_DISPLAY_UPDATE(...)
+    Utils:PrintDebug("Event 'CURRENCY_DISPLAY_UPDATE' fired. No payload.")
+
+    SaveBalance()
+end
+
 AurariumFrame:RegisterEvent("ADDON_LOADED")
 AurariumFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 AurariumFrame:RegisterEvent("PLAYER_MONEY")
+AurariumFrame:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
 AurariumFrame:SetScript("OnEvent", AurariumFrame.OnEvent)
 
 SLASH_Aurarium1, SLASH_Aurarium2 = '/aur', '/Aurarium'
