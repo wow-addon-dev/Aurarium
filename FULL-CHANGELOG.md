@@ -1,3 +1,6 @@
+**v1.35 (2025-07-10)**
+- Added: TOC version for patch 11.2.0 [retail]
+
 **v1.34 (2025-07-08)**
 - Added: Currencies for the expansion 'Mists of Pandaria' [mists of pandaraia - classic]
 - Updated: ruRU localization (#3 - Thanks to Hollicsh) [all versions]
