@@ -563,6 +563,10 @@ local function InitializeFrames()
                     if AUR.CHARACTER_CURRENCIES[categoryKey] then
                         local categoryButton = root:CreateButton(L["currency-category." .. categoryKey])
 
+						if categoryKey == 'dungeonraid' then
+							root:CreateDivider()
+						end
+
                         local sortedList = {}
 
                         for _, currencyID in ipairs(AUR.CHARACTER_CURRENCIES[categoryKey]) do
@@ -592,7 +596,7 @@ local function InitializeFrames()
                                 local width = fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20
                                 local height = rightTexture:GetHeight() + 4
                                 return width, height
-                            end);
+                            end)
                         end
                     end
                 end

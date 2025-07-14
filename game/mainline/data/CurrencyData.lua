@@ -6,8 +6,8 @@ AUR.CURRENCY_CATEGORY_ORDER = {
     "dungeonraid",  -- 22
     --"classic",      -- 4
     --"tbc",          -- 23
-    --"wotlk",        -- 21
-    --"cata",         -- 81
+    "wotlk",        -- 21
+    "cata",         -- 81
     "mop",          -- 133
     "wod",          -- 137
     "legion",       -- 141
@@ -38,6 +38,14 @@ AUR.CHARACTER_CURRENCIES = {
     dungeonraid = {
         1166	-- Zeitverzerrtes Abzeichen
     },
+	wotlk = {
+		241		-- Siegel des Champions
+	},
+	cata = {
+		416,	-- Abzeichen des Weltenbaums
+		614,	-- Partikel der Dunkelheit
+		615		-- Essenz des verderbten Todesschwinge
+	},
 	mop = {
 		738,	-- Geringes Amulett des Glücks
 		777		-- Zeitlose Münze
