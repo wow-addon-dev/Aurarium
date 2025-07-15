@@ -1,3 +1,7 @@
+**v1.36 (2025-07-15)**
+- Added: Currencies for the expansion 'Wrath of the Lich King' [retail]
+- Added: Currencies for the expansion 'Cataclysm' [retail]
+
 **v1.35 (2025-07-10)**
 - Added: TOC version for patch 11.2.0 [retail]
 
