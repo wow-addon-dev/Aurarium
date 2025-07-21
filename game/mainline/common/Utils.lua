@@ -114,11 +114,10 @@ function Utils:InitializeMinimapButton()
             end
         end,
         OnTooltipShow = function(tooltip)
-			tooltip:ClearLines()
-			tooltip:SetText(WHITE_FONT_COLOR:WrapTextInColorCode(addonName))
-			tooltip:AddLine(AUR.ADDON_VERSION .. " (" .. AUR.ADDON_BUILD_DATE .. ")")
-			tooltip:AddLine(" ")
-			tooltip:AddLine(WHITE_FONT_COLOR:WrapTextInColorCode(L["minimap-button.tooltip"]))
+			GameTooltip_SetTitle(tooltip, addonName)
+			GameTooltip_AddNormalLine(tooltip, AUR.ADDON_VERSION .. " (" .. AUR.ADDON_BUILD_DATE .. ")")
+			GameTooltip_AddBlankLineToTooltip(tooltip)
+			GameTooltip_AddHighlightLine(tooltip, L["minimap-button.tooltip"])
         end,
     })
 

@@ -2,24 +2,24 @@ local addonName, AUR = ...
 
 local L = AUR.localization
 
-local compartmentTooltip = CreateFrame("GameTooltip", "Aurarium_CompartmentTooltip", UIParent, "GameTooltipTemplate")
-
 ---------------------
 --- Main Funtions ---
 ---------------------
 
 function Aurarium_CompartmentOnEnter(self, button)
-	compartmentTooltip:ClearLines()
-	compartmentTooltip:SetOwner(type(self) ~= "string" and self or button, "ANCHOR_LEFT")
-	compartmentTooltip:SetText(WHITE_FONT_COLOR:WrapTextInColorCode(addonName))
-	compartmentTooltip:AddLine(AUR.ADDON_VERSION .. " (" .. AUR.ADDON_BUILD_DATE .. ")")
-	compartmentTooltip:AddLine(" ")
-	compartmentTooltip:AddLine(WHITE_FONT_COLOR:WrapTextInColorCode(L["minimap-button.tooltip"]))
-	compartmentTooltip:Show()
+	GameTooltip:ClearAllPoints()
+	GameTooltip:SetOwner(button, "ANCHOR_LEFT")
+
+	GameTooltip_SetTitle(GameTooltip, addonName)
+	GameTooltip_AddNormalLine(GameTooltip, AUR.ADDON_VERSION .. " (" .. AUR.ADDON_BUILD_DATE .. ")")
+	GameTooltip_AddBlankLineToTooltip(GameTooltip)
+	GameTooltip_AddHighlightLine(GameTooltip, L["minimap-button.tooltip"])
+
+	GameTooltip:Show()
 end
 
 function Aurarium_CompartmentOnLeave()
-    compartmentTooltip:Hide()
+    GameTooltip:Hide()
 end
 
 function Aurarium_CompartmentOnClick(_, button)
