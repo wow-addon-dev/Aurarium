@@ -1,3 +1,6 @@
+**v1.37 (2025-07-22)**
+- Minor code adjustments [all versions]
+
 **v1.36 (2025-07-15)**
 - Added: Currencies for the expansion 'Wrath of the Lich King' [retail]
 - Added: Currencies for the expansion 'Cataclysm' [retail]
