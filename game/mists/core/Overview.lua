@@ -528,7 +528,8 @@ local function InitializeFrames()
                 end
 
                 local function SetSelected(value)
-                    local pos = value:find("-", 1, true)
+                    local pos = value:reverse():find("-", 1, true)
+                    pos = value:len() + 1 - pos
                     selectedRealm = value:sub(1, pos - 1)
                     selectedChar = value:sub(pos + 1)
                     currentMonthOffset[i] = 0
