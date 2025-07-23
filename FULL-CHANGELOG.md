@@ -1,3 +1,6 @@
+**v1.38 (2025-07-23)**
+- Fixed: Compatibility with realm names that contain hyphens (#4 - Thanks to tflo) [all versions]
+
 **v1.37 (2025-07-22)**
 - Minor code adjustments [all versions]
 
