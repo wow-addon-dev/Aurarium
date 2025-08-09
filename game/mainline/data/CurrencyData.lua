@@ -106,6 +106,7 @@ AUR.CHARACTER_CURRENCIES = {
         3149,	-- Versetzte verderbte Andenkena
         3218,   -- Leere Kaja'Cola-Dose
         3220,   -- Altertümliche Kaja'Cola-Dose
-        3226	-- Marktforschung
+        3226,	-- Marktforschung
+		3303	-- Ungebundene Münze
     }
 }
