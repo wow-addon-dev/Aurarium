@@ -1,3 +1,6 @@
+**v1.41 (2025-08-17)**
+- Added: TOC version for patch 11.2.5 [retail]
+
 **v1.40 (2025-08-09)**
 - Added: Currency 'Untethered Coin' [retail]
 - Removed: TOC version for patch 11.1.7 [retail]
