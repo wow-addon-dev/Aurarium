@@ -1,3 +1,6 @@
+**v1.43 (2025-09-02)**
+- Added: TOC version for patch 5.5.1 [mists]
+
 **v1.42 (2025-08-26)**
 - Minor code adjustments [all versions]
 
