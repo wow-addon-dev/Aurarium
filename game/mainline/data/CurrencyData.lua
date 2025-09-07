@@ -4,8 +4,9 @@ AUR.CURRENCY_CATEGORY_ORDER = {
     "misc",         -- 1
     "pvp",          -- 2
     "dungeonraid",  -- 22
-    --"classic",      -- 4
-    --"tbc",          -- 23
+	"timerunning",	-- 266
+    --"classic",    -- 4
+    --"tbc",        -- 23
     "wotlk",        -- 21
     "cata",         -- 81
     "mop",          -- 133
@@ -14,7 +15,7 @@ AUR.CURRENCY_CATEGORY_ORDER = {
     "bfa",          -- 143
     "sl",           -- 245
     "df",           -- 250
-    "tww"           -- 260
+    "tww"			-- 260
 }
 
 AUR.WARBAND_CURRENCIES = {
@@ -37,6 +38,10 @@ AUR.CHARACTER_CURRENCIES = {
     },
     dungeonraid = {
         1166	-- Zeitverzerrtes Abzeichen
+    },
+	timerunning = {
+        3252,	-- Bronze
+		3268	-- Ewige Macht
     },
 	wotlk = {
 		241		-- Siegel des Champions

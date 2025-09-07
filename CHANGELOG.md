@@ -2,4 +2,5 @@
 ### [@project-version@](https://github.com/wow-addon-dev/Aurarium/tree/@project-version@) (@build-date@)
 [Full Changelog](@full-changelog@) - [Previous Releases](https://github.com/wow-addon-dev/Aurarium/releases)
 
-- Added: TOC version for patch 5.5.1 [mists]
+- Added: Currencies for the event 'Legion Remix' [retail]
+- Changed: Output of debug messages [all versions]

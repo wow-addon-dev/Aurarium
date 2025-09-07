@@ -563,7 +563,7 @@ local function InitializeFrames()
                     if AUR.CHARACTER_CURRENCIES[categoryKey] then
                         local categoryButton = root:CreateButton(L["currency-category." .. categoryKey])
 
-						if categoryKey == 'dungeonraid' then
+						if categoryKey == 'timerunning' then
 							root:CreateDivider()
 						end
 
