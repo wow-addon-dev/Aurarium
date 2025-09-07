@@ -1,3 +1,7 @@
+**v1.44 (2025-09-07)**
+- Added: Currencies for the event 'Legion Remix' [retail]
+- Changed: Output of debug messages [all versions]
+
 **v1.43 (2025-09-02)**
 - Added: TOC version for patch 5.5.1 [mists]
 
