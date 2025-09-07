@@ -2,7 +2,7 @@
 
 [![GitHub Release](https://img.shields.io/github/v/release/wow-addon-dev/Aurarium?logo=github&cacheSeconds=600)](https://github.com/wow-addon-dev/Aurarium/releases)
 [![GitHub Release Date](https://img.shields.io/github/release-date/wow-addon-dev/Aurarium?logo=github&cacheSeconds=600)](https://github.com/wow-addon-dev/Aurarium/releases)
-[![Static Badge](https://img.shields.io/badge/Test-Test)](https://github.com/wow-addon-dev/Aurarium/releases)
+[![Static Badge](https://img.shields.io/badge/any_text-you_like-blue)](https://github.com/wow-addon-dev/Aurarium/releases)
 
 ](https://img.shields.io/badage/test-test)(https://github.com/wow-addon-dev/Aurarium/releases)
 
