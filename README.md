@@ -2,7 +2,9 @@
 
 [![GitHub Release](https://img.shields.io/github/v/release/wow-addon-dev/Aurarium?logo=github&cacheSeconds=600)](https://github.com/wow-addon-dev/Aurarium/releases)
 [![GitHub Release Date](https://img.shields.io/github/release-date/wow-addon-dev/Aurarium?logo=github&cacheSeconds=600)](https://github.com/wow-addon-dev/Aurarium/releases)
-[![Test](https://img.shields.io/github/release-date/wow-addon-dev/Aurarium?logo=github&cacheSeconds=600)](https://img.shields.io/badage/test-test)(https://github.com/wow-addon-dev/Aurarium/releases)
+[![Static Badge](https://img.shields.io/badge/Teswt)
+
+](https://img.shields.io/badage/test-test)(https://github.com/wow-addon-dev/Aurarium/releases)
 
 *Track your gold & currencies. Know your worth.*
 
