@@ -1,3 +1,6 @@
+**v1.45 (2025-09-21)**
+- Updated: Currencies for the event 'Legion Remix' [retail]
+
 **v1.44 (2025-09-07)**
 - Added: Currencies for the event 'Legion Remix' [retail]
 - Changed: Output of debug messages [all versions]
