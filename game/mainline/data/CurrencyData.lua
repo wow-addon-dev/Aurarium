@@ -41,7 +41,8 @@ AUR.CHARACTER_CURRENCIES = {
     },
 	timerunning = {
         3252,	-- Bronze
-		3268	-- Ewige Macht
+		3268,	-- Ewige Macht
+		3292	-- Ewiges Wissen
     },
 	wotlk = {
 		241		-- Siegel des Champions
