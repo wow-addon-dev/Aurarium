@@ -1,3 +1,6 @@
+**v1.46 (2025-10-04)**
+- Removed: TOC version for patch 5.5.0 [mist of pandaria - classic]
+
 **v1.45 (2025-09-21)**
 - Updated: Currencies for the event 'Legion Remix' [retail]
 
