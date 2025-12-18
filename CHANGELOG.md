@@ -4,5 +4,4 @@
 
 - Added: TOC version for patch 12.0.1 [retail]
 - Removed: TOC version for patch 11.2.5 [retail]
-- Removed: TOC version for patch 12.0.0 [retail]
 - Removed: TOC version for patch 5.5.2 [mist of pandaria - classic]
