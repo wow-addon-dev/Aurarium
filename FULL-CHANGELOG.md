@@ -1,3 +1,8 @@
+**v1.50 (2025-12-18)**
+- Added: TOC version for patch 12.0.1 [retail]
+- Removed: TOC version for patch 11.2.5 [retail]
+- Removed: TOC version for patch 5.5.2 [mist of pandaria - classic]
+
 **v1.49 (2025-11-23)**
 - Added: TOC version for patch 12.0.0 [retail]
 - Added: TOC version for patch 5.5.3 [mist of pandaria - classic]
