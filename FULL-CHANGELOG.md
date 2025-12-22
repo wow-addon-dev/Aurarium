@@ -1,3 +1,8 @@
+**v1.51 (2025-12-22)**
+- Added: Category 'Season' [retail]
+- Added: Currency 'Undercoin' [retail]
+- Added: Currencies for the expansion 'Midnight' [retail]
+
 **v1.50 (2025-12-18)**
 - Added: TOC version for patch 12.0.1 [retail]
 - Removed: TOC version for patch 11.2.5 [retail]
