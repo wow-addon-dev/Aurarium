@@ -1,3 +1,6 @@
+**v1.52 (2026-01-04)**
+- Updated: ruRU localization (#5 - Thanks to Hollicsh)
+
 **v1.51 (2025-12-22)**
 - Added: Category 'Season' [retail]
 - Added: Currency 'Undercoin' [retail]
