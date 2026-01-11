@@ -1,3 +1,7 @@
+**v1.53 (2026-01-11)**
+- Added: Support for 'Burning Crusade - Classic Anniversary Edition'
+- Minor code adjustments [all versions]
+
 **v1.52 (2026-01-04)**
 - Updated: ruRU localization (#5 - Thanks to Hollicsh)
 
