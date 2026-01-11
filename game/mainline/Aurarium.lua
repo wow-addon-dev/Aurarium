@@ -131,7 +131,7 @@ end
 
 local function SlashCommand(msg, editbox)
     if not msg or msg:trim() == "" then
-        Settings.OpenToCategory("Aurarium")
+        Settings.OpenToCategory(AUR.MAIN_CATEGORY_ID)
     elseif msg:trim() == "overview" then
         Overview:Show()
 	else

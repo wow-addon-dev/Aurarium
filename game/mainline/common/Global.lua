@@ -30,6 +30,6 @@ function Aurarium_CompartmentOnClick(_, button)
             AUR.overview:Show()
         end
     elseif button == "RightButton" then
-        Settings.OpenToCategory("Aurarium")
+        Settings.OpenToCategory(AUR.MAIN_CATEGORY_ID)
     end
 end

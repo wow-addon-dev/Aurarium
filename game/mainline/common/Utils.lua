@@ -96,7 +96,7 @@ function Utils:InitializeMinimapButton()
                     AUR.overview:Show()
                 end
             elseif button == "RightButton" then
-                Settings.OpenToCategory("Aurarium")
+                Settings.OpenToCategory(AUR.MAIN_CATEGORY_ID)
             end
         end,
         OnTooltipShow = function(tooltip)
