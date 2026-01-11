@@ -1,4 +1,4 @@
-## Interface: 50503
+## Interface: 20505
 ## Title: Aurarium
 ## Author: diomsg (Diom-Antonidas EU)
 
@@ -6,7 +6,7 @@
 ## IconTexture: Interface\AddOns\Aurarium\media\icon.blp
 ## LoadOnDemand: 0
 ## DefaultState: enabled
-## AllowLoadGameType: mists
+## AllowLoadGameType: tbc
 
 ## Notes: This addon provides a detailed insight into wealth progression by tracking gold across all characters and displaying it over time.
 ## Notes-deDE: Dieses Addon bietet einen detaillierten Einblick in die Vermögensentwicklung, indem es Gold über alle Charaktere hinweg verfolgt und im zeitlichen Verlauf darstellt.
@@ -15,12 +15,12 @@
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: Aurarium_Options, Aurarium_DataCharacter, Aurarium_DataDates, Aurarium_DataBalance
 
-## X-Flavor: Mist of Pandaria - Classic
+## X-Flavor: Burning Crusade - Classic Anniversary Edition
 ## X-BuildDate: @build-date@
 ## X-E-Mail: feedback@wow-addon.dev
 ## X-Github: https://github.com/wow-addon-dev/Aurarium
 ## X-Curseforge: https://www.curseforge.com/wow/addons/aurarium
 ## X-Wago: https://addons.wago.io/addons/aurarium
 
-game/mists/Aurarium.xml
-game/mists/Aurarium.lua
+game/tbc/Aurarium.xml
+game/tbc/Aurarium.lua

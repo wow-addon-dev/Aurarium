@@ -18,7 +18,7 @@ Aurarium is an addon that provides a detailed insight into wealth progression by
 *   Display of the sum of all currencies across all characters
 *   Minimap button to open the gold and currency overview and the options
 *   Supported languages: English, German, Russian
-*   Supported versions: 'Classic', 'Mists of Pandaria - Classic' and 'Retail'
+*   Supported versions: 'Classic', 'Burning Crusade - Classic Anniversary Edition', 'Mists of Pandaria - Classic' and 'Retail'
 
 ### Quick Start
 

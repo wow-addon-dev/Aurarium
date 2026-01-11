@@ -6,6 +6,7 @@
 ## IconTexture: Interface\AddOns\Aurarium\media\icon.blp
 ## LoadOnDemand: 0
 ## DefaultState: enabled
+## AllowLoadGameType: vanilla
 
 ## Notes: This addon provides a detailed insight into wealth progression by tracking gold across all characters and displaying it over time.
 ## Notes-deDE: Dieses Addon bietet einen detaillierten Einblick in die Vermögensentwicklung, indem es Gold über alle Charaktere hinweg verfolgt und im zeitlichen Verlauf darstellt.
