@@ -1,3 +1,6 @@
+**v1.54 (2026-01-12)**
+- Fixed: The option window can be opened again via the command line in patch 12.0.0 and higher [retail]
+
 **v1.53 (2026-01-11)**
 - Added: Support for 'Burning Crusade - Classic Anniversary Edition'
 - Minor code adjustments [all versions]
