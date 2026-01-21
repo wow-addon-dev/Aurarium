@@ -8,7 +8,7 @@
 
 Aurarium is an addon that provides a detailed insight into wealth progression by tracking gold and currencies* across all characters and displaying them over time.
 
-*\* In the game versions 'Classic' and 'Mists of Pandaria - Classic' only gold is tracked.*
+*\* In the game versions 'Classic', 'Burning Crusade - Classic Anniversary Edition' and 'Mists of Pandaria - Classic' only gold is tracked.*
 
 ### Features
 
