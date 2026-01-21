@@ -1,3 +1,6 @@
+**v1.56 (2026-01-21)**
+- Fixed: Removed currencies no longer result in an error message [retail]
+
 **v1.55 (2026-01-15)**
 - Minor code adjustments [all versions]
 
