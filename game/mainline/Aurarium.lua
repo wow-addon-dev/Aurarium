@@ -68,6 +68,11 @@ local function SaveBalance()
         for _, currencyID in ipairs(currencies) do
             local key   = "c-" .. tostring(currencyID)
             local info  = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+
+			if info then
+				do break end
+			end
+
             local newQty = (info and info.quantity) or 0
 
             local prevQty  = 0
