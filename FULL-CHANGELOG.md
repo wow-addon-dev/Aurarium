@@ -1,3 +1,7 @@
+**v1.57 (2026-01-24)**
+- Added: Currency 'Community Coupons' [retail]
+- Removed: TOC version for patch 11.2.7 [retail]
+
 **v1.56 (2026-01-21)**
 - Fixed: Removed currencies no longer result in an error message [retail]
 
