@@ -30,7 +30,8 @@ AUR.CHARACTER_CURRENCIES = {
     misc = {
         515,    -- Gewinnlos des Dunkelmond-Jahrmarkts
         2588,	-- Abzeichen: Reiter v. Azeroth
-		3309	-- Höllensteinscherbe
+		3309,	-- Höllensteinscherbe
+		3363	-- Gemeinschaftscoupons
     },
     pvp = {
         391,    -- Belobigungsabzeichen von Tol Barad

@@ -2,4 +2,5 @@
 ### [@project-version@](https://github.com/wow-addon-dev/Aurarium/tree/@project-version@) (@build-date@)
 [Full Changelog](@full-changelog@) - [Previous Releases](https://github.com/wow-addon-dev/Aurarium/releases)
 
-- Fixed: Removed currencies no longer result in an error message [retail]
+- Added: Currency 'Community Coupons' [retail]
+- Removed: TOC version for patch 11.2.7 [retail]
