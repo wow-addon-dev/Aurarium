@@ -1,3 +1,9 @@
+**v1.58 (2026-01-29)**
+- Added: Currency 'Twilight's Blade Insignia' [retail]
+- Removed: Currency 'Infinite Power' [retail]
+- Removed: Currency 'Infinite Knowledge' [retail]
+- Fixed: Currencies are recorded correctly again [retail]
+
 **v1.57 (2026-01-24)**
 - Added: Currency 'Community Coupons' [retail]
 - Removed: TOC version for patch 11.2.7 [retail]
