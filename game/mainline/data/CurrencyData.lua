@@ -46,9 +46,9 @@ AUR.CHARACTER_CURRENCIES = {
         2803	-- Lorenmünze
     },
 	timerunning = {
-        3252,	-- Bronze
-		3268,	-- Ewige Macht
-		3292	-- Ewiges Wissen
+        3252	-- Bronze
+		--3268	-- Ewige Macht
+		--3292	-- Ewiges Wissen
     },
 	wotlk = {
 		241		-- Siegel des Champions
@@ -123,6 +123,7 @@ AUR.CHARACTER_CURRENCIES = {
     },
 	mid = {
 		3316,	-- Leerenlichtmergel
+		3319,	-- Insigne der Zwielichtklinge
 		--3373,	-- Jejuperlen
         3385,	-- Leuchtender Staub
 		3392	-- Überrest der Pein

@@ -70,29 +70,29 @@ local function SaveBalance()
             local info  = C_CurrencyInfo.GetCurrencyInfo(currencyID)
 
 			if info then
-				do break end
+				local newQty = (info and info.quantity) or 0
+
+				local prevQty  = 0
+				lastDate = nil
+
+				for dateKey, dayData in pairs(characterHistory) do
+					if dateKey < today and dayData[key] ~= nil then
+						if not lastDate or dateKey > lastDate then
+							lastDate  = dateKey
+							prevQty   = dayData[key]
+						end
+					end
+				end
+
+				if newQty ~= prevQty then
+					isChangedC1 = true
+					AUR.data.balance[realm][char][today][key] = info.quantity
+				else
+					AUR.data.balance[realm][char][today][key] = nil
+				end
+			else
+				Utils:PrintDebug("Invalid currency ID: " .. tostring(currencyID))
 			end
-
-            local newQty = (info and info.quantity) or 0
-
-            local prevQty  = 0
-            lastDate = nil
-
-            for dateKey, dayData in pairs(characterHistory) do
-                if dateKey < today and dayData[key] ~= nil then
-                    if not lastDate or dateKey > lastDate then
-                        lastDate  = dateKey
-                        prevQty   = dayData[key]
-                    end
-                end
-            end
-
-            if newQty ~= prevQty then
-                isChangedC1 = true
-                AUR.data.balance[realm][char][today][key] = info.quantity
-            else
-                AUR.data.balance[realm][char][today][key] = nil
-            end
         end
     end
 
