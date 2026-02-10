@@ -1,3 +1,7 @@
+**v1.59 (2026-02-10)**
+- Added: Currencies for the expansion 'Midnight' [retail]
+- Removed: Currency 'Infinite Power' [retail]
+
 **v1.58 (2026-01-29)**
 - Added: Currency 'Twilight's Blade Insignia' [retail]
 - Removed: Currency 'Infinite Power' [retail]
