@@ -46,7 +46,7 @@ AUR.CHARACTER_CURRENCIES = {
         2803	-- Lorenmünze
     },
 	timerunning = {
-        3252	-- Bronze
+        --3252	-- Bronze
 		--3268	-- Ewige Macht
 		--3292	-- Ewiges Wissen
     },
@@ -122,10 +122,15 @@ AUR.CHARACTER_CURRENCIES = {
 		3303	-- Ungebundene Münze
     },
 	mid = {
-		3316,	-- Leerenlichtmergel
-		3319,	-- Insigne der Zwielichtklinge
-		--3373,	-- Jejuperlen
-        3385,	-- Leuchtender Staub
-		3392	-- Überrest der Pein
+		3316,	-- Leerenlichtmergel ??
+		3319,	-- Insigne der Zwielichtklinge ??
+		3352,	-- Partyaufmerksamkeit ??
+		3373,	-- Anglerperlen ??
+        3385,	-- Leuchtender Staub ??
+		3392,	-- Überrest der Pein ??
+		--3376,	-- Splitter von Dundun
+		--3377,	-- Ungetrübter Überfluss
+		3379	-- Übersprudelndes Arkana ??
+		--3400	-- Unverseuchte Leerenprobe
     }
 }
