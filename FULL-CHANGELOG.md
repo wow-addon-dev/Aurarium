@@ -1,3 +1,6 @@
+**v1.60 (2026-02-17)**
+- Removed: TOC version for patch 12.0.0 [retail]
+
 **v1.59 (2026-02-10)**
 - Added: Currencies for the expansion 'Midnight' [retail]
 - Removed: Currency 'Infinite Power' [retail]
