@@ -2,6 +2,7 @@ local _, AUR = ...
 
 AUR.CURRENCY_CATEGORY_ORDER = {
     "misc",         -- 1
+	"profession",	-- xxx
     "pvp",          -- 2
     "dungeonraid",  -- 22
 	"season",		-- 268, 263, 265
@@ -32,6 +33,19 @@ AUR.CHARACTER_CURRENCIES = {
         2588,	-- Abzeichen: Reiter v. Azeroth
 		3309,	-- Höllensteinscherbe
 		3363	-- Gemeinschaftscoupons
+    },
+	profession = {
+        3256,	-- Tatkraft des Alchemiefachmanns
+		3257,	-- Tatkraft des Schmiedefachmanns
+		3258,	-- Tatkraft des Verzauberungsfachmanns
+		3259,	-- Tatkraft des Ingenieursfachmanns
+		3260,	-- Tatkraft des Kräuterkundefachmanns
+		3261,	-- Tatkraft des Inschriftenfachmanns
+		3262,	-- Tatkraft des Juwelierfachmanns
+		3263,	-- Tatkraft des Lederverarbeitungsfachmanns
+		3264,	-- Tatkraft des Bergbaufachmanns
+		3265,	-- Tatkraft des Kürschnereifachmanns
+		3266	-- Tatkraft des Schneiderfachmanns
     },
     pvp = {
         391,    -- Belobigungsabzeichen von Tol Barad
