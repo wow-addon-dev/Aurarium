@@ -23,14 +23,14 @@
 - Fixed: Removed currencies no longer result in an error message [retail]
 
 **v1.55 (2026-01-15)**
-- Minor code adjustments [all versions]
+- Minor code adjustments
 
 **v1.54 (2026-01-12)**
 - Fixed: The option window can be opened again via the command line in patch 12.0.0 and higher [retail]
 
 **v1.53 (2026-01-11)**
 - Added: Support for 'Burning Crusade - Classic Anniversary Edition'
-- Minor code adjustments [all versions]
+- Minor code adjustments
 
 **v1.52 (2026-01-04)**
 - Updated: ruRU localization (#5 - Thanks to Hollicsh)
@@ -67,13 +67,13 @@
 
 **v1.44 (2025-09-07)**
 - Added: Currencies for the event 'Legion Remix' [retail]
-- Changed: Output of debug messages [all versions]
+- Changed: Output of debug messages
 
 **v1.43 (2025-09-02)**
 - Added: TOC version for patch 5.5.1 [mist of pandaria - classic]
 
 **v1.42 (2025-08-26)**
-- Minor code adjustments [all versions]
+- Minor code adjustments
 
 **v1.41 (2025-08-17)**
 - Added: TOC version for patch 11.2.5 [retail]
@@ -83,13 +83,13 @@
 - Removed: TOC version for patch 11.1.7 [retail]
 
 **v1.39 (2025-08-02)**
-- Minor code adjustments [all versions]
+- Minor code adjustments
 
 **v1.38 (2025-07-23)**
-- Fixed: Compatibility with realm names that contain hyphens (#4 - Thanks to tflo) [all versions]
+- Fixed: Compatibility with realm names that contain hyphens (#4 - Thanks to tflo)
 
 **v1.37 (2025-07-22)**
-- Minor code adjustments [all versions]
+- Minor code adjustments
 
 **v1.36 (2025-07-15)**
 - Added: Currencies for the expansion 'Wrath of the Lich King' [retail]
@@ -100,12 +100,12 @@
 
 **v1.34 (2025-07-08)**
 - Added: Currencies for the expansion 'Mists of Pandaria' [mists of pandaraia - classic]
-- Updated: ruRU localization (#3 - Thanks to Hollicsh) [all versions]
+- Updated: ruRU localization (#3 - Thanks to Hollicsh)
 
 **v1.33 (2025-07-06)**
 - Added: Support for 'Classic'
 - Added: Support for 'Mists of Pandaria - Classic'
-- Minor code adjustments [all versions]
+- Minor code adjustments
 
 **v1.32 (2025-07-03)**
 - Added: Currency 'Hellstone Shard'
