@@ -1,3 +1,6 @@
+**v1.62 (2026-03-15)**
+- Added: TOC version for patch 12.0.5 [retail]
+
 **v1.61 (2026-02-27)**
 - Added: Currencies for the category 'Profession' [retail]
 - Updated: License
