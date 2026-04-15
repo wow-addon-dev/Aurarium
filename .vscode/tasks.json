@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build WoW Addon Aurarium",
+      "label": "Build WoW Addon - Aurarium",
       "type": "shell",
       "command": "pwsh",
       "args": [
