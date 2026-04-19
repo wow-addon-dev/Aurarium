@@ -4,11 +4,37 @@ if GetLocale() ~= "deDE" then return end
 
 local L = AUR.localization
 
--- Generel
+-- Options
 
-L["addon.version"] = "Version"
+L["options.general"] = "Allgemeine Einstellungen"
+L["options.general.minimap-button.name"] = "Minimap Button"
+L["options.general.minimap-button.tooltip"] = "Bei Aktivierung wird der Minimap Button angezeigt."
 
--- Addon specific
+L["options.currency-overview"] = "Gold- und Währungsübersicht"
+L["options.currency-overview.open-on-login.name"] = "Automatisch öffnen"
+L["options.currency-overview.open-on-login.tooltip"] = "Bei Aktivierung öffnet sich die Gold- und Währungsübersicht beim Login automatisch."
+
+L["options.other"] = "Sonstige Einstellungen"
+L["options.other.debug-mode.name"] = "Debugmodus"
+L["options.other.debug-mode.tooltip"] = "Die Aktivierung des Debugmodus zeigt zusätzliche Informationen im Chat an."
+
+L["options.about"] = "Über"
+L["options.about.game-version"] = "Spielversion"
+L["options.about.addon-version"] = "Addonversion"
+L["options.about.lib-version"] = "Bibliotheksversion"
+L["options.about.author"] = "Autor"
+
+L["options.about.button-github.name"] = "Feedback & Hilfe"
+L["options.about.button-github.tooltip"] = "Öffnet ein Popup-Fenster mit einem Link nach GitHub."
+L["options.about.button-github.button"] = "GitHub"
+
+-- General
+
+L["minimap-button.tooltip"] = "|cnLINK_FONT_COLOR:Linksklick|r zum Öffnen der Gold- und Währungsübersicht.\n|cnLINK_FONT_COLOR:Rechtsklick|r zum Öffnen der Einstellungen."
+
+-- Chat
+
+-- Currency Overview
 
 L["month.jan"] = "Januar"
 L["month.feb"] = "Februar"
@@ -56,42 +82,3 @@ L["table.date"] = "Datum"
 L["table.amount"] = "Betrag"
 L["table.difference"] = "Differenz"
 L["table.no-entries"] = "Keine Einträge für diesen Monat."
-
-L["minimap-button.tooltip"] = "|cnLINK_FONT_COLOR:Linksklick|r zum Öffnen der Gold- und Währungsübersicht.\n|cnLINK_FONT_COLOR:Rechtsklick|r zum Öffnen der Einstellungen."
-
--- Options
-
-L["info.description"] = "Beschreibung"
-L["info.description.text"] = "Aurarium ist ein Addon, das einen detaillierten Einblick in die Vermögensentwicklung bietet, indem es Gold über alle Charaktere hinweg verfolgt und im Zeitverlauf darstellt.\n\nSolltest Du einen Fehler finden oder Fragen zum Addon haben, so kannst Du über GitHub Kontakt aufnehmen. Über GitHub kannst Du mir auch bei der Übersetzung helfen. Vielen Dank."
-
-L["info.help"] = "Hilfe"
-L["info.help.text"] = "Bei Problemen nach einem Update oder wenn Du es möchtest, kannst Du hier die Einstellungen zurücksetzen."
-L["info.help.reset-button.name"] = "Einstellungen zurücksetzen"
-L["info.help.reset-button.desc"] = "Setzt die Einstellungen auf die Standardwerte zurück. Dies gilt für alle Charaktere."
-L["info.help.github-button.name"] = "GitHub"
-L["info.help.github-button.desc"] = "Öffnet ein Popup-Fenster mit einem Link nach GitHub."
-
-L["info.about"] = "Über"
-L["info.about.text"] = "|cnGOLD_FONT_COLOR:Spielversion:|r %s\n|cnGOLD_FONT_COLOR:Addonversion:|r %s\n\n|cnGOLD_FONT_COLOR:Autor:|r %s"
-
-L["options"] = "Einstellungen"
-L["options.general"] = "allgemeine Einstellungen"
-L["options.open-on-login.name"] = "Gold- und Währungsübersicht"
-L["options.open-on-login.tooltip"] = "Bei Aktivierung öffnet sich die Gold- und Währungsübersicht beim Login automatisch."
-L["options.minimap-button-hide.name"] = "Minimap Button"
-L["options.minimap-button-hide.tooltip"] = "Bei Aktivierung wird der Minimap Button angezeigt."
-L["options.minimap-button-position.name"] = "Position"
-L["options.minimap-button-position.tooltip"] = "Legt die Position des Minimap Buttons fest."
-
-L["options.other"] = "sonstige Einstellungen"
-L["options.debug-mode.name"] = "Debugmodus"
-L["options.debug-mode.tooltip"] = "Die Aktivierung des Debugmodus zeigt zusätzliche Informationen im Chat an."
-
--- Chat
-
-L["chat.reset-options.success"] = "Einstellungen erfolgreich zurückgesetzt."
-
--- Dialog
-
-L["dialog.copy-address.text"] = "Um den Link zu kopieren drücke STRG + C."
-L["dialog.reset-options.text"] = "Sollen die Einstellungen wirklich zurückgesetzt werden?\n|cnNORMAL_FONT_COLOR:Achtung:|r Es erfolgt ein automatischer Reload der Spieloberfläche!"

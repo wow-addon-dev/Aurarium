@@ -4,9 +4,9 @@ local L = AUR.localization
 
 local Utils = {}
 
------------------------
---- Helper Funtions ---
------------------------
+----------------------
+--- Local Funtions ---
+----------------------
 
 function Utils:GetToday()
     return date("%Y-%m-%d")
@@ -28,8 +28,8 @@ end
 ---------------------
 
 function Utils:PrintDebug(msg)
-    if AUR.data.options["debug-mode"] then
-        DEFAULT_CHAT_FRAME:AddMessage(ORANGE_FONT_COLOR:WrapTextInColorCode(addonName .. " (Debug): ")  .. msg)
+    if AUR.options.other["debug-mode"] then
+		DEFAULT_CHAT_FRAME:AddMessage(ORANGE_FONT_COLOR:WrapTextInColorCode(addonName .. " (Debug): ")  .. msg)
 	end
 end
 
@@ -40,44 +40,50 @@ end
 function Utils:InitializeDatabase()
     local realm, char = Utils:GetCharacterInfo()
 
-    -- Options
-
-    if (not Aurarium_Options) then
-        Aurarium_Options = {}
+    if (not Aurarium_Options_v2) then
+        Aurarium_Options_v2 = {
+			["general"] = {
+				["minimap-button"] = {
+					["hide"] = false
+				}
+			},
+			["currency-overview"] = {},
+			["other"] = {}
+		}
     end
-
-    AUR.data = {}
-    AUR.data.options = Aurarium_Options
-
-    -- Dates
 
     if (not Aurarium_DataDates) then
        Aurarium_DataDates = {}
     end
 
-    AUR.data.dates = Aurarium_DataDates
-
-    -- Character
-
     if (not Aurarium_DataCharacter) then
         Aurarium_DataCharacter = {}
     end
 
+	if (not Aurarium_DataBalance) then
+        Aurarium_DataBalance = {}
+    end
+
+	AUR.options = {}
+	AUR.options.general = Aurarium_Options_v2["general"]
+    AUR.options.currencyOverview = Aurarium_Options_v2["currency-overview"]
+	AUR.options.other = Aurarium_Options_v2["other"]
+
+    AUR.data = {}
+    AUR.data.dates = Aurarium_DataDates
     AUR.data.character = Aurarium_DataCharacter
+	AUR.data.balance = Aurarium_DataBalance
 
     AUR.data.character[realm] =  AUR.data.character[realm] or {}
     AUR.data.character[realm][char] =  AUR.data.character[realm][char] or {}
 
-    -- Balance
-
-    if (not Aurarium_DataBalance) then
-        Aurarium_DataBalance = {}
-    end
-
-    AUR.data.balance = Aurarium_DataBalance
-
+    AUR.data.balance =  AUR.data.balance or {}
     AUR.data.balance[realm] =  AUR.data.balance[realm] or {}
     AUR.data.balance[realm][char] =  AUR.data.balance[realm][char] or {}
+
+	if AUR.GAME_TYPE_MAINLINE then
+		AUR.data.balance["Warband"] = AUR.data.balance["Warband"] or {}
+	end
 end
 
 function Utils:InitializeMinimapButton()
@@ -93,7 +99,7 @@ function Utils:InitializeMinimapButton()
                     AUR.overview:Show()
                 end
             elseif button == "RightButton" then
-                Settings.OpenToCategory("Aurarium")
+                Settings.OpenToCategory(AUR.MAIN_CATEGORY_ID)
             end
         end,
         OnTooltipShow = function(tooltip)
@@ -104,14 +110,8 @@ function Utils:InitializeMinimapButton()
         end,
     })
 
-    local zone = {
-        hide = AUR.data.options["minimap-button-hide"],
-        minimapPos = AUR.data.options["minimap-button-position"],
-    }
-
     self.minimapButton = LibStub("LibDBIcon-1.0")
-    self.minimapButton:Register("Aurarium", LDB, zone)
-    self.minimapButton:Lock("Aurarium")
+    self.minimapButton:Register("Aurarium", LDB, AUR.options.general["minimap-button"])
 end
 
 AUR.utils = Utils

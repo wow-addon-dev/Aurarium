@@ -2,7 +2,6 @@ local addonName, AUR = ...
 
 local L = AUR.localization
 local Utils = AUR.utils
-local Dialog = AUR.dialog
 local Options = AUR.options
 local Overview = AUR.overview
 
@@ -10,45 +9,31 @@ local Overview = AUR.overview
 --- Local funtions ---
 ----------------------
 
-local function SavedDate(dateStr)
+local function UpdateDateHistory(today)
     local dates = AUR.data.dates
 
     for _, d in ipairs(dates) do
-        if d == dateStr then
-            return
-        end
+        if d == today then return end
     end
 
-    table.insert(dates, dateStr)
+    table.insert(dates, today)
     table.sort(dates)
 end
 
-local function SaveCharacterInfo(realm, char)
+local function SaveCharacterMetadata(realm, char)
     local classFilename = UnitClassBase("player")
     local englishFaction = UnitFactionGroup("player")
 
     AUR.data.character[realm][char] = {class = classFilename, faction = englishFaction}
 end
 
-local function SaveBalance()
-    local realm, char = Utils:GetCharacterInfo()
-    local today = Utils:GetToday()
-
-    SavedDate(today)
-    SaveCharacterInfo(realm, char)
-
-    local warbandHistory  = AUR.data.balance["Warband"]
-    local characterHistory  = AUR.data.balance[realm][char]
-
-    AUR.data.balance["Warband"][today] = AUR.data.balance["Warband"][today] or {}
+local function TrackGoldBalance(realm, char, today)
+    local characterHistory = AUR.data.balance[realm][char]
     AUR.data.balance[realm][char][today] = AUR.data.balance[realm][char][today] or {}
 
-    local newGold  = Utils:GetGold()
+    local newGold = Utils:GetGold()
     local prevGold = 0
-
     local lastDate = nil
-    local isChangedC1 = false
-    local isChangedC2 = false
 
     for dateKey, dayData in pairs(characterHistory) do
         if dateKey < today and dayData["gold"] ~= nil and (not lastDate or dateKey > lastDate) then
@@ -58,80 +43,115 @@ local function SaveBalance()
     end
 
     if newGold ~= prevGold then
-        isChangedC1 = true
         AUR.data.balance[realm][char][today]["gold"] = newGold
+        return true
     else
         AUR.data.balance[realm][char][today]["gold"] = nil
+        return false
     end
+end
+
+local function TrackCharacterCurrencies(realm, char, today)
+    local characterHistory = AUR.data.balance[realm][char]
+    local changed = false
 
     for _, currencies in pairs(AUR.CHARACTER_CURRENCIES) do
         for _, currencyID in ipairs(currencies) do
-            local key   = "c-" .. tostring(currencyID)
-            local info  = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+            local key = "c-" .. tostring(currencyID)
+            local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
 
-			if info then
-				local newQty = (info and info.quantity) or 0
+            if info then
+                local newQty = info.quantity
+                local prevQty = 0
+                local lastDate = nil
 
-				local prevQty  = 0
-				lastDate = nil
+                for dateKey, dayData in pairs(characterHistory) do
+                    if dateKey < today and dayData[key] ~= nil and (not lastDate or dateKey > lastDate) then
+                        lastDate = dateKey
+                        prevQty = dayData[key]
+                    end
+                end
 
-				for dateKey, dayData in pairs(characterHistory) do
-					if dateKey < today and dayData[key] ~= nil then
-						if not lastDate or dateKey > lastDate then
-							lastDate  = dateKey
-							prevQty   = dayData[key]
-						end
-					end
-				end
-
-				if newQty ~= prevQty then
-					isChangedC1 = true
-					AUR.data.balance[realm][char][today][key] = info.quantity
-				else
-					AUR.data.balance[realm][char][today][key] = nil
-				end
-			else
-				Utils:PrintDebug("Invalid currency ID: " .. tostring(currencyID))
-			end
+                if newQty ~= prevQty then
+                    AUR.data.balance[realm][char][today][key] = newQty
+                    changed = true
+                else
+                    AUR.data.balance[realm][char][today][key] = nil
+                end
+            end
         end
     end
 
+    return changed
+end
+
+local function TrackWarbandCurrencies(today)
+    local warbandHistory = AUR.data.balance["Warband"]
+    AUR.data.balance["Warband"][today] = AUR.data.balance["Warband"][today] or {}
+    local changed = false
+
     for _, currencies in pairs(AUR.WARBAND_CURRENCIES) do
         for _, currencyID in ipairs(currencies) do
-            local key   = "w-" .. tostring(currencyID)
-            local info  = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+            local key = "w-" .. tostring(currencyID)
+            local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
             local newQty = (info and info.quantity) or 0
-
-            local prevQty  = 0
-            lastDate = nil
+            local prevQty = 0
+            local lastDate = nil
 
             for dateKey, dayData in pairs(warbandHistory) do
-                if dateKey < today and dayData[key] ~= nil then
-                    if not lastDate or dateKey > lastDate then
-                        lastDate  = dateKey
-                        prevQty   = dayData[key]
-                    end
+                if dateKey < today and dayData[key] ~= nil and (not lastDate or dateKey > lastDate) then
+                    lastDate = dateKey
+                    prevQty = dayData[key]
                 end
             end
 
             if newQty ~= prevQty then
-                isChangedC2 = true
-                AUR.data.balance["Warband"][today][key] = info.quantity
+                AUR.data.balance["Warband"][today][key] = newQty
+                changed = true
             else
                 AUR.data.balance["Warband"][today][key] = nil
             end
         end
     end
 
-    if not isChangedC1 then
-        AUR.data.balance[realm][char][today] = nil
-    end
+    return changed
+end
 
-    if not isChangedC2 then
-       AUR.data.balance["Warband"][today] = nil
-    end
+local function SaveBalance()
+    local realm, char = Utils:GetCharacterInfo()
+    local today = Utils:GetToday()
 
-    Utils:PrintDebug("Gold and currency balance saved.")
+    UpdateDateHistory(today)
+    SaveCharacterMetadata(realm, char)
+
+	if AUR.GAME_TYPE_MISTS then
+		local goldChanged = TrackGoldBalance(realm, char, today)
+		local charCurChanged = TrackCharacterCurrencies(realm, char, today)
+
+		if not (goldChanged or charCurChanged) then
+			AUR.data.balance[realm][char][today] = nil
+		end
+	elseif AUR.GAME_TYPE_MAINLINE then
+		local goldChanged = TrackGoldBalance(realm, char, today)
+		local charCurChanged = TrackCharacterCurrencies(realm, char, today)
+		local warbandChanged = TrackWarbandCurrencies(today)
+
+		if not (goldChanged or charCurChanged) then
+			AUR.data.balance[realm][char][today] = nil
+		end
+
+		if not warbandChanged then
+			AUR.data.balance["Warband"][today] = nil
+		end
+	else
+		local goldChanged = TrackGoldBalance(realm, char, today)
+
+		if not goldChanged then
+			AUR.data.balance[realm][char][today] = nil
+		end
+	end
+
+    Utils:PrintDebug("Balance saved.")
 end
 
 local function SlashCommand(msg, editbox)
@@ -162,7 +182,6 @@ function AurariumFrame:ADDON_LOADED(_, addOnName)
     if addOnName == addonName then
         Utils:InitializeDatabase()
         Utils:InitializeMinimapButton()
-        Dialog:Initialize()
         Options:Initialize()
         Overview:Initialize()
 
@@ -178,7 +197,7 @@ function AurariumFrame:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
             SaveBalance()
         end)
 
-        if AUR.data.options["open-on-login"]then
+        if AUR.options.currencyOverview["open-on-login"]then
             Overview:Show()
         end
     end

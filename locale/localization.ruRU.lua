@@ -4,11 +4,37 @@ if GetLocale() ~= "ruRU" then return end
 
 local L = AUR.localization
 
--- Generel
+-- Options
 
-L["addon.version"] = "Версия"
+L["options.general"] = "General Options"
+L["options.general.minimap-button.name"] = "Minimap Button"
+L["options.general.minimap-button.tooltip"] = "When this is enabled, the minimap button is displayed."
 
--- Addon specific
+L["options.currency-overview"] = "Gold and Currency Overview"
+L["options.currency-overview.open-on-login.name"] = "Open Automatically"
+L["options.currency-overview.open-on-login.tooltip"] = "When this is enabled, the gold and currency overview opens automatically when logging in."
+
+L["options.other.other"] = "Другие параметры"
+L["options.other.debug-mode.name"] = "Режим отладки"
+L["options.other.debug-mode.tooltip"] = "Включение режима отладки отображает дополнительную информацию в чате."
+
+L["options.about"] = "Об аддоне"
+L["options.about.game-version"] = "Game Version"
+L["options.about.addon-version"] = "Addon Version"
+L["options.about.lib-version"] = "Library Version"
+L["options.about.author"] = "Author"
+
+L["options.about.button-github.name"] = "Feedback & Help"
+L["options.about.button-github.tooltip"] = "Opens a popup window with a link to GitHub."
+L["options.about.button-github.button"] = "GitHub"
+
+-- General
+
+L["minimap-button.tooltip"] = "|cnLINK_FONT_COLOR:ЛКМ|r - открыть обзор золота и валюты.\n|cnLINK_FONT_COLOR:ПКМ|r - открыть настройки."
+
+-- Chat
+
+-- Curyency Overview
 
 L["month.jan"] = "Январь"
 L["month.feb"] = "Февраль"
@@ -56,42 +82,3 @@ L["table.date"] = "Дата"
 L["table.amount"] = "Количество"
 L["table.difference"] = "Разница"
 L["table.no-entries"] = "Нет записей за этот месяц."
-
-L["minimap-button.tooltip"] = "|cnLINK_FONT_COLOR:ЛКМ|r - открыть обзор золота и валюты.\n|cnLINK_FONT_COLOR:ПКМ|r - открыть настройки."
-
--- Options
-
-L["info.description"] = "Описание"
-L["info.description.text"] = "Aurarium - это аддон, который предоставляет подробную информацию о прогрессе состояния, отслеживая золото и валюту всех персонажей и отображая их с течением времени.\n\nЕсли Вы нашли ошибку или у Вас есть вопросы по аддону, то можете связаться со мной через Github. Вы также можете помочь мне с переводом через Github. Спасибо."
-
-L["info.help"] = "Помощь"
-L["info.help.text"] = "В случае возникновения проблем после обновления, Вы можете сбросить настройки здесь."
-L["info.help.reset-button.name"] = "Сбросить параметры"
-L["info.help.reset-button.desc"] = "Сбрасывает параметры на значения по умолчанию. Это касается всех персонажей."
-L["info.help.github-button.name"] = "GitHub"
-L["info.help.github-button.desc"] = "Открывает всплывающее окно со ссылкой на GitHub."
-
-L["info.about"] = "Об аддоне"
-L["info.about.text"] = "|cnGOLD_FONT_COLOR:Версия игры:|r %s\n|cnGOLD_FONT_COLOR:Версия дополнения:|r %s\n\n|cnGOLD_FONT_COLOR:Автор:|r %s"
-
-L["options"] = "Параметры"
-L["options.general"] = "Общие параметры"
-L["options.open-on-login.name"] = "Обзор золота и валюты"
-L["options.open-on-login.tooltip"] = "Если эта функция включена, обзор золота и валюты открывается автоматически при входе в систему."
-L["options.minimap-button-hide.name"] = "Кнопка миникарты"
-L["options.minimap-button-hide.tooltip"] = "Если эта функция включена, отображается кнопка на миникарте."
-L["options.minimap-button-position.name"] = "Положение"
-L["options.minimap-button-position.tooltip"] = "Определяет положение кнопки миникарты."
-
-L["options.other"] = "Другие параметры"
-L["options.debug-mode.name"] = "Режим отладки"
-L["options.debug-mode.tooltip"] = "Включение режима отладки отображает дополнительную информацию в чате."
-
--- Chat
-
-L["chat.reset-options.success"] = "Параметры успешно сброшены."
-
--- Dialog
-
-L["dialog.copy-address.text"] = "Чтобы скопировать ссылку, нажмите CTRL + C."
-L["dialog.reset-options.text"] = "Вы действительно хотите сбросить настройки?\n|cnNORMAL_FONT_COLOR:Внимание:|r Интерфейс игры будет автоматически перезагружен!"
