@@ -88,9 +88,7 @@ local function FormatCurrencyDiff(diff, selectedCurrency)
     end
 end
 
-local function BuildCharacterHistory(realm, char, currencyKey)
-    local rawData = AUR.data.balance[realm][char]
-
+local function BuildGenericHistory(rawData, currencyKey)
     local entries = {}
     local lastValue = 0
     local dates = AUR.data.dates
@@ -106,8 +104,7 @@ local function BuildCharacterHistory(realm, char, currencyKey)
     end
 
     if not startIndex then
-        local today = Utils:GetToday()
-        return {{date = today, value = 0}}
+        return {{date = Utils:GetToday(), value = 0}}
     end
 
     for i = startIndex, #dates do
@@ -127,9 +124,7 @@ local function BuildCharacterHistory(realm, char, currencyKey)
     return entries
 end
 
-local function BuildCharacterHistoryLookup(realm, char, currencyKey)
-    local rawData = AUR.data.balance[realm][char]
-
+local function BuildGenericHistoryLookup(rawData, currencyKey)
     local entries = {}
     local lastValue = 0
     local dates = AUR.data.dates
@@ -145,8 +140,7 @@ local function BuildCharacterHistoryLookup(realm, char, currencyKey)
     end
 
     if not startIndex then
-        local today = Utils:GetToday()
-        entries[today] = 0
+        entries[Utils:GetToday()] = 0
         return entries
     end
 
@@ -166,43 +160,16 @@ local function BuildCharacterHistoryLookup(realm, char, currencyKey)
     return entries
 end
 
+local function BuildCharacterHistory(realm, char, currencyKey)
+    return BuildGenericHistory(AUR.data.balance[realm][char], currencyKey)
+end
+
+local function BuildCharacterHistoryLookup(realm, char, currencyKey)
+    return BuildGenericHistoryLookup(AUR.data.balance[realm][char], currencyKey)
+end
+
 local function BuildWarbandHistory(currencyKey)
-    local rawData = AUR.data.balance["Warband"]
-
-    local entries = {}
-    local lastValue = 0
-    local dates = AUR.data.dates
-    local startIndex = nil
-
-    for i, date in ipairs(dates) do
-        local dayData = rawData[date] or {}
-        local v = dayData[currencyKey]
-        if v and v > 0 then
-            startIndex = i
-            break
-        end
-    end
-
-    if not startIndex then
-        local today = Utils:GetToday()
-        return {{date = today, value = 0}}
-    end
-
-    for i = startIndex, #dates do
-        local date = dates[i]
-        local dayData = rawData[date] or {}
-        local value = dayData[currencyKey]
-
-        if value == nil then
-            value = lastValue
-        end
-
-        table.insert(entries, {date = date, value = value})
-        lastValue = value
-    end
-
-    table.sort(entries, function(a,b) return a.date < b.date end)
-    return entries
+    return BuildGenericHistory(AUR.data.balance["Warband"], currencyKey)
 end
 
 local function BuildAccountHistory(currencyKey)
@@ -214,7 +181,6 @@ local function BuildAccountHistory(currencyKey)
         if realm ~= "Warband" then
             for char, _ in pairs(realmData) do
                 local characterHistory = BuildCharacterHistoryLookup(realm, char, currencyKey)
-
                 table.insert(temp, {id = realm .. "-" .. char ,characterHistory = characterHistory})
             end
         end
@@ -226,7 +192,6 @@ local function BuildAccountHistory(currencyKey)
 
         for _, characterHistory in ipairs(temp) do
             local c = characterHistory.characterHistory[date]
-
             if c then
                 value = value + c
                 hasValue = true
@@ -249,7 +214,6 @@ local function BuildMonthHistory(history, monthPrefix)
             table.insert(month, e)
         end
     end
-
     table.sort(month, function(a,b) return a.date > b.date end)
     return month
 end
@@ -257,9 +221,7 @@ end
 local function HasAnyDataBeforeMonth(history, monthPrefix)
     local monthStart = monthPrefix .. "-01"
     for i,e in ipairs(history) do
-        if e.date >= monthStart then
-            return i > 1
-        end
+        if e.date >= monthStart then return i > 1 end
     end
     return false
 end
@@ -267,9 +229,7 @@ end
 local function HasAnyDataAfterMonth(history, monthPrefix)
     local monthEnd = monthPrefix .. "-31"
     for j = #history, 1, -1 do
-        if history[j].date <= monthEnd then
-            return j < #history
-        end
+        if history[j].date <= monthEnd then return j < #history end
     end
     return false
 end
@@ -315,7 +275,7 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
     if #monthHistory == 0 then
         local noEntry = scrollFrame.scrollView:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         noEntry:SetPoint("TOP", 0, 0)
-        noEntry:SetText(L["table.no-entries"])
+        noEntry:SetText(L["currency-overview.table.no-entries"])
         table.insert(scrollFrame.rows, {noEntry})
         return
     end
@@ -324,18 +284,17 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 
     local headerDate = scrollFrame.scrollView:CreateFontString(nil,"OVERLAY", "GameFontNormal")
     headerDate:SetPoint("TOPLEFT", 5, offsetY)
-    headerDate:SetText(L["table.date"])
+    headerDate:SetText(L["currency-overview.table.date"])
 
     local headerAmount  = scrollFrame.scrollView:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     headerAmount:SetPoint("TOPLEFT", 80, offsetY)
-    headerAmount:SetText(L["table.amount"])
+    headerAmount:SetText(L["currency-overview.table.amount"])
 
     local headerDifference = scrollFrame.scrollView:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     headerDifference:SetPoint("TOPLEFT", 230, offsetY)
-    headerDifference:SetText(L["table.difference"])
+    headerDifference:SetText(L["currency-overview.table.difference"])
 
     table.insert(scrollFrame.rows, {headerDate, headerAmount, headerDifference})
-
     offsetY = offsetY - 20
 
     for i, entry in ipairs(monthHistory) do
@@ -348,13 +307,8 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 		background.texture:SetTexture(AUR.MEDIA_PATH .. "active-table-background.blp")
 		background.texture:SetAlpha(0)
 
-		background:SetScript("OnEnter", function(self)
-			self.texture:SetAlpha(0.3)
-		end)
-
-		background:SetScript("OnLeave", function(self)
-			self.texture:SetAlpha(0)
-		end)
+		background:SetScript("OnEnter", function(self) self.texture:SetAlpha(0.3) end)
+		background:SetScript("OnLeave", function(self) self.texture:SetAlpha(0) end)
 
         local dateStr = entry.date
         local currentValue = entry.value
@@ -404,24 +358,235 @@ end
 
 local function UpdateCharacterOverview()
     local characterHistory = BuildCharacterHistory(selectedRealm, selectedChar, selectedCurrency[1])
-
     UpdateOverview(selectedCurrency[1], currentMonthOffset[1], characterHistory, scrollFrames[1])
 end
 
 local function UpdateAccountOverview()
     local accountHistory = BuildAccountHistory(selectedCurrency[2])
-
     UpdateOverview(selectedCurrency[2], currentMonthOffset[2], accountHistory, scrollFrames[2])
 end
 
 local function UpdateWarbandOverview()
     local warbandHistory = BuildWarbandHistory(selectedCurrency[3])
-
     UpdateOverview(selectedCurrency[3], currentMonthOffset[3], warbandHistory, scrollFrames[3])
 end
 
-local function InitializeFramesMainline()
+local function CreateCurrencyDropdown(scrollFrame, background, index)
+    local currencyDropdown = CreateFrame("DropdownButton", nil, scrollFrame, "WowStyle1DropdownTemplate")
+    currencyDropdown:SetPoint("BOTTOMRIGHT", background, "TOPRIGHT", -5, 5)
+    currencyDropdown:SetSize(200, 25)
+
+    currencyDropdown:SetupMenu(function(self, root)
+        local function IsSelected(value) return value == selectedCurrency[index] end
+        local function SetSelected(value)
+            selectedCurrency[index] = value
+            currentMonthOffset[index] = 0
+            if index == 1 then UpdateCharacterOverview()
+            elseif index == 2 then UpdateAccountOverview()
+            else UpdateWarbandOverview() end
+        end
+
+        if index == 1 or index == 2 then
+            local goldButton = root:CreateRadio("Gold", IsSelected, SetSelected, "gold");
+            goldButton:AddInitializer(function(button, description, menu)
+                local rightTexture = button:AttachTexture()
+                rightTexture:SetSize(16, 16)
+                rightTexture:SetPoint("RIGHT")
+                rightTexture:SetTexture(237618)
+                local fontString = button.fontString
+                fontString:SetPoint("RIGHT")
+                return fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20, rightTexture:GetHeight() + 4
+            end)
+
+            if not AUR.GAME_TYPE_MAINLINE and not AUR.GAME_TYPE_MISTS then return end
+
+            root:CreateDivider()
+
+            for _, categoryKey in ipairs(AUR.CURRENCY_CATEGORY_ORDER) do
+                if AUR.CHARACTER_CURRENCIES[categoryKey] then
+                    local categoryButton = root:CreateButton(L["currency-overview.category." .. categoryKey])
+                    if categoryKey == 'timerunning' then root:CreateDivider() end
+                    local sortedList = {}
+                    for _, currencyID in ipairs(AUR.CHARACTER_CURRENCIES[categoryKey]) do
+                        local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+                        if info then table.insert(sortedList, {id = "c-" .. currencyID, name = info.name, iconFileID = info.iconFileID}) end
+                    end
+                    table.sort(sortedList, function(a, b) return a.name < b.name end)
+
+                    for _, entry in ipairs(sortedList) do
+                        local currencyButton = categoryButton:CreateRadio(entry.name, IsSelected, SetSelected, entry.id)
+                        currencyButton:AddInitializer(function(button, description, menu)
+                            local rightTexture = button:AttachTexture()
+                            rightTexture:SetSize(16, 16)
+                            rightTexture:SetPoint("RIGHT")
+                            rightTexture:SetTexture(entry.iconFileID)
+                            local fontString = button.fontString
+                            fontString:SetPoint("RIGHT")
+                            return fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20, rightTexture:GetHeight() + 4
+                        end)
+                    end
+                end
+            end
+
+        -- Warband Tab (Mainline only)
+        elseif index == 3 and AUR.GAME_TYPE_MAINLINE then
+            for _, categoryKey in ipairs(AUR.CURRENCY_CATEGORY_ORDER) do
+                if AUR.WARBAND_CURRENCIES[categoryKey] then
+                    local categoryButton = root:CreateButton(L["currency-overview.category." .. categoryKey])
+                    local sortedList = {}
+                    for _, currencyID in ipairs(AUR.WARBAND_CURRENCIES[categoryKey]) do
+                        local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+                        if info then table.insert(sortedList, {id = "w-" .. currencyID, name = info.name, iconFileID = info.iconFileID}) end
+                    end
+                    table.sort(sortedList, function(a, b) return a.name < b.name end)
+
+                    for _, entry in ipairs(sortedList) do
+                        local currencyButton = categoryButton:CreateRadio(entry.name, IsSelected, SetSelected, entry.id);
+                        currencyButton:AddInitializer(function(button, description, menu)
+                            local rightTexture = button:AttachTexture()
+                            rightTexture:SetSize(18, 18)
+                            rightTexture:SetPoint("RIGHT")
+                            rightTexture:SetTexture(entry.iconFileID)
+                            local fontString = button.fontString
+                            fontString:SetPoint("RIGHT")
+                            return fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20, rightTexture:GetHeight() + 4
+                        end)
+                    end
+                end
+            end
+        end
+    end)
+    return currencyDropdown
+end
+
+local function CreateCharacterDropdown(scrollFrame, background)
+    local characterDropdown = CreateFrame("DropdownButton", nil, scrollFrame, "WowStyle1DropdownTemplate")
+    characterDropdown:SetPoint("BOTTOMLEFT", background, "TOPLEFT", 5, 5)
+    characterDropdown:SetSize(125, 25)
+
+    characterDropdown:SetupMenu(function(self, root)
+        local function IsSelected(value)
+            return value == selectedRealm .. "-" .. selectedChar
+        end
+        local function SetSelected(value)
+            local pos = value:reverse():find("-", 1, true)
+            pos = value:len() + 1 - pos
+            selectedRealm = value:sub(1, pos - 1)
+            selectedChar = value:sub(pos + 1)
+            currentMonthOffset[1] = 0
+            UpdateCharacterOverview()
+        end
+
+        local realms = {}
+        for realm, _ in pairs(AUR.data.balance) do
+            if realm ~= "Warband" then table.insert(realms, realm) end
+        end
+        table.sort(realms)
+
+        for _, realmKey in ipairs(realms) do
+            local realmButton = root:CreateButton(realmKey)
+            local chars = {}
+            for charName, _ in pairs(AUR.data.balance[realmKey]) do
+                table.insert(chars, charName)
+            end
+            table.sort(chars)
+
+            for _, charKey in ipairs(chars) do
+                local charButton = realmButton:CreateRadio(charKey, IsSelected, SetSelected, realmKey .. "-" .. charKey)
+                charButton:AddInitializer(function(button, description, menu)
+                    local factionFileID = 0
+                    local classColor = WHITE_FONT_COLOR
+
+                    if AUR.data.character[realmKey][charKey] then
+                        local class = AUR.data.character[realmKey][charKey].class
+                        local faction = AUR.data.character[realmKey][charKey].faction
+
+                        if AUR.GAME_TYPE_MAINLINE then
+                            ---@diagnostic disable-next-line: cast-local-type
+                            classColor = C_ClassColor.GetClassColor(class)
+                        else
+                            classColor = RAID_CLASS_COLORS[class]
+                        end
+
+                        if faction == "Alliance" then factionFileID = 136758
+                        elseif faction == "Horde" then factionFileID = 136759 end
+                    end
+
+                    local rightTexture = button:AttachTexture()
+                    rightTexture:SetSize(18, 18)
+                    rightTexture:SetPoint("RIGHT")
+
+                    if factionFileID == 0 then
+                        rightTexture:SetAtlas("Warfronts-BaseMapIcons-Empty-Barracks")
+                    else
+                        rightTexture:SetTexture(factionFileID)
+                    end
+
+                    local fontString = button.fontString
+                    fontString:SetPoint("RIGHT")
+                    fontString:SetTextColor(classColor:GetRGB())
+
+                    return fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20, rightTexture:GetHeight() + 4
+                end)
+            end
+        end
+    end)
+    return characterDropdown
+end
+
+local function SetupTabs(numTabs)
     local tabs = {}
+    local tabTemplate = AUR.GAME_TYPE_MAINLINE and "PanelTabButtonTemplate" or "CharacterFrameTabButtonTemplate"
+
+    for i = 1, numTabs do
+        local tab = CreateFrame("Button", "Aurarium_OverviewTab" .. i, overviewFrame, tabTemplate)
+        tab:SetID(i)
+
+        if i == 1 then tab:SetText(L["currency-overview.tab.character"])
+        elseif i == 2 then tab:SetText(L["currency-overview.tab.account"])
+        else tab:SetText(L["currency-overview.tab.warband"]) end
+
+        tab:SetScript("OnClick", function(self)
+            local id = self:GetID()
+
+            if AUR.GAME_TYPE_MAINLINE then
+                PanelTemplates_SetTab(overviewFrame, id)
+            end
+
+            for j = 1, numTabs do
+                if j == id then
+                    if not AUR.GAME_TYPE_MAINLINE then PanelTemplates_SelectTab(tabs[j]) end
+                    scrollFrames[j]:Show()
+                else
+                    if not AUR.GAME_TYPE_MAINLINE then PanelTemplates_DeselectTab(tabs[j]) end
+                    scrollFrames[j]:Hide()
+                end
+            end
+        end)
+        tabs[i] = tab
+    end
+
+    -- Positioning and Initialization
+    if AUR.GAME_TYPE_MAINLINE then
+        PanelTemplates_SetNumTabs(overviewFrame, numTabs)
+        tabs[1]:SetPoint("TOPLEFT", overviewFrame, "BOTTOMLEFT", 10, 2)
+        tabs[2]:SetPoint("LEFT", tabs[1], "RIGHT", -15, 0)
+        if numTabs == 3 then tabs[3]:SetPoint("LEFT", tabs[2], "RIGHT", -15, 0) end
+        PanelTemplates_SetTab(overviewFrame, 1)
+        for i = 1, numTabs do PanelTemplates_TabResize(tabs[i], 0) end
+    else
+        tabs[1]:SetPoint("TOPLEFT", overviewFrame, "BOTTOMLEFT", 10, 2)
+        tabs[2]:SetPoint("LEFT", tabs[1], "RIGHT", -15, 0)
+        for i = 1, numTabs do
+            PanelTemplates_TabResize(tabs[i], 0)
+            if i == 1 then PanelTemplates_SelectTab(tabs[i]) else PanelTemplates_DeselectTab(tabs[i]) end
+        end
+    end
+end
+
+local function InitializeFrames()
+    local numTabs = AUR.GAME_TYPE_MAINLINE and 3 or 2
+    local insetTemplate = AUR.GAME_TYPE_MAINLINE and "InsetFrameTemplate4" or "InsetFrameTemplate"
 
     overviewFrame = CreateFrame("Frame", "Aurarium_OverviewFrame", UIParent, "PortraitFrameTemplate")
     overviewFrame:SetPoint("CENTER")
@@ -440,49 +605,28 @@ local function InitializeFramesMainline()
     portrait:SetPoint('TOPLEFT', -5, 8)
     portrait:SetTexture(AUR.MEDIA_PATH .. "icon-round.blp")
 
-    local background = CreateFrame("Frame", nil, overviewFrame, "InsetFrameTemplate4")
+    local background = CreateFrame("Frame", nil, overviewFrame, insetTemplate)
     background:SetSize(454, 430)
     background:SetPoint("BOTTOM", overviewFrame, "BOTTOM", 0, 37)
-    background.texture = background:CreateTexture(nil, "BACKGROUND")
-    background.texture:SetAllPoints(background)
-    background.texture:SetPoint("CENTER")
-    background.texture:SetAtlas("character-panel-background", true)
 
-    local function ShowTab(i)
-        PanelTemplates_SetTab(overviewFrame, i)
-        for idx, s in ipairs(scrollFrames) do
-            if idx == i then s:Show() else s:Hide() end
-        end
+    if AUR.GAME_TYPE_MAINLINE then
+        background.texture = background:CreateTexture(nil, "BACKGROUND")
+        background.texture:SetAllPoints(background)
+        background.texture:SetPoint("CENTER")
+        background.texture:SetAtlas("character-panel-background", true)
     end
 
-    for i = 1, 3 do
-        local tab = CreateFrame("Button", nil, overviewFrame, "PanelTabButtonTemplate")
-        tab:SetID(i)
-
+    for i = 1, numTabs do
         currentMonthOffset[i] = 0
-
-        if i == 1 then
-            tab:SetText(L["tab.character"])
-        elseif i == 2 then
-            tab:SetText(L["tab.account"])
-        else
-			tab:SetText(L["tab.warband"])
-        end
-
-        PanelTemplates_TabResize(tab, 0)
-        tab:SetScript("OnClick", function(self)
-            ShowTab(self:GetID())
-        end)
-        tabs[i] = tab
 
         local scrollFrame = CreateFrame("ScrollFrame", nil, background, "Aurarium_OverviewScrollFrameTemplate")
         scrollFrame:SetPoint("TOPLEFT", background, "TOPLEFT", 10, -15)
         scrollFrame:SetPoint("BOTTOMRIGHT", background, "BOTTOMRIGHT", -25, 15)
-		scrollFrame:EnableMouseWheel(true)
-		scrollFrame:SetScript("OnMouseWheel", function(self, delta)
-			local newValue = math.max(0, math.min(self:GetVerticalScroll() - delta * 20, self:GetVerticalScrollRange()))
-			self:SetVerticalScroll(newValue)
-		end)
+        scrollFrame:EnableMouseWheel(true)
+        scrollFrame:SetScript("OnMouseWheel", function(self, delta)
+            local newValue = math.max(0, math.min(self:GetVerticalScroll() - delta * 20, self:GetVerticalScrollRange()))
+            self:SetVerticalScroll(newValue)
+        end)
 
         if i ~= 1 then scrollFrame:Hide() end
 
@@ -496,14 +640,9 @@ local function InitializeFramesMainline()
         scrollFrame.nextButton:SetText(L["button.next"])
         scrollFrame.nextButton:SetScript("OnClick", function()
             currentMonthOffset[i] = currentMonthOffset[i] - 1
-
-            if i == 1 then
-                UpdateCharacterOverview()
-            elseif i == 2 then
-				UpdateAccountOverview()
-            else
-				UpdateWarbandOverview()
-            end
+            if i == 1 then UpdateCharacterOverview()
+            elseif i == 2 then UpdateAccountOverview()
+            else UpdateWarbandOverview() end
         end)
 
         scrollFrame.prevButton = CreateFrame("Button", nil, scrollFrame, "UIPanelButtonTemplate")
@@ -512,721 +651,18 @@ local function InitializeFramesMainline()
         scrollFrame.prevButton:SetText(L["button.prev"])
         scrollFrame.prevButton:SetScript("OnClick", function()
             currentMonthOffset[i] = currentMonthOffset[i] + 1
-
-            if i == 1 then
-                UpdateCharacterOverview()
-            elseif i == 2 then
-				UpdateAccountOverview()
-            else
-				UpdateWarbandOverview()
-            end
+            if i == 1 then UpdateCharacterOverview()
+            elseif i == 2 then UpdateAccountOverview()
+            else UpdateWarbandOverview() end
         end)
 
-        local currencyDropdown = CreateFrame("DropdownButton", nil, scrollFrame, "WowStyle1DropdownTemplate")
-        currencyDropdown:SetPoint("BOTTOMRIGHT", background, "TOPRIGHT", -5, 5)
-        currencyDropdown:SetSize(200, 25)
-
-        if i == 1 or i == 2 then
-            currencyDropdown:SetupMenu(function(self, root)
-                local function IsSelected(value)
-                    return value == selectedCurrency[i]
-                end
-
-                local function SetSelected(value)
-                    selectedCurrency[i] = value
-                    currentMonthOffset[i] = 0
-                    if i == 1 then
-                        UpdateCharacterOverview()
-                    else
-                        UpdateAccountOverview()
-                    end
-                end
-
-                local goldButton = root:CreateRadio("Gold", IsSelected, SetSelected, "gold");
-                goldButton:AddInitializer(function(button, description, menu)
-                    local rightTexture = button:AttachTexture()
-                    rightTexture:SetSize(16, 16)
-                    rightTexture:SetPoint("RIGHT")
-                    rightTexture:SetTexture(237618)
-
-                    local fontString = button.fontString
-                    fontString:SetPoint("RIGHT")
-
-                    local width = fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20
-                    local height = rightTexture:GetHeight() + 4
-                    return width, height
-                end)
-
-                root:CreateDivider()
-
-                for _, categoryKey in ipairs(AUR.CURRENCY_CATEGORY_ORDER) do
-                    if AUR.CHARACTER_CURRENCIES[categoryKey] then
-                        local categoryButton = root:CreateButton(L["currency-category." .. categoryKey])
-
-						if categoryKey == 'timerunning' then
-							root:CreateDivider()
-						end
-
-                        local sortedList = {}
-
-                        for _, currencyID in ipairs(AUR.CHARACTER_CURRENCIES[categoryKey]) do
-                            local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
-                            if info then
-                                table.insert(sortedList, {id = "c-" .. currencyID, name = info.name, iconFileID = info.iconFileID})
-                            else
-                                 Utils:PrintDebug("Invalid currency ID: " .. tostring(currencyID))
-                            end
-                        end
-
-                        table.sort(sortedList, function(a, b)
-                            return a.name < b.name
-                        end)
-
-                        for _, entry in ipairs(sortedList) do
-                            local currencyButton = categoryButton:CreateRadio(entry.name, IsSelected, SetSelected, entry.id)
-                            currencyButton:AddInitializer(function(button, description, menu)
-                                local rightTexture = button:AttachTexture()
-                                rightTexture:SetSize(16, 16)
-                                rightTexture:SetPoint("RIGHT")
-                                rightTexture:SetTexture(entry.iconFileID)
-
-                                local fontString = button.fontString
-                                fontString:SetPoint("RIGHT")
-
-                                local width = fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20
-                                local height = rightTexture:GetHeight() + 4
-                                return width, height
-                            end)
-                        end
-                    end
-                end
-            end)
-        else
-            currencyDropdown:SetupMenu(function(self, root)
-                local function IsSelected(value)
-                    return value == selectedCurrency[i]
-                end
-
-                local function SetSelected(value)
-                    selectedCurrency[i] = value
-                    currentMonthOffset[i] = 0
-                    UpdateWarbandOverview()
-                end
-
-                for _, categoryKey in ipairs(AUR.CURRENCY_CATEGORY_ORDER) do
-                    if AUR.WARBAND_CURRENCIES[categoryKey] then
-                        local categoryButton = root:CreateButton(L["currency-category." .. categoryKey])
-
-                        local sortedList = {}
-
-                        for _, currencyID in ipairs(AUR.WARBAND_CURRENCIES[categoryKey]) do
-                            local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
-                            if info then
-                                table.insert(sortedList, {id = "w-" .. currencyID, name = info.name, iconFileID = info.iconFileID})
-                            else
-                                 Utils:PrintDebug("Invalid currency ID: " .. tostring(currencyID))
-                            end
-                        end
-
-                        table.sort(sortedList, function(a, b)
-                            return a.name < b.name
-                        end)
-
-                        for _, entry in ipairs(sortedList) do
-                            local currencyButton = categoryButton:CreateRadio(entry.name, IsSelected, SetSelected, entry.id);
-                            currencyButton:AddInitializer(function(button, description, menu)
-                                local rightTexture = button:AttachTexture()
-                                rightTexture:SetSize(18, 18)
-                                rightTexture:SetPoint("RIGHT")
-                                rightTexture:SetTexture(entry.iconFileID)
-
-                                local fontString = button.fontString
-                                fontString:SetPoint("RIGHT")
-
-                                local width = fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20
-                                local height = rightTexture:GetHeight() + 4
-                                return width, height
-                            end);
-                        end
-                    end
-                end
-            end)
-        end
-
-        if i == 1 then
-            local characterDropdown = CreateFrame("DropdownButton", nil, scrollFrame, "WowStyle1DropdownTemplate")
-            characterDropdown:SetPoint("BOTTOMLEFT", background, "TOPLEFT", 5, 5)
-            characterDropdown:SetSize(125, 25)
-
-            characterDropdown:SetupMenu(function(self, root)
-                local function IsSelected(value)
-                    return value == selectedRealm .. "-" .. selectedChar
-                end
-
-                local function SetSelected(value)
-                    local pos = value:reverse():find("-", 1, true)
-                    pos = value:len() + 1 - pos
-                    selectedRealm = value:sub(1, pos - 1)
-                    selectedChar = value:sub(pos + 1)
-                    currentMonthOffset[i] = 0
-                    UpdateCharacterOverview()
-                end
-
-                local realms = {}
-                for realm, _ in pairs(AUR.data.balance) do
-                    if realm ~= "Warband" then
-                        table.insert(realms, realm)
-                    end
-                end
-                table.sort(realms)
-
-                for _, realmKey in ipairs(realms) do
-                    local realmButton = root:CreateButton(realmKey)
-
-                    local chars = {}
-                    for charName, _ in pairs(AUR.data.balance[realmKey]) do
-                        table.insert(chars, charName)
-                    end
-
-                    table.sort(chars)
-
-                    for _, charKey in ipairs(chars) do
-                        local charButton = realmButton:CreateRadio(charKey, IsSelected, SetSelected, realmKey .. "-" .. charKey)
-                        charButton:AddInitializer(function(button, description, menu)
-                            local factionFileID = 0
-                            local classColor = WHITE_FONT_COLOR
-
-                            if AUR.data.character[realmKey][charKey] then
-                                local class = AUR.data.character[realmKey][charKey].class
-                                local faction = AUR.data.character[realmKey][charKey].faction
-
-								---@diagnostic disable-next-line: cast-local-type
-                                classColor = C_ClassColor.GetClassColor(class)
-
-                                if faction == "Alliance" then
-                                    factionFileID = 136758
-                                elseif faction == "Horde" then
-                                    factionFileID = 136759
-                                end
-                            end
-
-                            local rightTexture = button:AttachTexture()
-                            rightTexture:SetSize(18, 18)
-                            rightTexture:SetPoint("RIGHT")
-
-                            if factionFileID == 0 then
-                                rightTexture:SetAtlas("Warfronts-BaseMapIcons-Empty-Barracks")
-                            else
-                                rightTexture:SetTexture(factionFileID)
-                            end
-
-                            local fontString = button.fontString
-                            fontString:SetPoint("RIGHT")
-                            fontString:SetTextColor(classColor:GetRGB())
-
-                            local width = fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20
-                            local height = rightTexture:GetHeight() + 4
-                            return width, height
-                        end)
-                    end
-                end
-            end)
-        end
+        CreateCurrencyDropdown(scrollFrame, background, i)
+        if i == 1 then CreateCharacterDropdown(scrollFrame, background) end
 
         scrollFrames[i] = scrollFrame
     end
 
-    PanelTemplates_SetNumTabs(overviewFrame, 3)
-    tabs[1]:SetPoint("TOPLEFT", overviewFrame, "BOTTOMLEFT", 10, 2)
-    tabs[2]:SetPoint("LEFT", tabs[1], "RIGHT", -15, 0)
-    tabs[3]:SetPoint("LEFT", tabs[2], "RIGHT", -15, 0)
-    PanelTemplates_SetTab(overviewFrame, 1)
-end
-
-local function InitializeFramesClassic()
-	local tabs = {}
-
-	overviewFrame = CreateFrame("Frame", "Aurarium_OverviewFrame", UIParent, "PortraitFrameTemplate")
-    overviewFrame:SetPoint("CENTER")
-    overviewFrame:SetSize(470, 560)
-    overviewFrame:SetFrameStrata("HIGH")
-    overviewFrame:SetMovable(true)
-    overviewFrame:EnableMouse(true)
-    overviewFrame:RegisterForDrag("LeftButton")
-    overviewFrame:SetScript("OnDragStart", overviewFrame.StartMoving)
-    overviewFrame:SetScript("OnDragStop", overviewFrame.StopMovingOrSizing)
-    overviewFrame:SetTitle(addonName)
-    overviewFrame:Hide()
-    tinsert(UISpecialFrames, overviewFrame:GetName())
-
-    local portrait = overviewFrame:GetPortrait()
-    portrait:SetPoint('TOPLEFT', -5, 8)
-    portrait:SetTexture(AUR.MEDIA_PATH .. "icon-round.blp")
-
-    local background = CreateFrame("Frame", nil, overviewFrame, "InsetFrameTemplate")
-    background:SetSize(454, 430)
-    background:SetPoint("BOTTOM", overviewFrame, "BOTTOM", 0, 37)
-
-	for i = 1, 2 do
-		currentMonthOffset[i] = 0
-
-		local scrollFrame = CreateFrame("ScrollFrame", nil, background, "Aurarium_OverviewScrollFrameTemplate")
-		scrollFrame:SetPoint("TOPLEFT", background, "TOPLEFT", 10, -15)
-		scrollFrame:SetPoint("BOTTOMRIGHT", background, "BOTTOMRIGHT", -25, 15)
-		scrollFrame:EnableMouseWheel(true)
-		scrollFrame:SetScript("OnMouseWheel", function(self, delta)
-			local newValue = math.max(0, math.min(self:GetVerticalScroll() - delta * 20, self:GetVerticalScrollRange()))
-			self:SetVerticalScroll(newValue)
-		end)
-
-		if i ~= 1 then scrollFrame:Hide() end
-
-        scrollFrame.scrollView = CreateFrame("Frame")
-        scrollFrame.scrollView:SetSize(1, 1)
-        scrollFrame:SetScrollChild(scrollFrame.scrollView)
-
-		scrollFrame.nextButton = CreateFrame("Button", nil, scrollFrame, "UIPanelButtonTemplate")
-        scrollFrame.nextButton:SetPoint("TOPRIGHT", background, "BOTTOMRIGHT", -5, -5)
-        scrollFrame.nextButton:SetSize(100, 22)
-        scrollFrame.nextButton:SetText(L["button.next"])
-        scrollFrame.nextButton:SetScript("OnClick", function()
-            currentMonthOffset[i] = currentMonthOffset[i] - 1
-
-            if i == 1 then
-                UpdateCharacterOverview()
-            else
-				UpdateAccountOverview()
-            end
-        end)
-
-        scrollFrame.prevButton = CreateFrame("Button", nil, scrollFrame, "UIPanelButtonTemplate")
-        scrollFrame.prevButton:SetPoint("TOPLEFT", background, "BOTTOMLEFT", 5, -5)
-        scrollFrame.prevButton:SetSize(100, 22)
-        scrollFrame.prevButton:SetText(L["button.prev"])
-        scrollFrame.prevButton:SetScript("OnClick", function()
-            currentMonthOffset[i] = currentMonthOffset[i] + 1
-
-            if i == 1 then
-                UpdateCharacterOverview()
-            else
-				UpdateAccountOverview()
-            end
-        end)
-
-        local currencyDropdown = CreateFrame("DropdownButton", nil, scrollFrame, "WowStyle1DropdownTemplate")
-        currencyDropdown:SetPoint("BOTTOMRIGHT", background, "TOPRIGHT", -5, 5)
-        currencyDropdown:SetSize(200, 25)
-
-        currencyDropdown:SetupMenu(function(self, root)
-            local function IsSelected(value)
-                return value == selectedCurrency[i]
-            end
-
-            local function SetSelected(value)
-                selectedCurrency[i] = value
-                currentMonthOffset[i] = 0
-                if i == 1 then
-                    UpdateCharacterOverview()
-                else
-                    UpdateAccountOverview()
-                end
-            end
-
-            local goldButton = root:CreateRadio("Gold", IsSelected, SetSelected, "gold");
-            goldButton:AddInitializer(function(button, description, menu)
-                local rightTexture = button:AttachTexture()
-                rightTexture:SetSize(16, 16)
-                rightTexture:SetPoint("RIGHT")
-                rightTexture:SetTexture(237618)
-
-                local fontString = button.fontString
-                fontString:SetPoint("RIGHT")
-
-                local width = fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20
-                local height = rightTexture:GetHeight() + 4
-                return width, height
-             end)
-        end)
-
-		if i == 1 then
-            local characterDropdown = CreateFrame("DropdownButton", nil, scrollFrame, "WowStyle1DropdownTemplate")
-            characterDropdown:SetPoint("BOTTOMLEFT", background, "TOPLEFT", 5, 5)
-            characterDropdown:SetSize(125, 25)
-
-            characterDropdown:SetupMenu(function(self, root)
-                local function IsSelected(value)
-                    return value == selectedRealm .. "-" .. selectedChar
-                end
-
-                local function SetSelected(value)
-                    local pos = value:reverse():find("-", 1, true)
-                    pos = value:len() + 1 - pos
-                    selectedRealm = value:sub(1, pos - 1)
-                    selectedChar = value:sub(pos + 1)
-                    currentMonthOffset[i] = 0
-                    UpdateCharacterOverview()
-                end
-
-                local realms = {}
-                for realm, _ in pairs(AUR.data.balance) do
-                    table.insert(realms, realm)
-                end
-                table.sort(realms)
-
-                for _, realmKey in ipairs(realms) do
-                    local realmButton = root:CreateButton(realmKey)
-
-                    local chars = {}
-                    for charName, _ in pairs(AUR.data.balance[realmKey]) do
-                        table.insert(chars, charName)
-                    end
-
-                    table.sort(chars)
-
-                    for _, charKey in ipairs(chars) do
-                        local charButton = realmButton:CreateRadio(charKey, IsSelected, SetSelected, realmKey .. "-" .. charKey)
-                        charButton:AddInitializer(function(button, description, menu)
-                            local factionFileID = 0
-                            local classColor = WHITE_FONT_COLOR
-
-                            if AUR.data.character[realmKey][charKey] then
-                                local class = AUR.data.character[realmKey][charKey].class
-                                local faction = AUR.data.character[realmKey][charKey].faction
-
-                                classColor = RAID_CLASS_COLORS[class]
-
-                                if faction == "Alliance" then
-                                    factionFileID = 136758
-                                elseif faction == "Horde" then
-                                    factionFileID = 136759
-                                end
-                            end
-
-                            local rightTexture = button:AttachTexture()
-                            rightTexture:SetSize(18, 18)
-                            rightTexture:SetPoint("RIGHT")
-
-                            if factionFileID == 0 then
-                                rightTexture:SetAtlas("Warfronts-BaseMapIcons-Empty-Barracks")
-                            else
-                                rightTexture:SetTexture(factionFileID)
-                            end
-
-                            local fontString = button.fontString
-                            fontString:SetPoint("RIGHT")
-                            fontString:SetTextColor(classColor:GetRGB())
-
-                            local width = fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20
-                            local height = rightTexture:GetHeight() + 4
-                            return width, height
-                        end)
-                    end
-                end
-            end)
-        end
-
-		scrollFrames[i] = scrollFrame
-	end
-
-	local function setActiveTab(tab)
-		for i = 1, 2 do
-			if tab == tabs[i]:GetName() then
-				PanelTemplates_SelectTab(tabs[i])
-				for idx, s in ipairs(scrollFrames) do
-            		if idx == i then s:Show() else s:Hide() end
-        		end
-			else
-				PanelTemplates_DeselectTab(tabs[i])
-			end
-		end
-	end
-
-	tabs[1] = CreateFrame("Button", "Aurarium_TabChar", overviewFrame, "CharacterFrameTabButtonTemplate")
-	tabs[1]:SetPoint("TOPLEFT", overviewFrame, "BOTTOMLEFT", 10, 2)
-	tabs[1]:SetText(L["tab.character"])
-	tabs[1]:SetScript("OnClick", function(self)
-		setActiveTab("Aurarium_TabChar")
-	end)
-
-	tabs[2] = CreateFrame("Button", "Aurarium_TabAccount", overviewFrame, "CharacterFrameTabButtonTemplate")
-	tabs[2]:SetPoint("LEFT", tabs[1], "RIGHT", -15, 0)
-	tabs[2]:SetText(L["tab.account"])
-	tabs[2]:SetScript("OnClick", function(self)
-		setActiveTab("Aurarium_TabAccount")
-	end)
-
-	for i = 1, 2 do
-		PanelTemplates_TabResize(tabs[i], 0)
-
-		if i == 1 then
-			PanelTemplates_SelectTab(tabs[i])
-		else
-			PanelTemplates_DeselectTab(tabs[i])
-		end
-	end
-end
-
-local function InitializeFramesMists()
-	local tabs = {}
-
-	overviewFrame = CreateFrame("Frame", "Aurarium_OverviewFrame", UIParent, "PortraitFrameTemplate")
-    overviewFrame:SetPoint("CENTER")
-    overviewFrame:SetSize(470, 560)
-    overviewFrame:SetFrameStrata("HIGH")
-    overviewFrame:SetMovable(true)
-    overviewFrame:EnableMouse(true)
-    overviewFrame:RegisterForDrag("LeftButton")
-    overviewFrame:SetScript("OnDragStart", overviewFrame.StartMoving)
-    overviewFrame:SetScript("OnDragStop", overviewFrame.StopMovingOrSizing)
-    overviewFrame:SetTitle(addonName)
-    overviewFrame:Hide()
-    tinsert(UISpecialFrames, overviewFrame:GetName())
-
-    local portrait = overviewFrame:GetPortrait()
-    portrait:SetPoint('TOPLEFT', -5, 8)
-    portrait:SetTexture(AUR.MEDIA_PATH .. "icon-round.blp")
-
-    local background = CreateFrame("Frame", nil, overviewFrame, "InsetFrameTemplate")
-    background:SetSize(454, 430)
-    background:SetPoint("BOTTOM", overviewFrame, "BOTTOM", 0, 37)
-
-	for i = 1, 2 do
-		currentMonthOffset[i] = 0
-
-		local scrollFrame = CreateFrame("ScrollFrame", nil, background, "Aurarium_OverviewScrollFrameTemplate")
-		scrollFrame:SetPoint("TOPLEFT", background, "TOPLEFT", 10, -15)
-		scrollFrame:SetPoint("BOTTOMRIGHT", background, "BOTTOMRIGHT", -25, 15)
-		scrollFrame:EnableMouseWheel(true)
-		scrollFrame:SetScript("OnMouseWheel", function(self, delta)
-			local newValue = math.max(0, math.min(self:GetVerticalScroll() - delta * 20, self:GetVerticalScrollRange()))
-			self:SetVerticalScroll(newValue)
-		end)
-
-		if i ~= 1 then scrollFrame:Hide() end
-
-        scrollFrame.scrollView = CreateFrame("Frame")
-        scrollFrame.scrollView:SetSize(1, 1)
-        scrollFrame:SetScrollChild(scrollFrame.scrollView)
-
-		scrollFrame.nextButton = CreateFrame("Button", nil, scrollFrame, "UIPanelButtonTemplate")
-        scrollFrame.nextButton:SetPoint("TOPRIGHT", background, "BOTTOMRIGHT", -5, -5)
-        scrollFrame.nextButton:SetSize(100, 22)
-        scrollFrame.nextButton:SetText(L["button.next"])
-        scrollFrame.nextButton:SetScript("OnClick", function()
-            currentMonthOffset[i] = currentMonthOffset[i] - 1
-
-            if i == 1 then
-                UpdateCharacterOverview()
-            else
-				UpdateAccountOverview()
-            end
-        end)
-
-        scrollFrame.prevButton = CreateFrame("Button", nil, scrollFrame, "UIPanelButtonTemplate")
-        scrollFrame.prevButton:SetPoint("TOPLEFT", background, "BOTTOMLEFT", 5, -5)
-        scrollFrame.prevButton:SetSize(100, 22)
-        scrollFrame.prevButton:SetText(L["button.prev"])
-        scrollFrame.prevButton:SetScript("OnClick", function()
-            currentMonthOffset[i] = currentMonthOffset[i] + 1
-
-            if i == 1 then
-                UpdateCharacterOverview()
-            else
-				UpdateAccountOverview()
-            end
-        end)
-
-        local currencyDropdown = CreateFrame("DropdownButton", nil, scrollFrame, "WowStyle1DropdownTemplate")
-        currencyDropdown:SetPoint("BOTTOMRIGHT", background, "TOPRIGHT", -5, 5)
-        currencyDropdown:SetSize(200, 25)
-
-        currencyDropdown:SetupMenu(function(self, root)
-            local function IsSelected(value)
-                return value == selectedCurrency[i]
-            end
-
-            local function SetSelected(value)
-                selectedCurrency[i] = value
-                currentMonthOffset[i] = 0
-                if i == 1 then
-                    UpdateCharacterOverview()
-                else
-                    UpdateAccountOverview()
-                end
-            end
-
-            local goldButton = root:CreateRadio("Gold", IsSelected, SetSelected, "gold");
-            goldButton:AddInitializer(function(button, description, menu)
-                local rightTexture = button:AttachTexture()
-                rightTexture:SetSize(16, 16)
-                rightTexture:SetPoint("RIGHT")
-                rightTexture:SetTexture(237618)
-
-                local fontString = button.fontString
-                fontString:SetPoint("RIGHT")
-
-                local width = fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20
-                local height = rightTexture:GetHeight() + 4
-                return width, height
-             end)
-
-			 root:CreateDivider()
-
-                for _, categoryKey in ipairs(AUR.CURRENCY_CATEGORY_ORDER) do
-                    if AUR.CHARACTER_CURRENCIES[categoryKey] then
-                        local categoryButton = root:CreateButton(L["currency-category." .. categoryKey])
-
-                        local sortedList = {}
-
-                        for _, currencyID in ipairs(AUR.CHARACTER_CURRENCIES[categoryKey]) do
-                            local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
-                            if info then
-                                table.insert(sortedList, {id = "c-" .. currencyID, name = info.name, iconFileID = info.iconFileID})
-                            else
-                                 Utils:PrintDebug("Invalid currency ID: " .. tostring(currencyID))
-                            end
-                        end
-
-                        table.sort(sortedList, function(a, b)
-                            return a.name < b.name
-                        end)
-
-                        for _, entry in ipairs(sortedList) do
-                            local currencyButton = categoryButton:CreateRadio(entry.name, IsSelected, SetSelected, entry.id)
-                            currencyButton:AddInitializer(function(button, description, menu)
-                                local rightTexture = button:AttachTexture()
-                                rightTexture:SetSize(16, 16)
-                                rightTexture:SetPoint("RIGHT")
-                                rightTexture:SetTexture(entry.iconFileID)
-
-                                local fontString = button.fontString
-                                fontString:SetPoint("RIGHT")
-
-                                local width = fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20
-                                local height = rightTexture:GetHeight() + 4
-                                return width, height
-                            end);
-                        end
-                    end
-                end
-        end)
-
-		if i == 1 then
-            local characterDropdown = CreateFrame("DropdownButton", nil, scrollFrame, "WowStyle1DropdownTemplate")
-            characterDropdown:SetPoint("BOTTOMLEFT", background, "TOPLEFT", 5, 5)
-            characterDropdown:SetSize(125, 25)
-
-            characterDropdown:SetupMenu(function(self, root)
-                local function IsSelected(value)
-                    return value == selectedRealm .. "-" .. selectedChar
-                end
-
-                local function SetSelected(value)
-                    local pos = value:reverse():find("-", 1, true)
-                    pos = value:len() + 1 - pos
-                    selectedRealm = value:sub(1, pos - 1)
-                    selectedChar = value:sub(pos + 1)
-                    currentMonthOffset[i] = 0
-                    UpdateCharacterOverview()
-                end
-
-                local realms = {}
-                for realm, _ in pairs(AUR.data.balance) do
-                    table.insert(realms, realm)
-                end
-                table.sort(realms)
-
-                for _, realmKey in ipairs(realms) do
-                    local realmButton = root:CreateButton(realmKey)
-
-                    local chars = {}
-                    for charName, _ in pairs(AUR.data.balance[realmKey]) do
-                        table.insert(chars, charName)
-                    end
-
-                    table.sort(chars)
-
-                    for _, charKey in ipairs(chars) do
-                        local charButton = realmButton:CreateRadio(charKey, IsSelected, SetSelected, realmKey .. "-" .. charKey)
-                        charButton:AddInitializer(function(button, description, menu)
-                            local factionFileID = 0
-                            local classColor = WHITE_FONT_COLOR
-
-                            if AUR.data.character[realmKey][charKey] then
-                                local class = AUR.data.character[realmKey][charKey].class
-                                local faction = AUR.data.character[realmKey][charKey].faction
-
-                                classColor = RAID_CLASS_COLORS[class]
-
-                                if faction == "Alliance" then
-                                    factionFileID = 136758
-                                elseif faction == "Horde" then
-                                    factionFileID = 136759
-                                end
-                            end
-
-                            local rightTexture = button:AttachTexture()
-                            rightTexture:SetSize(18, 18)
-                            rightTexture:SetPoint("RIGHT")
-
-                            if factionFileID == 0 then
-                                rightTexture:SetAtlas("Warfronts-BaseMapIcons-Empty-Barracks")
-                            else
-                                rightTexture:SetTexture(factionFileID)
-                            end
-
-                            local fontString = button.fontString
-                            fontString:SetPoint("RIGHT")
-                            fontString:SetTextColor(classColor:GetRGB())
-
-                            local width = fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20
-                            local height = rightTexture:GetHeight() + 4
-                            return width, height
-                        end)
-                    end
-                end
-            end)
-        end
-
-		scrollFrames[i] = scrollFrame
-	end
-
-	local function setActiveTab(tab)
-		for i = 1, 2 do
-			if tab == tabs[i]:GetName() then
-				PanelTemplates_SelectTab(tabs[i])
-				for idx, s in ipairs(scrollFrames) do
-            		if idx == i then s:Show() else s:Hide() end
-        		end
-			else
-				PanelTemplates_DeselectTab(tabs[i])
-			end
-		end
-	end
-
-	tabs[1] = CreateFrame("Button", "Aurarium_TabChar", overviewFrame, "CharacterFrameTabButtonTemplate")
-	tabs[1]:SetPoint("TOPLEFT", overviewFrame, "BOTTOMLEFT", 10, 2)
-	tabs[1]:SetText(L["tab.character"])
-	tabs[1]:SetScript("OnClick", function(self)
-		setActiveTab("Aurarium_TabChar")
-	end)
-
-	tabs[2] = CreateFrame("Button", "Aurarium_TabAccount", overviewFrame, "CharacterFrameTabButtonTemplate")
-	tabs[2]:SetPoint("LEFT", tabs[1], "RIGHT", -15, 0)
-	tabs[2]:SetText(L["tab.account"])
-	tabs[2]:SetScript("OnClick", function(self)
-		setActiveTab("Aurarium_TabAccount")
-	end)
-
-	for i = 1, 2 do
-		PanelTemplates_TabResize(tabs[i], 0)
-
-		if i == 1 then
-			PanelTemplates_SelectTab(tabs[i])
-		else
-			PanelTemplates_DeselectTab(tabs[i])
-		end
-	end
+    SetupTabs(numTabs)
 end
 
 ---------------------
@@ -1234,20 +670,14 @@ end
 ---------------------
 
 function Overview:Initialize()
-	if AUR.GAME_TYPE_MAINLINE then
-		InitializeFramesMainline()
-	elseif AUR.GAME_TYPE_MISTS then
-		InitializeFramesMists()
-	else
-		InitializeFramesClassic()
-	end
+    InitializeFrames()
 end
 
 function Overview:Show()
     UpdateCharacterOverview()
-	UpdateAccountOverview()
+    UpdateAccountOverview()
 
-	if AUR.GAME_TYPE_MAINLINE then
+    if AUR.GAME_TYPE_MAINLINE then
         UpdateWarbandOverview()
     end
 
