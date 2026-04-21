@@ -1,3 +1,6 @@
+**v2.1 (2026-04-21)**
+- Updated: ruRU localization
+
 **v2.0 (2026-04-20)**
 - Added: Required dependency 'Arcane Wizard: Library'
 - Changed: License
