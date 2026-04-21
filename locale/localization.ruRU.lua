@@ -6,26 +6,26 @@ local L = AUR.localization
 
 -- Options
 
-L["options.general"] = "General Options"
-L["options.general.minimap-button.name"] = "Minimap Button"
-L["options.general.minimap-button.tooltip"] = "When this is enabled, the minimap button is displayed."
+L["options.general"] = "Общие параметры"
+L["options.general.minimap-button.name"] = "Кнопка миникарты"
+L["options.general.minimap-button.tooltip"] = "При включении этой функции отображается кнопка миникарты."
 
-L["options.currency-overview"] = "Gold and Currency Overview"
-L["options.currency-overview.open-on-login.name"] = "Open Automatically"
-L["options.currency-overview.open-on-login.tooltip"] = "When this is enabled, the gold and currency overview opens automatically when logging in."
+L["options.currency-overview"] = "Обзор золота и валюты"
+L["options.currency-overview.open-on-login.name"] = "Открывать автоматически"
+L["options.currency-overview.open-on-login.tooltip"] = "При включении этой функции обзор золота и валюты будет автоматически открываться при входе в систему."
 
-L["options.other.other"] = "Другие параметры"
+L["options.other"] = "Другие настройки"
 L["options.other.debug-mode.name"] = "Режим отладки"
 L["options.other.debug-mode.tooltip"] = "Включение режима отладки отображает дополнительную информацию в чате."
 
 L["options.about"] = "Об аддоне"
-L["options.about.game-version"] = "Game Version"
-L["options.about.addon-version"] = "Addon Version"
-L["options.about.lib-version"] = "Library Version"
-L["options.about.author"] = "Author"
+L["options.about.game-version"] = "Версия игры"
+L["options.about.addon-version"] = "Версия аддона"
+L["options.about.lib-version"] = "Версия библиотеки"
+L["options.about.author"] = "Автор"
 
-L["options.about.button-github.name"] = "Feedback & Help"
-L["options.about.button-github.tooltip"] = "Opens a popup window with a link to GitHub."
+L["options.about.button-github.name"] = "Обратная связь и помощь"
+L["options.about.button-github.tooltip"] = "Открывает всплывающее окно со ссылкой на GitHub."
 L["options.about.button-github.button"] = "GitHub"
 
 -- General
