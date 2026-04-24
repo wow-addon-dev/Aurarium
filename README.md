@@ -6,7 +6,7 @@ _Track your gold & currencies. Know your worth._
 
 Aurarium is a World of Warcraft addon that provides a detailed insight into wealth progression by tracking gold and currencies across all characters and displaying them over time. It helps you keep an accurate eye on your daily and monthly earnings.
 
-**Key Features**
+**Key Feature**
 
 * **Gold and Curency Overview** - Displays a comprehensive overview of your gold and currencies across your entire account.
 
@@ -29,8 +29,9 @@ Aurarium is a World of Warcraft addon that provides a detailed insight into weal
 
 > ⚠️ **Required Dependency:** This addon requires the **Arcane Wizard: Library**. If you install Aurarium via the CurseForge client, the library will be downloaded automatically. If you install it manually, please ensure the library is also downloaded and enabled.
 
-To open the addon options menu, type `/aur` or `/aurarium` into your chat and press enter.
-To open the gold and currency overview, use the following command: `/aur overview` or `/aurarium overview`.
+To manage the addon, use the following commands in your chat and press enter:
+* Type `/aur` or `/aurarium` to access the addon options menu.
+* Type `/aur overview` or `/aurarium overview` to manually display the Gold and Currency Overview.
 
 ## Bugs & Feedback
 
