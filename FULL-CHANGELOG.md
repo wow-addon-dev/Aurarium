@@ -1,3 +1,6 @@
+**v2.2 (2026-04-26)**
+- Added: Currencies for the expansion 'Midnight' [retail]
+
 **v2.1 (2026-04-21)**
 - Updated: ruRU localization
 
