@@ -18,6 +18,7 @@ Aurarium is a World of Warcraft addon that provides a detailed insight into weal
 * Display of the sum of all currencies across all characters.
 
 *\* In Classic, Burning Crusade - Classic Anniversary Edition, and Mists of Pandaria - Classic, only gold is tracked.*
+
 *\*\* Warband currencies are only available in Retail.*
 
 ## Supported Languages & Flavors
