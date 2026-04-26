@@ -167,16 +167,14 @@ elseif AUR.GAME_TYPE_MAINLINE then
 			3303	-- Ungebundene Münze
 		},
 		mid = {
-			3316,	-- Leerenlichtmergel ??
-			3319,	-- Insigne der Zwielichtklinge ??
-			3352,	-- Partyaufmerksamkeit ??
-			3373,	-- Anglerperlen ??
-			3385,	-- Leuchtender Staub ??
-			3392,	-- Überrest der Pein ??
-			--3376,	-- Splitter von Dundun
-			--3377,	-- Ungetrübter Überfluss
-			3379	-- Übersprudelndes Arkana ??
-			--3400	-- Unverseuchte Leerenprobe
+			3316,	-- Leerenlichtmergel
+			3373,	-- Anglerperlen
+			3392,	-- Überrest der Pein
+			3377,	-- Ungetrübter Überfluss
+			3379,	-- Übersprudelndes Arkana
+			3385,	-- Leuchtender Staub
+			3393,	-- Illusionäre Münze
+			3405	-- Feldauszeichnung
 		}
 	}
 end
