@@ -33,93 +33,82 @@ local minimapButtonProxy = setmetatable({}, {
 function Options:Initialize()
     local category, layout = Settings.RegisterVerticalLayoutCategory(addonName)
 
-	local variableTableGeneral = AUR.options.general
-	local variableTableCurrencyOverview = AUR.options.currencyOverview
-	local variableTableOther = AUR.options.other
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.general"]))
 
-	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.general"]))
+    -- Minimap Button
+    AWL.Settings:AddCheckbox(category, {
+        variableTable = minimapButtonProxy,
+        settingKey    = addonName .. "_hide",
+        variableName  = "hide",
+        name          = L["options.general.minimap-button.name"],
+        tooltip       = L["options.general.minimap-button.tooltip"],
+        default       = true
+    })
 
-	do
-        local name = L["options.general.minimap-button.name"]
-        local tooltip = L["options.general.minimap-button.tooltip"]
-        local variable = "hide"
-        local defaultValue = false
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.currency-overview"]))
 
-        local setting = Settings.RegisterAddOnSetting(category, addonName .. "_" .. variable, variable, minimapButtonProxy, Settings.VarType.Boolean, name, not defaultValue)
-
-        Settings.CreateCheckbox(category, setting, tooltip)
-    end
-
-	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.currency-overview"]))
-
-    do
-        local name = L["options.currency-overview.open-on-login.name"]
-        local tooltip = L["options.currency-overview.open-on-login.tooltip"]
-        local variable = "open-on-login"
-        local defaultValue = false
-
-        local setting = Settings.RegisterAddOnSetting(category, addonName .. "_" .. variable, variable, variableTableCurrencyOverview, Settings.VarType.Boolean, name, defaultValue)
-        Settings.CreateCheckbox(category, setting, tooltip)
-    end
+    -- Open on Login
+    AWL.Settings:AddCheckbox(category, {
+        variableTable = AUR.options.currencyOverview,
+        settingKey    = addonName .. "_open-on-login",
+        variableName  = "open-on-login",
+        name          = L["options.currency-overview.open-on-login.name"],
+        tooltip       = L["options.currency-overview.open-on-login.tooltip"],
+        default       = false
+    })
 
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.other"]))
 
-    do
-        local name = L["options.other.debug-mode.name"]
-        local tooltip = L["options.other.debug-mode.tooltip"]
-        local variable = "debug-mode"
-        local defaultValue = false
+    -- Debug Mode
+    AWL.Settings:AddCheckbox(category, {
+        variableTable = AUR.options.other,
+        settingKey    = addonName .. "_debug-mode",
+        variableName  = "debug-mode",
+        name          = L["options.other.debug-mode.name"],
+        tooltip       = L["options.other.debug-mode.tooltip"],
+        default       = false
+    })
 
-        local setting = Settings.RegisterAddOnSetting(category, addonName .. "_" .. variable, variable, variableTableOther, Settings.VarType.Boolean, name, defaultValue)
-        Settings.CreateCheckbox(category, setting, tooltip)
-    end
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.about"]))
 
-	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.about"]))
+    -- Game Version
+    AWL.Settings:AddInfoText(layout, {
+        leftText  = L["options.about.game-version"],
+        rightText = AUR.GAME_VERSION .. " (" .. AUR.GAME_FLAVOR .. ")"
+    })
 
-	do
-		layout:AddInitializer(Settings.CreateElementInitializer("ArcaneWizardLibrary_SettingsPanelTextNormal", {
-			leftText = L["options.about.game-version"],
-			rightText = AUR.GAME_VERSION .. " (" .. AUR.GAME_FLAVOR .. ")",
-		}))
-	end
+    -- Addon Version
+    AWL.Settings:AddInfoText(layout, {
+        leftText  = L["options.about.addon-version"],
+        rightText = AUR.ADDON_VERSION .. " (" .. AUR.ADDON_BUILD_DATE .. ")"
+    })
 
-	do
-		layout:AddInitializer(Settings.CreateElementInitializer("ArcaneWizardLibrary_SettingsPanelTextNormal", {
-			leftText = L["options.about.addon-version"],
-			rightText = AUR.ADDON_VERSION .. " (" .. AUR.ADDON_BUILD_DATE .. ")"
-		}))
-	end
+    -- Library Version
+    AWL.Settings:AddInfoText(layout, {
+        leftText  = L["options.about.lib-version"],
+        rightText = AWL.ADDON_VERSION .. " (" .. AWL.ADDON_BUILD_DATE .. ")"
+    })
 
-	do
-		layout:AddInitializer(Settings.CreateElementInitializer("ArcaneWizardLibrary_SettingsPanelTextNormal", {
-			leftText = L["options.about.lib-version"],
-			rightText = AUR.ADDON_VERSION .. " (" .. AUR.ADDON_BUILD_DATE .. ")"
-		}))
-	end
+    -- Author
+    AWL.Settings:AddInfoText(layout, {
+        leftText  = L["options.about.author"],
+        rightText = AUR.ADDON_AUTHOR,
+        height    = 30
+    })
 
-	do
-		layout:AddInitializer(Settings.CreateElementInitializer("ArcaneWizardLibrary_SettingsPanelTextLarge", {
-			leftText = L["options.about.author"],
-			rightText = AUR.ADDON_AUTHOR
-		}))
-	end
-
-	do
-        local name = L["options.about.button-github.name"]
-        local tooltip = L["options.about.button-github.tooltip"]
-		local buttonText = L["options.about.button-github.button"]
-
-        local function OnButtonClick()
-            AWL.Dialogs:ShowLinkDialog(AUR.LINK_GITHUB)
-        end
-
-        local buttonInitializer = CreateSettingsButtonInitializer(name, buttonText, OnButtonClick, tooltip, true)
-        layout:AddInitializer(buttonInitializer)
-    end
+    -- GitHub Link
+    AWL.Settings:AddButton(layout, {
+        name       = L["options.about.button-github.name"],
+        buttonText = L["options.about.button-github.button"],
+        tooltip    = L["options.about.button-github.tooltip"],
+        onClick    = function()
+			AWL.Dialogs:ShowLinkDialog(AUR.LINK_GITHUB)
+		end
+    })
 
     Settings.RegisterAddOnCategory(category)
 
-	AUR.MAIN_CATEGORY_ID = category:GetID()
+    AUR.MAIN_CATEGORY_ID = category:GetID()
 end
 
 AUR.options = Options
