@@ -99,7 +99,11 @@ function Utils:InitializeMinimapButton()
                     AUR.overview:Show()
                 end
             elseif button == "RightButton" then
-                Settings.OpenToCategory(AUR.MAIN_CATEGORY_ID)
+				if not InCombatLockdown() then
+					Settings.OpenToCategory(AUR.MAIN_CATEGORY_ID)
+				else
+					Utils:PrintDebug("In combat. The options menu cannot be opened.")
+				end
             end
         end,
         OnTooltipShow = function(tooltip)
