@@ -427,8 +427,6 @@ local function CreateCurrencyDropdown(scrollFrame, background, index)
                     end
                 end
             end
-
-        -- Warband Tab (Mainline only)
         elseif index == 3 and AUR.GAME_TYPE_MAINLINE then
             for _, categoryKey in ipairs(AUR.CURRENCY_CATEGORY_ORDER) do
                 if AUR.WARBAND_CURRENCIES[categoryKey] then
@@ -566,7 +564,6 @@ local function SetupTabs(numTabs)
         tabs[i] = tab
     end
 
-    -- Positioning and Initialization
     if AUR.GAME_TYPE_MAINLINE then
         PanelTemplates_SetNumTabs(overviewFrame, numTabs)
         tabs[1]:SetPoint("TOPLEFT", overviewFrame, "BOTTOMLEFT", 10, 2)
