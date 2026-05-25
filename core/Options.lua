@@ -14,7 +14,7 @@ local Options = {}
 local minimapButtonProxy = setmetatable({}, {
     __index = function(_, key)
 		if key == "hide" then
-			return not AUR.settings.general["minimap-button"]["hide"]
+			return not AUR.options.general["minimap-button"]["hide"]
 		end
     end,
     __newindex = function(_, key, value)
@@ -22,7 +22,7 @@ local minimapButtonProxy = setmetatable({}, {
 			return
 		end
 
-        AUR.settings.general["minimap-button"]["hide"] = not value
+        AUR.options.general["minimap-button"]["hide"] = not value
 
         if value then
             Utils.minimapButton:Show("Aurarium")
