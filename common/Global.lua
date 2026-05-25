@@ -21,21 +21,21 @@ function Aurarium_CompartmentOnEnter(self, button)
 end
 
 function Aurarium_CompartmentOnLeave()
-    GameTooltip:Hide()
+	GameTooltip:Hide()
 end
 
 function Aurarium_CompartmentOnClick(_, button)
-    if button == "LeftButton" then
-        if AUR.overview:IsShown() then
-            AUR.overview:Hide()
-        else
-            AUR.overview:Show()
-        end
-    elseif button == "RightButton" then
+	if button == "LeftButton" then
+		if AUR.overview:IsShown() then
+			AUR.overview:Hide()
+		else
+			AUR.overview:Show()
+		end
+	elseif button == "RightButton" then
 		if not InCombatLockdown() then
 			Settings.OpenToCategory(AUR.MAIN_CATEGORY_ID)
 		else
 			Utils:PrintDebug("In combat. The options menu cannot be opened.")
 		end
-    end
+	end
 end
