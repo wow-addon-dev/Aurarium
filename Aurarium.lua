@@ -1,9 +1,10 @@
 local addonName, AUR = ...
 
 local L = AUR.localization
-local Utils = AUR.utils
+
 local Options = AUR.options
 local Overview = AUR.overview
+local Utils = AUR.utils
 
 ----------------------
 --- Local funtions ---
