@@ -226,6 +226,6 @@ AurariumFrame:RegisterEvent("PLAYER_MONEY")
 AurariumFrame:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
 AurariumFrame:SetScript("OnEvent", AurariumFrame.OnEvent)
 
-SLASH_Aurarium1, SLASH_Aurarium2 = '/aur', '/Aurarium'
+SLASH_Aurarium1, SLASH_Aurarium2 = '/aur', '/aurarium'
 
 SlashCmdList["Aurarium"] = SlashCommand
