@@ -1,7 +1,8 @@
 local addonName, AUR = ...
 
-local L =  AUR.localization
-local Utils = AUR.utils
+local L = AUR.Localization
+
+local Utils = AUR.modules.Utils
 
 local Overview = {}
 
@@ -16,11 +17,11 @@ local selectedRealm, selectedChar = Utils:GetCharacterInfo()
 --- Frames ---
 --------------
 
-local overviewFrame
-local scrollFrames = {}
+local OverviewFrame
+local OverviewScrollFrames = {}
 
 ----------------------
---- Local Funtions ---
+--- Local Functions ---
 ----------------------
 
 local function GetYearMonthString(offset)
@@ -249,7 +250,7 @@ local function GetPreviousValueFromHistory(history, currentDate)
 end
 
 ----------------------
---- Frame Funtions ---
+--- Frame Functions ---
 ----------------------
 
 local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scrollFrame)
@@ -277,6 +278,9 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 		noEntry:SetPoint("TOP", 0, 0)
 		noEntry:SetText(L["currency-overview.table.no-entries"])
 		table.insert(scrollFrame.rows, {noEntry})
+
+		scrollFrame.prevButton:SetEnabled(HasAnyDataBeforeMonth(history, filterPrefix))
+		scrollFrame.nextButton:SetEnabled(HasAnyDataAfterMonth(history, filterPrefix))
 		return
 	end
 
@@ -358,17 +362,17 @@ end
 
 local function UpdateCharacterOverview()
 	local characterHistory = BuildCharacterHistory(selectedRealm, selectedChar, selectedCurrency[1])
-	UpdateOverview(selectedCurrency[1], currentMonthOffset[1], characterHistory, scrollFrames[1])
+	UpdateOverview(selectedCurrency[1], currentMonthOffset[1], characterHistory, OverviewScrollFrames[1])
 end
 
 local function UpdateAccountOverview()
 	local accountHistory = BuildAccountHistory(selectedCurrency[2])
-	UpdateOverview(selectedCurrency[2], currentMonthOffset[2], accountHistory, scrollFrames[2])
+	UpdateOverview(selectedCurrency[2], currentMonthOffset[2], accountHistory, OverviewScrollFrames[2])
 end
 
 local function UpdateWarbandOverview()
 	local warbandHistory = BuildWarbandHistory(selectedCurrency[3])
-	UpdateOverview(selectedCurrency[3], currentMonthOffset[3], warbandHistory, scrollFrames[3])
+	UpdateOverview(selectedCurrency[3], currentMonthOffset[3], warbandHistory, OverviewScrollFrames[3])
 end
 
 local function CreateCurrencyDropdown(scrollFrame, background, index)
@@ -387,7 +391,7 @@ local function CreateCurrencyDropdown(scrollFrame, background, index)
 		end
 
 		if index == 1 or index == 2 then
-			local goldButton = root:CreateRadio("Gold", IsSelected, SetSelected, "gold");
+			local goldButton = root:CreateRadio(L["currency-overview.category.gold"], IsSelected, SetSelected, "gold");
 			goldButton:AddInitializer(function(button, description, menu)
 				local rightTexture = button:AttachTexture()
 				rightTexture:SetSize(16, 16)
@@ -537,7 +541,7 @@ local function SetupTabs(numTabs)
 	local tabTemplate = AUR.GAME_TYPE_MAINLINE and "PanelTabButtonTemplate" or "CharacterFrameTabButtonTemplate"
 
 	for i = 1, numTabs do
-		local tab = CreateFrame("Button", "Aurarium_OverviewTab" .. i, overviewFrame, tabTemplate)
+		local tab = CreateFrame("Button", "Aurarium_OverviewTab" .. i, OverviewFrame, tabTemplate)
 		tab:SetID(i)
 
 		if i == 1 then tab:SetText(L["currency-overview.tab.character"])
@@ -548,16 +552,16 @@ local function SetupTabs(numTabs)
 			local id = self:GetID()
 
 			if AUR.GAME_TYPE_MAINLINE then
-				PanelTemplates_SetTab(overviewFrame, id)
+				PanelTemplates_SetTab(OverviewFrame, id)
 			end
 
 			for j = 1, numTabs do
 				if j == id then
 					if not AUR.GAME_TYPE_MAINLINE then PanelTemplates_SelectTab(tabs[j]) end
-					scrollFrames[j]:Show()
+					OverviewScrollFrames[j]:Show()
 				else
 					if not AUR.GAME_TYPE_MAINLINE then PanelTemplates_DeselectTab(tabs[j]) end
-					scrollFrames[j]:Hide()
+					OverviewScrollFrames[j]:Hide()
 				end
 			end
 		end)
@@ -565,14 +569,14 @@ local function SetupTabs(numTabs)
 	end
 
 	if AUR.GAME_TYPE_MAINLINE then
-		PanelTemplates_SetNumTabs(overviewFrame, numTabs)
-		tabs[1]:SetPoint("TOPLEFT", overviewFrame, "BOTTOMLEFT", 10, 2)
+		PanelTemplates_SetNumTabs(OverviewFrame, numTabs)
+		tabs[1]:SetPoint("TOPLEFT", OverviewFrame, "BOTTOMLEFT", 10, 2)
 		tabs[2]:SetPoint("LEFT", tabs[1], "RIGHT", -15, 0)
 		if numTabs == 3 then tabs[3]:SetPoint("LEFT", tabs[2], "RIGHT", -15, 0) end
-		PanelTemplates_SetTab(overviewFrame, 1)
+		PanelTemplates_SetTab(OverviewFrame, 1)
 		for i = 1, numTabs do PanelTemplates_TabResize(tabs[i], 0) end
 	else
-		tabs[1]:SetPoint("TOPLEFT", overviewFrame, "BOTTOMLEFT", 10, 2)
+		tabs[1]:SetPoint("TOPLEFT", OverviewFrame, "BOTTOMLEFT", 10, 2)
 		tabs[2]:SetPoint("LEFT", tabs[1], "RIGHT", -15, 0)
 		for i = 1, numTabs do
 			PanelTemplates_TabResize(tabs[i], 0)
@@ -585,26 +589,26 @@ local function InitializeFrames()
 	local numTabs = AUR.GAME_TYPE_MAINLINE and 3 or 2
 	local insetTemplate = AUR.GAME_TYPE_MAINLINE and "InsetFrameTemplate4" or "InsetFrameTemplate"
 
-	overviewFrame = CreateFrame("Frame", "Aurarium_OverviewFrame", UIParent, "PortraitFrameTemplate")
-	overviewFrame:SetPoint("CENTER")
-	overviewFrame:SetSize(470, 560)
-	overviewFrame:SetFrameStrata("HIGH")
-	overviewFrame:SetMovable(true)
-	overviewFrame:EnableMouse(true)
-	overviewFrame:RegisterForDrag("LeftButton")
-	overviewFrame:SetScript("OnDragStart", overviewFrame.StartMoving)
-	overviewFrame:SetScript("OnDragStop", overviewFrame.StopMovingOrSizing)
-	overviewFrame:SetTitle(addonName)
-	overviewFrame:Hide()
-	tinsert(UISpecialFrames, overviewFrame:GetName())
+	OverviewFrame = CreateFrame("Frame", "Aurarium_OverviewFrame", UIParent, "PortraitFrameTemplate")
+	OverviewFrame:SetPoint("CENTER")
+	OverviewFrame:SetSize(470, 560)
+	OverviewFrame:SetFrameStrata("HIGH")
+	OverviewFrame:SetMovable(true)
+	OverviewFrame:EnableMouse(true)
+	OverviewFrame:RegisterForDrag("LeftButton")
+	OverviewFrame:SetScript("OnDragStart", OverviewFrame.StartMoving)
+	OverviewFrame:SetScript("OnDragStop", OverviewFrame.StopMovingOrSizing)
+	OverviewFrame:SetTitle(addonName)
+	OverviewFrame:Hide()
+	tinsert(UISpecialFrames, OverviewFrame:GetName())
 
-	local portrait = overviewFrame:GetPortrait()
+	local portrait = OverviewFrame:GetPortrait()
 	portrait:SetPoint('TOPLEFT', -5, 8)
 	portrait:SetTexture(AUR.MEDIA_PATH .. "icon-round.blp")
 
-	local background = CreateFrame("Frame", nil, overviewFrame, insetTemplate)
+	local background = CreateFrame("Frame", nil, OverviewFrame, insetTemplate)
 	background:SetSize(454, 430)
-	background:SetPoint("BOTTOM", overviewFrame, "BOTTOM", 0, 37)
+	background:SetPoint("BOTTOM", OverviewFrame, "BOTTOM", 0, 37)
 
 	if AUR.GAME_TYPE_MAINLINE then
 		background.texture = background:CreateTexture(nil, "BACKGROUND")
@@ -656,14 +660,14 @@ local function InitializeFrames()
 		CreateCurrencyDropdown(scrollFrame, background, i)
 		if i == 1 then CreateCharacterDropdown(scrollFrame, background) end
 
-		scrollFrames[i] = scrollFrame
+		OverviewScrollFrames[i] = scrollFrame
 	end
 
 	SetupTabs(numTabs)
 end
 
 ---------------------
---- Main Funtions ---
+--- Public Functions ---
 ---------------------
 
 function Overview:Initialize()
@@ -678,15 +682,15 @@ function Overview:Show()
 		UpdateWarbandOverview()
 	end
 
-	overviewFrame:Show()
+	OverviewFrame:Show()
 end
 
 function Overview:Hide()
-	overviewFrame:Hide()
+	OverviewFrame:Hide()
 end
 
 function Overview:IsShown()
-	return overviewFrame:IsShown()
+	return OverviewFrame:IsShown()
 end
 
-AUR.overview = Overview
+AUR.modules.Overview = Overview

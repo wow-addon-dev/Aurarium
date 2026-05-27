@@ -1,14 +1,12 @@
 local addonName, AUR = ...
 
-local L = AUR.localization
+local Options = AUR.modules.Options
+local Overview = AUR.modules.Overview
+local Utils = AUR.modules.Utils
 
-local Options = AUR.options
-local Overview = AUR.overview
-local Utils = AUR.utils
-
-----------------------
---- Local funtions ---
-----------------------
+-----------------------
+--- Local Functions ---
+-----------------------
 
 local function UpdateDateHistory(today)
 	local dates = AUR.data.dates
@@ -175,9 +173,9 @@ end
 
 local AurariumFrame = CreateFrame("Frame", "Aurarium")
 
----------------------
---- Main funtions ---
----------------------
+------------------------
+--- Public Functions ---
+------------------------
 
 function AurariumFrame:OnEvent(event, ...)
 	self[event](self, event, ...)
@@ -190,19 +188,24 @@ function AurariumFrame:ADDON_LOADED(_, addOnName)
 		Options:Initialize()
 		Overview:Initialize()
 
+		Utils:OpenSettingsOnLoading()
+
 		Utils:PrintDebug("Addon fully loaded.")
 	end
 end
 
 function AurariumFrame:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
-	Utils:PrintDebug("Event 'PLAYER_ENTERING_WORLD' fired. Payload: isInitialLogin=" .. tostring(isInitialLogin) .. ", isReloadingUi=" .. tostring(isReloadingUi))
+	Utils:PrintDebug(string.format(
+		"Event 'PLAYER_ENTERING_WORLD' fired. Payload: isInitialLogin=%s, isReloadingUi=%s",
+		tostring(isInitialLogin), tostring(isReloadingUi)
+	))
 
 	if (isInitialLogin or isReloadingUi) then
 		C_Timer.After(5, function()
 			SaveBalance()
 		end)
 
-		if AUR.options.currencyOverview["open-on-login"]then
+		if AUR.settings.currencyOverview["open-on-login"] then
 			Overview:Show()
 		end
 	end
@@ -214,8 +217,11 @@ function AurariumFrame:PLAYER_MONEY(...)
 	SaveBalance()
 end
 
-function AurariumFrame:CURRENCY_DISPLAY_UPDATE(...)
-	Utils:PrintDebug("Event 'CURRENCY_DISPLAY_UPDATE' fired. No payload.")
+function AurariumFrame:CURRENCY_DISPLAY_UPDATE(_, currencyType, quantity, quantityChange, quantityGainSource, quantityLostSource)
+	Utils:PrintDebug(string.format(
+		"Event 'CURRENCY_DISPLAY_UPDATE' fired. Payload: currencyType=%s, quantity=%s, quantityChange=%s, quantityGainSource=%s, quantityLostSource=%s",
+		tostring(currencyType), tostring(quantity), tostring(quantityChange), tostring(quantityGainSource), tostring(quantityLostSource)
+	))
 
 	SaveBalance()
 end

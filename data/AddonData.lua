@@ -24,7 +24,7 @@ if AUR.GAME_TYPE_VANILLA then
 elseif AUR.GAME_TYPE_TBC then
 	AUR.GAME_FLAVOR = "Burning Crusade - Classic Anniversary Edition"
 elseif AUR.GAME_TYPE_MISTS then
-	AUR.GAME_FLAVOR = "Mist of Pandaria - Classic"
+	AUR.GAME_FLAVOR = "Mists of Pandaria - Classic"
 elseif AUR.GAME_TYPE_MAINLINE then
 	AUR.GAME_FLAVOR = "Retail"
 end

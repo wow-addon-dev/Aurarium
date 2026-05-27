@@ -1,12 +1,12 @@
 local addonName, AUR = ...
 
-local L = AUR.localization
+local L = AUR.Localization
 
-local Utils = AUR.Utils
+local Utils = AUR.modules.Utils
 
----------------------
---- Main Funtions ---
----------------------
+------------------------
+--- Public Functions ---
+------------------------
 
 function Aurarium_CompartmentOnEnter(self, button)
 	GameTooltip:ClearAllPoints()
@@ -26,10 +26,10 @@ end
 
 function Aurarium_CompartmentOnClick(_, button)
 	if button == "LeftButton" then
-		if AUR.overview:IsShown() then
-			AUR.overview:Hide()
+		if AUR.modules.Overview:IsShown() then
+			AUR.modules.Overview:Hide()
 		else
-			AUR.overview:Show()
+			AUR.modules.Overview:Show()
 		end
 	elseif button == "RightButton" then
 		if not InCombatLockdown() then

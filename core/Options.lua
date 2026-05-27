@@ -1,20 +1,21 @@
 local addonName, AUR = ...
 
-local L = AUR.localization
-local Utils = AUR.utils
+local L = AUR.Localization
+
+local Utils = AUR.modules.Utils
 
 local AWL = ArcaneWizardLibrary
 
 local Options = {}
 
-----------------------
---- Local Funtions ---
-----------------------
+-----------------------
+--- Local Functions ---
+-----------------------
 
 local minimapButtonProxy = setmetatable({}, {
 	__index = function(_, key)
 		if key == "hide" then
-			return not AUR.options.general["minimap-button"]["hide"]
+			return not AUR.settings.general["minimap-button"]["hide"]
 		end
 	end,
 	__newindex = function(_, key, value)
@@ -22,7 +23,7 @@ local minimapButtonProxy = setmetatable({}, {
 			return
 		end
 
-		AUR.options.general["minimap-button"]["hide"] = not value
+		AUR.settings.general["minimap-button"]["hide"] = not value
 
 		if value then
 			Utils.minimapButton:Show("Aurarium")
@@ -32,9 +33,9 @@ local minimapButtonProxy = setmetatable({}, {
 	end,
 })
 
----------------------
---- Main Funtions ---
----------------------
+------------------------
+--- Public Functions ---
+------------------------
 
 function Options:Initialize()
 	local category, layout = Settings.RegisterVerticalLayoutCategory(addonName)
@@ -51,11 +52,21 @@ function Options:Initialize()
 		default       = true
 	})
 
+	-- Debug Mode
+	AWL.Settings:AddCheckbox(category, {
+		variableTable = AUR.settings.general,
+		settingKey    = addonName .. "_debug-mode",
+		variableName  = "debug-mode",
+		name          = L["options.general.debug-mode.name"],
+		tooltip       = L["options.general.debug-mode.tooltip"],
+		default       = false
+	})
+
 	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.currency-overview"]))
 
 	-- Open on Login
 	AWL.Settings:AddCheckbox(category, {
-		variableTable = AUR.options.currencyOverview,
+		variableTable = AUR.settings.currencyOverview,
 		settingKey    = addonName .. "_open-on-login",
 		variableName  = "open-on-login",
 		name          = L["options.currency-overview.open-on-login.name"],
@@ -63,55 +74,27 @@ function Options:Initialize()
 		default       = false
 	})
 
-	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.other"]))
-
-	-- Debug Mode
-	AWL.Settings:AddCheckbox(category, {
-		variableTable = AUR.options.other,
-		settingKey    = addonName .. "_debug-mode",
-		variableName  = "debug-mode",
-		name          = L["options.other.debug-mode.name"],
-		tooltip       = L["options.other.debug-mode.tooltip"],
-		default       = false
-	})
-
-	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.about"]))
-
-	-- Game Version
-	AWL.Settings:AddInfoText(layout, {
-		leftText  = L["options.about.game-version"],
-		rightText = AUR.GAME_VERSION .. " (" .. AUR.GAME_FLAVOR .. ")",
-		height    = "compact"
-	})
-
-	-- Addon Version
-	AWL.Settings:AddInfoText(layout, {
-		leftText  = L["options.about.addon-version"],
-		rightText = AUR.ADDON_VERSION .. " (" .. AUR.ADDON_BUILD_DATE .. ")",
-		height    = "compact"
-	})
-
-	-- Library Version
-	AWL.Settings:AddInfoText(layout, {
-		leftText  = L["options.about.lib-version"],
-		rightText = AWL.ADDON_VERSION .. " (" .. AWL.ADDON_BUILD_DATE .. ")",
-		height    = "compact"
-	})
-
-	-- Author
-	AWL.Settings:AddInfoText(layout, {
-		leftText  = L["options.about.author"],
-		rightText = AUR.ADDON_AUTHOR
-	})
-
-	-- GitHub Link
-	AWL.Settings:AddButton(layout, {
-		name       = L["options.about.button-github.name"],
-		buttonText = L["options.about.button-github.button"],
-		tooltip    = L["options.about.button-github.tooltip"],
-		onClick    = function()
-			AWL.Dialogs:ShowLinkDialog(AUR.LINK_GITHUB)
+	-- Profiles Section
+	AWL.Settings:AddProfilesSection(layout, {
+		useAccountProfile = Utils:IsAccountProfile(),
+		onSwitchProfile = function()
+			Utils:ToggleProfileMode()
+			ReloadUI()
+		end,
+		onDeleteCharacterProfiles = function()
+			Utils:ResetAllCharacterProfiles()
+			ReloadUI()
 		end
+	})
+
+	-- About Section
+	AWL.Settings:AddAboutSection(layout, {
+		gameVersion    = AUR.GAME_VERSION,
+		gameFlavor     = AUR.GAME_FLAVOR,
+		addonVersion   = AUR.ADDON_VERSION,
+		addonBuildDate = AUR.ADDON_BUILD_DATE,
+		addonAuthor    = AUR.ADDON_AUTHOR,
+		githubLink     = AUR.LINK_GITHUB
 	})
 
 	Settings.RegisterAddOnCategory(category)
@@ -119,4 +102,4 @@ function Options:Initialize()
 	AUR.MAIN_CATEGORY_ID = category:GetID()
 end
 
-AUR.options = Options
+AUR.modules.Options = Options

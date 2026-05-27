@@ -2,42 +2,30 @@ local _, AUR = ...
 
 if GetLocale() ~= "ruRU" then return end
 
-local L = AUR.localization
+local L = AUR.Localization
 
 -- Options
 
 L["options.general"] = "Общие параметры"
-L["options.general.minimap-button.name"] = "Кнопка миникарты"
-L["options.general.minimap-button.tooltip"] = "При включении этой функции отображается кнопка миникарты."
+L["options.general.minimap-button.name"] = "Кнопка у мини-карты"
+L["options.general.minimap-button.tooltip"] = "Если этот параметр включен, кнопка отображается у мини-карты."
+L["options.general.debug-mode.name"] = "Режим отладки"
+L["options.general.debug-mode.tooltip"] = "Если режим отладки включен, в чате отображается дополнительная информация."
 
 L["options.currency-overview"] = "Обзор золота и валюты"
 L["options.currency-overview.open-on-login.name"] = "Открывать автоматически"
-L["options.currency-overview.open-on-login.tooltip"] = "При включении этой функции обзор золота и валюты будет автоматически открываться при входе в систему."
-
-L["options.other"] = "Другие настройки"
-L["options.other.debug-mode.name"] = "Режим отладки"
-L["options.other.debug-mode.tooltip"] = "Включение режима отладки отображает дополнительную информацию в чате."
-
-L["options.about"] = "Об аддоне"
-L["options.about.game-version"] = "Версия игры"
-L["options.about.addon-version"] = "Версия аддона"
-L["options.about.lib-version"] = "Версия библиотеки"
-L["options.about.author"] = "Автор"
-
-L["options.about.button-github.name"] = "Обратная связь и помощь"
-L["options.about.button-github.tooltip"] = "Открывает всплывающее окно со ссылкой на GitHub."
-L["options.about.button-github.button"] = "GitHub"
+L["options.currency-overview.open-on-login.tooltip"] = "Если этот параметр включен, обзор золота и валюты будет автоматически открываться при входе в игру."
 
 -- General
 
-L["minimap-button.tooltip"] = "|cnLINK_FONT_COLOR:ЛКМ|r - открыть обзор золота и валюты.\n|cnLINK_FONT_COLOR:ПКМ|r - открыть настройки."
+L["minimap-button.tooltip"] = "|cnLINK_FONT_COLOR:Щелкните левой кнопкой мыши|r, чтобы открыть обзор золота и валюты.\n|cnLINK_FONT_COLOR:Щелкните правой кнопкой мыши|r, чтобы открыть настройки."
 
 L["button.next"] = "Вперёд"
 L["button.prev"] = "Назад"
 
 L["month.jan"] = "Январь"
 L["month.feb"] = "Февраль"
-L["month.mar"] = "Март "
+L["month.mar"] = "Март"
 L["month.apr"] = "Апрель"
 L["month.may"] = "Май"
 L["month.jun"] = "Июнь"
@@ -50,17 +38,17 @@ L["month.dec"] = "Декабрь"
 
 -- Chat
 
--- Curyency Overview
+-- Currency Overview
 
 L["currency-overview.category.gold"] = "Золото"
-L["currency-overview.category.warband"] = "Валюты Отряда"
+L["currency-overview.category.warband"] = "Валюты отряда"
 L["currency-overview.category.character"] = "Валюты персонажа"
 L["currency-overview.category.misc"] = "Разное"
 L["currency-overview.category.pvp"] = "Игрок против игрока"
 L["currency-overview.category.dungeonraid"] = "Подземелье и рейд"
 L["currency-overview.category.season"] = "Сезон"
 L["currency-overview.category.timerunning"] = "Путешествие во времени"
-L["currency-overview.category.profession"] = "Profession"
+L["currency-overview.category.profession"] = "Профессия"
 L["currency-overview.category.classic"] = "Classic"
 L["currency-overview.category.tbc"] = "Burning Crusade"
 L["currency-overview.category.wotlk"] = "Гнев Короля-лича"

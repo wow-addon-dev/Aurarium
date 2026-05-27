@@ -1,35 +1,23 @@
 local _, AUR = ...
 
-AUR.localization = setmetatable({},{__index=function(self,key)
-		geterrorhandler()("Aurarium (Debug): Missing entry for '" .. tostring(key) .. "'")
-		return key
-	end})
+AUR.Localization = setmetatable({},{__index=function(self,key)
+	geterrorhandler()("Aurarium (Debug): Missing entry for '" .. tostring(key) .. "'")
+	return key
+end})
 
-local L = AUR.localization
+local L = AUR.Localization
 
 -- Options
 
 L["options.general"] = "General Options"
 L["options.general.minimap-button.name"] = "Minimap Button"
 L["options.general.minimap-button.tooltip"] = "When this is enabled, the minimap button is displayed."
+L["options.general.debug-mode.name"] = "Debug Mode"
+L["options.general.debug-mode.tooltip"] = "Enabling the debug mode displays additional information in the chat."
 
 L["options.currency-overview"] = "Gold and Currency Overview"
 L["options.currency-overview.open-on-login.name"] = "Open Automatically"
 L["options.currency-overview.open-on-login.tooltip"] = "When this is enabled, the gold and currency overview opens automatically when logging in."
-
-L["options.other"] = "Other Options"
-L["options.other.debug-mode.name"] = "Debug Mode"
-L["options.other.debug-mode.tooltip"] = "Enabling the debug mode displays additional information in the chat."
-
-L["options.about"] = "About"
-L["options.about.game-version"] = "Game Version"
-L["options.about.addon-version"] = "Addon Version"
-L["options.about.lib-version"] = "Library Version"
-L["options.about.author"] = "Author"
-
-L["options.about.button-github.name"] = "Feedback & Help"
-L["options.about.button-github.tooltip"] = "Opens a popup window with a link to GitHub."
-L["options.about.button-github.button"] = "GitHub"
 
 -- General
 
@@ -53,7 +41,7 @@ L["month.dec"] = "December"
 
 -- Chat
 
--- Curyency Overview
+-- Currency Overview
 
 L["currency-overview.category.gold"] = "Gold"
 L["currency-overview.category.warband"] = "Warband Currencies"

@@ -14,7 +14,7 @@
 ## Notes-ruRU: Аддон, который предоставляет подробную информацию о прогрессе состояния, отслеживая золото и валюту всех персонажей и отображая их с течением времени.
 
 ## LoadSavedVariablesFirst: 1
-## SavedVariables: Aurarium_Options_v2, Aurarium_DataCharacter, Aurarium_DataDates, Aurarium_DataBalance
+## SavedVariables: Aurarium_Options_v3, Aurarium_DataCharacter, Aurarium_DataDates, Aurarium_DataBalance
 
 ## AddonCompartmentFuncOnEnter: Aurarium_CompartmentOnEnter
 ## AddonCompartmentFuncOnLeave: Aurarium_CompartmentOnLeave

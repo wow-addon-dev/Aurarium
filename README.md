@@ -1,6 +1,6 @@
 # Aurarium
 
-[![GitHub Release](https://img.shields.io/github/v/release/wow-addon-dev/Aurarium?color=blue&logo=github&cacheSeconds=600)](https://github.com/wow-addon-dev/Aurarium/releases) [![GitHub Release Date](https://img.shields.io/github/release-date/wow-addon-dev/Aurarium?color=blue&logo=github&cacheSeconds=600)](https://github.com/wow-addon-dev/Aurarium/releases) [![Static Badge](https://img.shields.io/badge/buy_me_a_coffe-donate-yellow?logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/diomsg)
+[![GitHub Release](https://img.shields.io/github/v/release/wow-addon-dev/Aurarium?color=blue&logo=github&cacheSeconds=600)](https://github.com/wow-addon-dev/Aurarium/releases) [![GitHub Release Date](https://img.shields.io/github/release-date/wow-addon-dev/Aurarium?color=blue&logo=github&cacheSeconds=600)](https://github.com/wow-addon-dev/Aurarium/releases) [![Static Badge](https://img.shields.io/badge/buy_me_a_coffee-donate-yellow?logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/diomsg)
 
 _Track your gold & currencies. Know your worth._
 
@@ -16,6 +16,7 @@ Aurarium is a World of Warcraft addon that provides a detailed insight into weal
 * Individual saving and view for each character.
 * Separate display of character and warband currencies**.
 * Display of the sum of all currencies across all characters.
+* Supports an account profile and character profiles.
 
 *\* In Classic, Burning Crusade - Classic Anniversary Edition, and Mists of Pandaria - Classic, only gold is tracked.*
 

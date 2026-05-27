@@ -2,31 +2,19 @@ local _, AUR = ...
 
 if GetLocale() ~= "deDE" then return end
 
-local L = AUR.localization
+local L = AUR.Localization
 
 -- Options
 
 L["options.general"] = "Allgemeine Einstellungen"
-L["options.general.minimap-button.name"] = "Minimap Button"
-L["options.general.minimap-button.tooltip"] = "Bei Aktivierung wird der Minimap Button angezeigt."
+L["options.general.minimap-button.name"] = "Minimap-Button"
+L["options.general.minimap-button.tooltip"] = "Bei Aktivierung wird der Minimap-Button angezeigt."
+L["options.general.debug-mode.name"] = "Debugmodus"
+L["options.general.debug-mode.tooltip"] = "Die Aktivierung des Debugmodus zeigt zusätzliche Informationen im Chat an."
 
 L["options.currency-overview"] = "Gold- und Währungsübersicht"
 L["options.currency-overview.open-on-login.name"] = "Automatisch öffnen"
 L["options.currency-overview.open-on-login.tooltip"] = "Bei Aktivierung öffnet sich die Gold- und Währungsübersicht beim Login automatisch."
-
-L["options.other"] = "Sonstige Einstellungen"
-L["options.other.debug-mode.name"] = "Debugmodus"
-L["options.other.debug-mode.tooltip"] = "Die Aktivierung des Debugmodus zeigt zusätzliche Informationen im Chat an."
-
-L["options.about"] = "Über"
-L["options.about.game-version"] = "Spielversion"
-L["options.about.addon-version"] = "Addonversion"
-L["options.about.lib-version"] = "Bibliotheksversion"
-L["options.about.author"] = "Autor"
-
-L["options.about.button-github.name"] = "Feedback & Hilfe"
-L["options.about.button-github.tooltip"] = "Öffnet ein Popup-Fenster mit einem Link zu GitHub."
-L["options.about.button-github.button"] = "GitHub"
 
 -- General
 
