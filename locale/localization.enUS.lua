@@ -18,6 +18,8 @@ L["options.general.debug-mode.tooltip"] = "Enabling the debug mode displays addi
 L["options.currency-overview"] = "Gold and Currency Overview"
 L["options.currency-overview.open-on-login.name"] = "Open Automatically"
 L["options.currency-overview.open-on-login.tooltip"] = "When this is enabled, the gold and currency overview opens automatically when logging in."
+L["options.currency-overview.hide-unchanged-entries.name"] = "Hide Unchanged Entries"
+L["options.currency-overview.hide-unchanged-entries.tooltip"] = "When this is enabled, days without a balance change are hidden in the character, account, and warband overviews."
 
 -- General
 

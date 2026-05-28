@@ -16,6 +16,7 @@ Aurarium is a World of Warcraft addon that provides a detailed insight into weal
 * Individual saving and view for each character.
 * Separate display of character and warband currencies**.
 * Display of the sum of all currencies across all characters.
+* Optional hiding of days without balance changes.
 * Supports an account profile and character profiles.
 
 *\* In Classic, Burning Crusade - Classic Anniversary Edition, and Mists of Pandaria - Classic, only gold is tracked.*

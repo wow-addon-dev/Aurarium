@@ -15,6 +15,8 @@ L["options.general.debug-mode.tooltip"] = "Die Aktivierung des Debugmodus zeigt 
 L["options.currency-overview"] = "Gold- und Währungsübersicht"
 L["options.currency-overview.open-on-login.name"] = "Automatisch öffnen"
 L["options.currency-overview.open-on-login.tooltip"] = "Bei Aktivierung öffnet sich die Gold- und Währungsübersicht beim Login automatisch."
+L["options.currency-overview.hide-unchanged-entries.name"] = "Unveränderte Einträge ausblenden"
+L["options.currency-overview.hide-unchanged-entries.tooltip"] = "Bei Aktivierung werden Tage ohne Bestandsänderung in der Charakter-, Account- und Kriegsmeute-Übersicht ausgeblendet."
 
 -- General
 

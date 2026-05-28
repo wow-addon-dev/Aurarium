@@ -33,6 +33,25 @@ local minimapButtonProxy = setmetatable({}, {
 	end,
 })
 
+local currencyOverviewProxy = setmetatable({}, {
+	__index = function(_, key)
+		if key == "hide-unchanged-entries" then
+			return AUR.settings.currencyOverview["hide-unchanged-entries"]
+		end
+	end,
+	__newindex = function(_, key, value)
+		if key ~= "hide-unchanged-entries" then
+			return
+		end
+
+		AUR.settings.currencyOverview["hide-unchanged-entries"] = value
+
+		if AUR.modules.Overview and AUR.modules.Overview:IsShown() then
+			AUR.modules.Overview:Refresh()
+		end
+	end,
+})
+
 ------------------------
 --- Public Functions ---
 ------------------------
@@ -71,6 +90,16 @@ function Options:Initialize()
 		variableName  = "open-on-login",
 		name          = L["options.currency-overview.open-on-login.name"],
 		tooltip       = L["options.currency-overview.open-on-login.tooltip"],
+		default       = false
+	})
+
+	-- Hide Unchanged Entries
+	AWL.Settings:AddCheckbox(category, {
+		variableTable = currencyOverviewProxy,
+		settingKey    = addonName .. "_hide-unchanged-entries",
+		variableName  = "hide-unchanged-entries",
+		name          = L["options.currency-overview.hide-unchanged-entries.name"],
+		tooltip       = L["options.currency-overview.hide-unchanged-entries.tooltip"],
 		default       = false
 	})
 

@@ -50,9 +50,8 @@ local function FormatMonthText(prefix)
 	if not month or not year then return prefix end
 
 	local key = AUR.MONTH_KEYS[tonumber(month)]
-	local name = L[key] or key
 
-	return string.format("%s %s", name, year)
+	return string.format("%s %s", L[key], year)
 end
 
 local function FormatGold(copper)
@@ -98,14 +97,14 @@ local function BuildGenericHistory(rawData, currencyKey)
 	for i, date in ipairs(dates) do
 		local dayData = rawData[date] or {}
 		local v = dayData[currencyKey]
-		if v and v > 0 then
+		if v ~= nil then
 			startIndex = i
 			break
 		end
 	end
 
 	if not startIndex then
-		return {{date = Utils:GetToday(), value = 0}}
+		return entries
 	end
 
 	for i = startIndex, #dates do
@@ -134,14 +133,13 @@ local function BuildGenericHistoryLookup(rawData, currencyKey)
 	for i, date in ipairs(dates) do
 		local dayData = rawData[date] or {}
 		local v = dayData[currencyKey]
-		if v and v > 0 then
+		if v ~= nil then
 			startIndex = i
 			break
 		end
 	end
 
 	if not startIndex then
-		entries[Utils:GetToday()] = 0
 		return entries
 	end
 
@@ -219,6 +217,25 @@ local function BuildMonthHistory(history, monthPrefix)
 	return month
 end
 
+local function FilterUnchangedHistory(history)
+	if not AUR.settings.currencyOverview["hide-unchanged-entries"] then
+		return history
+	end
+
+	local filtered = {}
+	local previousValue = nil
+
+	for i, entry in ipairs(history) do
+		if i == 1 or entry.value ~= previousValue then
+			table.insert(filtered, entry)
+		end
+
+		previousValue = entry.value
+	end
+
+	return filtered
+end
+
 local function HasAnyDataBeforeMonth(history, monthPrefix)
 	local monthStart = monthPrefix .. "-01"
 	for i,e in ipairs(history) do
@@ -233,6 +250,13 @@ local function HasAnyDataAfterMonth(history, monthPrefix)
 		if history[j].date <= monthEnd then return j < #history end
 	end
 	return false
+end
+
+local function ResizeScrollChild(scrollFrame, contentHeight)
+	local width = math.max(scrollFrame:GetWidth(), 1)
+	local height = math.max(scrollFrame:GetHeight(), contentHeight, 1)
+
+	scrollFrame.scrollView:SetSize(width, height)
 end
 
 local function GetPreviousValueFromHistory(history, currentDate)
@@ -255,7 +279,8 @@ end
 
 local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scrollFrame)
 	local filterPrefix = GetYearMonthString(currentMonthOffset)
-	local monthHistory = BuildMonthHistory(history, filterPrefix)
+	local displayHistory = FilterUnchangedHistory(history)
+	local monthHistory = BuildMonthHistory(displayHistory, filterPrefix)
 
 	if scrollFrame.rows then
 		for _, row in ipairs(scrollFrame.rows) do
@@ -279,8 +304,10 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 		noEntry:SetText(L["currency-overview.table.no-entries"])
 		table.insert(scrollFrame.rows, {noEntry})
 
-		scrollFrame.prevButton:SetEnabled(HasAnyDataBeforeMonth(history, filterPrefix))
-		scrollFrame.nextButton:SetEnabled(HasAnyDataAfterMonth(history, filterPrefix))
+		ResizeScrollChild(scrollFrame, 20)
+
+		scrollFrame.prevButton:SetEnabled(HasAnyDataBeforeMonth(displayHistory, filterPrefix))
+		scrollFrame.nextButton:SetEnabled(HasAnyDataAfterMonth(displayHistory, filterPrefix))
 		return
 	end
 
@@ -317,12 +344,7 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 		local dateStr = entry.date
 		local currentValue = entry.value
 
-		local prevValue
-		if i < #monthHistory then
-			prevValue = monthHistory[i+1].value
-		else
-			prevValue = GetPreviousValueFromHistory(history, dateStr) or 0
-		end
+		local prevValue = GetPreviousValueFromHistory(history, dateStr) or 0
 
 		local rowDate = background:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 		rowDate:SetPoint("LEFT", 5, 0)
@@ -356,8 +378,10 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 		offsetY = offsetY - 20
 	end
 
-	scrollFrame.prevButton:SetEnabled(HasAnyDataBeforeMonth(history, filterPrefix))
-	scrollFrame.nextButton:SetEnabled(HasAnyDataAfterMonth(history, filterPrefix))
+	ResizeScrollChild(scrollFrame, math.abs(offsetY))
+
+	scrollFrame.prevButton:SetEnabled(HasAnyDataBeforeMonth(displayHistory, filterPrefix))
+	scrollFrame.nextButton:SetEnabled(HasAnyDataAfterMonth(displayHistory, filterPrefix))
 end
 
 local function UpdateCharacterOverview()
@@ -675,13 +699,7 @@ function Overview:Initialize()
 end
 
 function Overview:Show()
-	UpdateCharacterOverview()
-	UpdateAccountOverview()
-
-	if AUR.GAME_TYPE_MAINLINE then
-		UpdateWarbandOverview()
-	end
-
+	self:Refresh()
 	OverviewFrame:Show()
 end
 
@@ -689,8 +707,19 @@ function Overview:Hide()
 	OverviewFrame:Hide()
 end
 
+function Overview:Refresh()
+	if not OverviewFrame then return end
+
+	UpdateCharacterOverview()
+	UpdateAccountOverview()
+
+	if AUR.GAME_TYPE_MAINLINE then
+		UpdateWarbandOverview()
+	end
+end
+
 function Overview:IsShown()
-	return OverviewFrame:IsShown()
+	return OverviewFrame and OverviewFrame:IsShown()
 end
 
 AUR.modules.Overview = Overview

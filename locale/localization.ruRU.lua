@@ -15,6 +15,8 @@ L["options.general.debug-mode.tooltip"] = "Если режим отладки в
 L["options.currency-overview"] = "Обзор золота и валюты"
 L["options.currency-overview.open-on-login.name"] = "Открывать автоматически"
 L["options.currency-overview.open-on-login.tooltip"] = "Если этот параметр включен, обзор золота и валюты будет автоматически открываться при входе в игру."
+L["options.currency-overview.hide-unchanged-entries.name"] = "Скрывать записи без изменений"
+L["options.currency-overview.hide-unchanged-entries.tooltip"] = "Если этот параметр включен, дни без изменения баланса скрываются в обзорах персонажа, аккаунта и отряда."
 
 -- General
 
