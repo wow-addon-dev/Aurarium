@@ -48,7 +48,9 @@ end
 ------------------------
 
 function Utils:PrintDebug(msg)
-	if AUR.settings.general["debug-mode"] then
+	local debugMode = AUR.settings and AUR.settings.general and AUR.settings.general["debug-mode"]
+
+	if debugMode ~= false then
 		DEFAULT_CHAT_FRAME:AddMessage(ORANGE_FONT_COLOR:WrapTextInColorCode(addonName .. " (Debug): ")  .. msg)
 	end
 end
@@ -97,6 +99,11 @@ function Utils:InitializeDatabase()
 	local realm, char = Utils:GetCharacterInfo()
 	local characterRealmKey = GetCharacterRealmKey()
 
+	local hadDb = Aurarium_Options_v3 ~= nil
+	local createdDb = false
+	local createdProfile = false
+	local createdProfileKey = false
+
 	local defaults = {
 		["general"] = {
 			["minimap-button"] = {
@@ -112,10 +119,12 @@ function Utils:InitializeDatabase()
 			["profiles"] = {},
 			["profileKeys"] = {}
 		}
+		createdDb = true
 	end
 
 	if not Aurarium_Options_v3.profiles[characterRealmKey] then
 		Aurarium_Options_v3.profiles[characterRealmKey] = CopyTable(defaults)
+		createdProfile = true
 	end
 
 	if not Aurarium_Options_v3.profileKeys[characterRealmKey] then
@@ -123,9 +132,12 @@ function Utils:InitializeDatabase()
 			["use-account"] = true,
 			["open-settings"] = false
 		}
+		createdProfileKey = true
 	end
 
-	if Aurarium_Options_v3.profileKeys[characterRealmKey]["use-account"] then
+	local useAccountProfile = Aurarium_Options_v3.profileKeys[characterRealmKey]["use-account"]
+
+	if useAccountProfile then
 		AUR.settings.general = Aurarium_Options_v3.account["general"]
 		AUR.settings.currencyOverview = Aurarium_Options_v3.account["currency-overview"]
 	else
@@ -158,6 +170,11 @@ function Utils:InitializeDatabase()
 	if AUR.GAME_TYPE_MAINLINE then
 		AUR.data.balance["Warband"] = AUR.data.balance["Warband"] or {}
 	end
+
+	self:PrintDebug(string.format(
+		"InitializeDatabase: key=%s, hadDb=%s, createdDb=%s, createdProfile=%s, createdProfileKey=%s, activeProfile=%s",
+		characterRealmKey, tostring(hadDb), tostring(createdDb), tostring(createdProfile), tostring(createdProfileKey), useAccountProfile and "account" or "character"
+	))
 end
 
 function Utils:InitializeMinimapButton()
