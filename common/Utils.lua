@@ -48,10 +48,8 @@ end
 ------------------------
 
 function Utils:PrintDebug(msg)
-	local debugMode = AUR.settings and AUR.settings.general and AUR.settings.general["debug-mode"]
-
-	if debugMode ~= false then
-		DEFAULT_CHAT_FRAME:AddMessage(ORANGE_FONT_COLOR:WrapTextInColorCode(addonName .. " (Debug): ")  .. msg)
+	if AUR.settings.general["debug-mode"] then
+		DEFAULT_CHAT_FRAME:AddMessage(ORANGE_FONT_COLOR:WrapTextInColorCode(addonName .. " (Debug): ") .. msg)
 	end
 end
 
@@ -99,8 +97,6 @@ function Utils:InitializeDatabase()
 	local realm, char = Utils:GetCharacterInfo()
 	local characterRealmKey = GetCharacterRealmKey()
 
-	local hadDb = Aurarium_Options_v3 ~= nil
-	local createdDb = false
 	local createdProfile = false
 	local createdProfileKey = false
 
@@ -119,7 +115,6 @@ function Utils:InitializeDatabase()
 			["profiles"] = {},
 			["profileKeys"] = {}
 		}
-		createdDb = true
 	end
 
 	if not Aurarium_Options_v3.profiles[characterRealmKey] then
@@ -171,16 +166,18 @@ function Utils:InitializeDatabase()
 		AUR.data.balance["Warband"] = AUR.data.balance["Warband"] or {}
 	end
 
-	self:PrintDebug(string.format(
-		"InitializeDatabase: key=%s, hadDb=%s, createdDb=%s, createdProfile=%s, createdProfileKey=%s, activeProfile=%s",
-		characterRealmKey, tostring(hadDb), tostring(createdDb), tostring(createdProfile), tostring(createdProfileKey), useAccountProfile and "account" or "character"
-	))
+	return {
+		characterRealmKey = characterRealmKey,
+		createdProfile = createdProfile,
+		createdProfileKey = createdProfileKey,
+		activeProfile = useAccountProfile and "account" or "character"
+	}
 end
 
 function Utils:InitializeMinimapButton()
-	local LDB = LibStub("LibDataBroker-1.1"):NewDataObject("Aurarium", {
+	local LDB = LibStub("LibDataBroker-1.1"):NewDataObject(addonName, {
 		type     = "launcher",
-		text     = "Aurarium",
+		text     = addonName,
 		icon     = AUR.MEDIA_PATH .. "icon-round.blp",
 		OnClick  = function(self, button)
 			if button == "LeftButton" then
@@ -206,7 +203,7 @@ function Utils:InitializeMinimapButton()
 	})
 
 	self.minimapButton = LibStub("LibDBIcon-1.0")
-	self.minimapButton:Register("Aurarium", LDB, AUR.settings.general["minimap-button"])
+	self.minimapButton:Register(addonName, LDB, AUR.settings.general["minimap-button"])
 end
 
 AUR.modules.Utils = Utils

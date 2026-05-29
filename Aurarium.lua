@@ -183,13 +183,17 @@ end
 
 function AurariumFrame:ADDON_LOADED(_, addOnName)
 	if addOnName == addonName then
-		Utils:InitializeDatabase()
+		local dbInit = Utils:InitializeDatabase()
 		Utils:InitializeMinimapButton()
 		Options:Initialize()
 		Overview:Initialize()
 
 		Utils:OpenSettingsOnLoading()
 
+		Utils:PrintDebug(string.format(
+			"InitializeDatabase: key=%s, createdProfile=%s, createdProfileKey=%s, activeProfile=%s",
+			tostring(dbInit.characterRealmKey), tostring(dbInit.createdProfile), tostring(dbInit.createdProfileKey), tostring(dbInit.activeProfile)
+		))
 		Utils:PrintDebug("Addon fully loaded.")
 	end
 end
