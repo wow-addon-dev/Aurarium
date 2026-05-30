@@ -1,3 +1,9 @@
+**v2.8 (2026-05-30)**
+- Added: Option to hide overview entries without balance changes
+- Added: Profile settings with account profile and character profile selection
+- Updated: deDE, enUS, ruRU localization
+- Minor code adjustments
+
 **v2.7 (2026-05-26)**
 - Minor code adjustments
 
