@@ -11,7 +11,7 @@
 - Added: TOC version for patch 12.0.7 [retail]
 
 **v2.5 (2026-05-10)**
-- Added: TOC version for patch 5.5.4 [mist of pandaria - classic]
+- Added: TOC version for patch 5.5.4 [mists of pandaria - classic]
 - Removed: TOC version for patch 12.0.1 [retail]
 
 **v2.4 (2026-05-01)**
@@ -92,16 +92,16 @@
 **v1.50 (2025-12-18)**
 - Added: TOC version for patch 12.0.1 [retail]
 - Removed: TOC version for patch 11.2.5 [retail]
-- Removed: TOC version for patch 5.5.2 [mist of pandaria - classic]
+- Removed: TOC version for patch 5.5.2 [mists of pandaria - classic]
 
 **v1.49 (2025-11-23)**
 - Added: TOC version for patch 12.0.0 [retail]
-- Added: TOC version for patch 5.5.3 [mist of pandaria - classic]
-- Removed: TOC version for patch 5.5.1 [mist of pandaria - classic]
+- Added: TOC version for patch 5.5.3 [mists of pandaria - classic]
+- Removed: TOC version for patch 5.5.1 [mists of pandaria - classic]
 
 **v1.48 (2025-10-28)**
 - Added: TOC version for patch 1.15.8 [classic]
-- Added: TOC version for patch 5.5.2 [mist of pandaria - classic]
+- Added: TOC version for patch 5.5.2 [mists of pandaria - classic]
 - Added: TOC version for patch 11.2.7 [retail]
 - Removed: TOC version for patch 1.15.7 [classic]
 
@@ -109,7 +109,7 @@
 - Removed: TOC version for patch 11.2.0 [retail]
 
 **v1.46 (2025-10-04)**
-- Removed: TOC version for patch 5.5.0 [mist of pandaria - classic]
+- Removed: TOC version for patch 5.5.0 [mists of pandaria - classic]
 
 **v1.45 (2025-09-21)**
 - Updated: Currencies for the event 'Legion Remix' [retail]
@@ -119,7 +119,7 @@
 - Changed: Output of debug messages
 
 **v1.43 (2025-09-02)**
-- Added: TOC version for patch 5.5.1 [mist of pandaria - classic]
+- Added: TOC version for patch 5.5.1 [mists of pandaria - classic]
 
 **v1.42 (2025-08-26)**
 - Minor code adjustments
