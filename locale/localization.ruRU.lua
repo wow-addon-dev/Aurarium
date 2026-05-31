@@ -40,6 +40,9 @@ L["month.dec"] = "Декабрь"
 
 -- Chat
 
+L["chat.delete-character.deleted"] = "Персонаж '%s' на сервере '%s' удалён."
+L["chat.delete-character.current-not-allowed"] = "Нельзя удалить персонажа, которым вы сейчас играете."
+
 -- Currency Overview
 
 L["currency-overview.category.gold"] = "Золото"
@@ -72,3 +75,5 @@ L["currency-overview.table.date"] = "Дата"
 L["currency-overview.table.amount"] = "Количество"
 L["currency-overview.table.difference"] = "Разница"
 L["currency-overview.table.no-entries"] = "Нет записей за этот месяц."
+L["currency-overview.menu.delete-character"] = "Удалить персонажа"
+L["currency-overview.delete-character.confirm"] = "Удалить персонажа '%s' на сервере '%s' и все сохраненные данные?"

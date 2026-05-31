@@ -43,6 +43,9 @@ L["month.dec"] = "December"
 
 -- Chat
 
+L["chat.delete-character.deleted"] = "Character '%s' from realm '%s' has been deleted."
+L["chat.delete-character.current-not-allowed"] = "The currently logged-in character cannot be deleted."
+
 -- Currency Overview
 
 L["currency-overview.category.gold"] = "Gold"
@@ -75,3 +78,5 @@ L["currency-overview.table.date"] = "Date"
 L["currency-overview.table.amount"] = "Amount"
 L["currency-overview.table.difference"] = "Difference"
 L["currency-overview.table.no-entries"] = "No entries for this month."
+L["currency-overview.menu.delete-character"] = "Delete Character"
+L["currency-overview.delete-character.confirm"] = "Delete character '%s' from realm '%s' and all recorded data?"

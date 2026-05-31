@@ -4,6 +4,8 @@ local L = AUR.Localization
 
 local Utils = AUR.modules.Utils
 
+local AWL = ArcaneWizardLibrary
+
 local Overview = {}
 
 local currentMonthOffset = {}
@@ -160,11 +162,121 @@ local function BuildGenericHistoryLookup(rawData, currencyKey)
 end
 
 local function BuildCharacterHistory(realm, char, currencyKey)
+	if not realm or not char or not AUR.data.balance[realm] or not AUR.data.balance[realm][char] then
+		return {}
+	end
+
 	return BuildGenericHistory(AUR.data.balance[realm][char], currencyKey)
 end
 
 local function BuildCharacterHistoryLookup(realm, char, currencyKey)
+	if not realm or not char or not AUR.data.balance[realm] or not AUR.data.balance[realm][char] then
+		return {}
+	end
+
 	return BuildGenericHistoryLookup(AUR.data.balance[realm][char], currencyKey)
+end
+
+local function HasCharacterData(realm, char)
+	return realm and char and AUR.data.balance[realm] and AUR.data.balance[realm][char]
+end
+
+local function IsCurrentCharacter(realm, char)
+	if not realm or not char then
+		return false
+	end
+
+	local currentRealm, currentChar = Utils:GetCharacterInfo()
+
+	return realm == currentRealm and char == currentChar
+end
+
+local function GetSortedCharacters()
+	local characters = {}
+
+	for realm, realmData in pairs(AUR.data.balance) do
+		if realm ~= "Warband" then
+			for char, _ in pairs(realmData) do
+				table.insert(characters, {realm = realm, char = char})
+			end
+		end
+	end
+
+	table.sort(characters, function(a, b)
+		if a.realm == b.realm then
+			return a.char < b.char
+		end
+
+		return a.realm < b.realm
+	end)
+
+	return characters
+end
+
+local function SelectFallbackCharacter()
+	if HasCharacterData(selectedRealm, selectedChar) then
+		return true
+	end
+
+	local currentRealm, currentChar = Utils:GetCharacterInfo()
+
+	if HasCharacterData(currentRealm, currentChar) then
+		selectedRealm = currentRealm
+		selectedChar = currentChar
+		return true
+	end
+
+	local characters = GetSortedCharacters()
+	local firstCharacter = characters[1]
+
+	if firstCharacter then
+		selectedRealm = firstCharacter.realm
+		selectedChar = firstCharacter.char
+		return true
+	end
+
+	selectedRealm = nil
+	selectedChar = nil
+
+	return false
+end
+
+local function DeleteCharacterData(realm, char)
+	if not realm or not char then
+		return false, "invalid-target"
+	end
+
+	if IsCurrentCharacter(realm, char) then
+		return false, "current-character"
+	end
+
+	local removed = false
+
+	if AUR.data.balance[realm] and AUR.data.balance[realm][char] then
+		AUR.data.balance[realm][char] = nil
+
+		if not next(AUR.data.balance[realm]) then
+			AUR.data.balance[realm] = nil
+		end
+
+		removed = true
+	end
+
+	if AUR.data.character[realm] and AUR.data.character[realm][char] then
+		AUR.data.character[realm][char] = nil
+
+		if not next(AUR.data.character[realm]) then
+			AUR.data.character[realm] = nil
+		end
+
+		removed = true
+	end
+
+	if removed then
+		return true
+	end
+
+	return false, "not-found"
 end
 
 local function BuildWarbandHistory(currencyKey)
@@ -237,19 +349,23 @@ local function FilterUnchangedHistory(history)
 end
 
 local function HasAnyDataBeforeMonth(history, monthPrefix)
-	local monthStart = monthPrefix .. "-01"
-	for i,e in ipairs(history) do
-		if e.date >= monthStart then return i > 1 end
+	if #history == 0 then
+		return false
 	end
-	return false
+
+	local firstMonthWithData = history[1].date:sub(1, 7)
+
+	return firstMonthWithData < monthPrefix
 end
 
 local function HasAnyDataAfterMonth(history, monthPrefix)
-	local monthEnd = monthPrefix .. "-31"
-	for j = #history, 1, -1 do
-		if history[j].date <= monthEnd then return j < #history end
+	if #history == 0 then
+		return false
 	end
-	return false
+
+	local lastMonthWithData = history[#history].date:sub(1, 7)
+
+	return lastMonthWithData > monthPrefix
 end
 
 local function ResizeScrollChild(scrollFrame, contentHeight)
@@ -385,8 +501,14 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 end
 
 local function UpdateCharacterOverview()
+	SelectFallbackCharacter()
+
 	local characterHistory = BuildCharacterHistory(selectedRealm, selectedChar, selectedCurrency[1])
 	UpdateOverview(selectedCurrency[1], currentMonthOffset[1], characterHistory, OverviewScrollFrames[1])
+
+	if OverviewScrollFrames[1].actionsButton then
+		OverviewScrollFrames[1].actionsButton:SetEnabled(selectedRealm ~= nil and selectedChar ~= nil)
+	end
 end
 
 local function UpdateAccountOverview()
@@ -397,6 +519,52 @@ end
 local function UpdateWarbandOverview()
 	local warbandHistory = BuildWarbandHistory(selectedCurrency[3])
 	UpdateOverview(selectedCurrency[3], currentMonthOffset[3], warbandHistory, OverviewScrollFrames[3])
+end
+
+local function HandleCharacterDeleteConfirmed(realm, char)
+	local removed, errorCode = DeleteCharacterData(realm, char)
+
+	if not removed then
+		if errorCode == "current-character" then
+			Utils:PrintMessage(L["chat.delete-character.current-not-allowed"])
+		end
+
+		return
+	end
+
+	SelectFallbackCharacter()
+
+	local characterDropdown = OverviewScrollFrames[1] and OverviewScrollFrames[1].characterDropdown
+	if characterDropdown and characterDropdown.GenerateMenu then
+		characterDropdown:GenerateMenu()
+	end
+
+	currentMonthOffset[1] = 0
+	UpdateCharacterOverview()
+	UpdateAccountOverview()
+
+	if AUR.GAME_TYPE_MAINLINE then
+		UpdateWarbandOverview()
+	end
+
+	Utils:PrintMessage(string.format(L["chat.delete-character.deleted"], char, realm))
+end
+
+local function ShowCharacterDeleteConfirm(realm, char)
+	if not realm or not char then
+		return
+	end
+
+	if not AWL or not AWL.Dialogs or not AWL.Dialogs.ShowConfirmDialog then
+		Utils:PrintDebug("ArcaneWizardLibrary dialog API is not available.")
+		return
+	end
+
+	local confirmText = string.format(L["currency-overview.delete-character.confirm"], char, realm)
+
+	AWL.Dialogs:ShowConfirmDialog(confirmText, function()
+		HandleCharacterDeleteConfirmed(realm, char)
+	end)
 end
 
 local function CreateCurrencyDropdown(scrollFrame, background, index)
@@ -492,6 +660,10 @@ local function CreateCharacterDropdown(scrollFrame, background)
 
 	characterDropdown:SetupMenu(function(self, root)
 		local function IsSelected(value)
+			if not selectedRealm or not selectedChar then
+				return false
+			end
+
 			return value == selectedRealm .. "-" .. selectedChar
 		end
 		local function SetSelected(value)
@@ -523,7 +695,7 @@ local function CreateCharacterDropdown(scrollFrame, background)
 					local factionFileID = 0
 					local classColor = WHITE_FONT_COLOR
 
-					if AUR.data.character[realmKey][charKey] then
+					if AUR.data.character[realmKey] and AUR.data.character[realmKey][charKey] then
 						local class = AUR.data.character[realmKey][charKey].class
 						local faction = AUR.data.character[realmKey][charKey].faction
 
@@ -558,6 +730,63 @@ local function CreateCharacterDropdown(scrollFrame, background)
 		end
 	end)
 	return characterDropdown
+end
+
+local function OpenCharacterActionsMenu(ownerButton)
+	local realm = selectedRealm
+	local char = selectedChar
+	local hasSelection = realm ~= nil and char ~= nil
+	local isCurrentCharacter = IsCurrentCharacter(realm, char)
+
+	if MenuUtil and MenuUtil.CreateContextMenu then
+		MenuUtil.CreateContextMenu(ownerButton, function(_, root)
+			local deleteAction = root:CreateButton(L["currency-overview.menu.delete-character"], function()
+				if not hasSelection then
+					return
+				end
+
+				if isCurrentCharacter then
+					Utils:PrintMessage(L["chat.delete-character.current-not-allowed"])
+					return
+				end
+
+				ShowCharacterDeleteConfirm(realm, char)
+			end)
+
+			if deleteAction and deleteAction.SetEnabled then
+				deleteAction:SetEnabled(hasSelection and not isCurrentCharacter)
+			end
+		end)
+		return
+	end
+
+	-- Fallback for game versions without the modern menu API.
+	if hasSelection then
+		if isCurrentCharacter then
+			Utils:PrintMessage(L["chat.delete-character.current-not-allowed"])
+			return
+		end
+
+		ShowCharacterDeleteConfirm(realm, char)
+	end
+end
+
+local function CreateCharacterActionsButton(scrollFrame, characterDropdown)
+	local actionsButton = CreateFrame("Button", nil, scrollFrame, "UIPanelButtonTemplate")
+	actionsButton:SetPoint("LEFT", characterDropdown, "RIGHT", 5, 0)
+	actionsButton:SetSize(24, 22)
+	actionsButton:SetText("")
+
+	local icon = actionsButton:CreateTexture(nil, "ARTWORK")
+	icon:SetPoint("CENTER")
+	icon:SetSize(14, 14)
+	icon:SetTexture(AUR.MEDIA_PATH .. "gear-icon.tga")
+
+	actionsButton:SetScript("OnClick", function(self)
+		OpenCharacterActionsMenu(self)
+	end)
+
+	return actionsButton
 end
 
 local function SetupTabs(numTabs)
@@ -682,7 +911,11 @@ local function InitializeFrames()
 		end)
 
 		CreateCurrencyDropdown(scrollFrame, background, i)
-		if i == 1 then CreateCharacterDropdown(scrollFrame, background) end
+		if i == 1 then
+			local characterDropdown = CreateCharacterDropdown(scrollFrame, background)
+			scrollFrame.characterDropdown = characterDropdown
+			scrollFrame.actionsButton = CreateCharacterActionsButton(scrollFrame, characterDropdown)
+		end
 
 		OverviewScrollFrames[i] = scrollFrame
 	end
