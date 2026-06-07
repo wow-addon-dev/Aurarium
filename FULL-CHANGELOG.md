@@ -1,3 +1,6 @@
+**v2.10 (2026-06-07)**
+- Adapted to the latest version of Arcane Wizard: Library to ensure full compatibility
+
 **v2.9 (2026-06-01)**
 - Added: The ability to delete characters (with a confirmation dialog)
 - Fixed: The buttons for navigating between months were disabled when entries were hidden, even though adjacent months still contained relevant data
