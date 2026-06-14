@@ -2,9 +2,10 @@ local addonName, AUR = ...
 
 local L = AUR.Localization
 
-local Utils = AUR.modules.Utils
-
 local AWL = ArcaneWizardLibrary
+local Addon = AWL:GetAddon(addonName)
+
+local Utils = AUR.modules.Utils
 
 local Options = {}
 
@@ -117,17 +118,11 @@ function Options:Initialize()
 	})
 
 	-- About Section
-	AWL.Settings:AddAboutSection(layout, {
-		addonVersion   = AUR.ADDON_VERSION,
-		addonBuildDate = AUR.ADDON_BUILD_DATE,
-		addonAuthor    = AUR.ADDON_AUTHOR,
-		curseforgeLink = AUR.LINK_CURSEFORGE,
-		githubLink     = AUR.LINK_GITHUB
-	})
+	AWL.Settings:AddAboutSection(layout, addonName)
 
 	Settings.RegisterAddOnCategory(category)
 
-	AUR.MAIN_CATEGORY_ID = category:GetID()
+	Addon:SetMainCategoryId(category:GetID())
 end
 
 AUR.modules.Options = Options

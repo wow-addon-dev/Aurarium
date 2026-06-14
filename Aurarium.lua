@@ -1,5 +1,8 @@
 local addonName, AUR = ...
 
+local AWL = ArcaneWizardLibrary
+local Addon = AWL:GetAddon(addonName)
+
 local Options = AUR.modules.Options
 local Overview = AUR.modules.Overview
 local Utils = AUR.modules.Utils
@@ -123,14 +126,14 @@ local function SaveBalance()
 	UpdateDateHistory(today)
 	SaveCharacterMetadata(realm, char)
 
-	if AUR.GAME_TYPE_MISTS then
+	if AWL.GAME_TYPE_MISTS then
 		local goldChanged = TrackGoldBalance(realm, char, today)
 		local charCurChanged = TrackCharacterCurrencies(realm, char, today)
 
 		if not (goldChanged or charCurChanged) then
 			AUR.data.balance[realm][char][today] = nil
 		end
-	elseif AUR.GAME_TYPE_MAINLINE then
+	elseif AWL.GAME_TYPE_MAINLINE then
 		local goldChanged = TrackGoldBalance(realm, char, today)
 		local charCurChanged = TrackCharacterCurrencies(realm, char, today)
 		local warbandChanged = TrackWarbandCurrencies(today)
@@ -155,11 +158,7 @@ end
 
 local function SlashCommand(msg, editbox)
 	if not msg or strtrim(msg) == "" then
-		if not InCombatLockdown() then
-			Settings.OpenToCategory(AUR.MAIN_CATEGORY_ID)
-		else
-			Utils:PrintDebug("In combat. The options menu cannot be opened.")
-		end
+		Addon:OpenCategory()
 	elseif strtrim(msg) == "overview" then
 		Overview:Show()
 	else

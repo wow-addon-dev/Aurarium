@@ -2,9 +2,10 @@ local addonName, AUR = ...
 
 local L = AUR.Localization
 
-local Utils = AUR.modules.Utils
-
 local AWL = ArcaneWizardLibrary
+local Addon = AWL:GetAddon(addonName)
+
+local Utils = AUR.modules.Utils
 
 local Overview = {}
 
@@ -451,7 +452,7 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 
 		background.texture = background:CreateTexture(nil, "BACKGROUND")
 		background.texture:SetAllPoints()
-		background.texture:SetTexture(AUR.MEDIA_PATH .. "active-table-background.blp")
+		background.texture:SetTexture(Addon:GetMediaPath("active-table-background.blp"))
 		background.texture:SetAlpha(0)
 
 		background:SetScript("OnEnter", function(self) self.texture:SetAlpha(0.3) end)
@@ -543,7 +544,7 @@ local function HandleCharacterDeleteConfirmed(realm, char)
 	UpdateCharacterOverview()
 	UpdateAccountOverview()
 
-	if AUR.GAME_TYPE_MAINLINE then
+	if AWL.GAME_TYPE_MAINLINE then
 		UpdateWarbandOverview()
 	end
 
@@ -594,7 +595,7 @@ local function CreateCurrencyDropdown(scrollFrame, background, index)
 				return fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + 20, rightTexture:GetHeight() + 4
 			end)
 
-			if not AUR.GAME_TYPE_MAINLINE and not AUR.GAME_TYPE_MISTS then return end
+			if not AWL.GAME_TYPE_MAINLINE and not AWL.GAME_TYPE_MISTS then return end
 
 			root:CreateDivider()
 
@@ -623,7 +624,7 @@ local function CreateCurrencyDropdown(scrollFrame, background, index)
 					end
 				end
 			end
-		elseif index == 3 and AUR.GAME_TYPE_MAINLINE then
+		elseif index == 3 and AWL.GAME_TYPE_MAINLINE then
 			for _, categoryKey in ipairs(AUR.CURRENCY_CATEGORY_ORDER) do
 				if AUR.WARBAND_CURRENCIES[categoryKey] then
 					local categoryButton = root:CreateButton(L["currency-overview.category." .. categoryKey])
@@ -699,7 +700,7 @@ local function CreateCharacterDropdown(scrollFrame, background)
 						local class = AUR.data.character[realmKey][charKey].class
 						local faction = AUR.data.character[realmKey][charKey].faction
 
-						if AUR.GAME_TYPE_MAINLINE then
+						if AWL.GAME_TYPE_MAINLINE then
 							---@diagnostic disable-next-line: cast-local-type
 							classColor = C_ClassColor.GetClassColor(class)
 						else
@@ -780,7 +781,7 @@ local function CreateCharacterActionsButton(scrollFrame, characterDropdown)
 	local icon = actionsButton:CreateTexture(nil, "ARTWORK")
 	icon:SetPoint("CENTER")
 	icon:SetSize(14, 14)
-	icon:SetTexture(AUR.MEDIA_PATH .. "gear-icon.tga")
+	icon:SetTexture(Addon:GetMediaPath("gear-icon.tga"))
 
 	actionsButton:SetScript("OnClick", function(self)
 		OpenCharacterActionsMenu(self)
@@ -791,7 +792,7 @@ end
 
 local function SetupTabs(numTabs)
 	local tabs = {}
-	local tabTemplate = AUR.GAME_TYPE_MAINLINE and "PanelTabButtonTemplate" or "CharacterFrameTabButtonTemplate"
+	local tabTemplate = AWL.GAME_TYPE_MAINLINE and "PanelTabButtonTemplate" or "CharacterFrameTabButtonTemplate"
 
 	for i = 1, numTabs do
 		local tab = CreateFrame("Button", "Aurarium_OverviewTab" .. i, OverviewFrame, tabTemplate)
@@ -804,16 +805,16 @@ local function SetupTabs(numTabs)
 		tab:SetScript("OnClick", function(self)
 			local id = self:GetID()
 
-			if AUR.GAME_TYPE_MAINLINE then
+			if AWL.GAME_TYPE_MAINLINE then
 				PanelTemplates_SetTab(OverviewFrame, id)
 			end
 
 			for j = 1, numTabs do
 				if j == id then
-					if not AUR.GAME_TYPE_MAINLINE then PanelTemplates_SelectTab(tabs[j]) end
+					if not AWL.GAME_TYPE_MAINLINE then PanelTemplates_SelectTab(tabs[j]) end
 					OverviewScrollFrames[j]:Show()
 				else
-					if not AUR.GAME_TYPE_MAINLINE then PanelTemplates_DeselectTab(tabs[j]) end
+					if not AWL.GAME_TYPE_MAINLINE then PanelTemplates_DeselectTab(tabs[j]) end
 					OverviewScrollFrames[j]:Hide()
 				end
 			end
@@ -821,7 +822,7 @@ local function SetupTabs(numTabs)
 		tabs[i] = tab
 	end
 
-	if AUR.GAME_TYPE_MAINLINE then
+	if AWL.GAME_TYPE_MAINLINE then
 		PanelTemplates_SetNumTabs(OverviewFrame, numTabs)
 		tabs[1]:SetPoint("TOPLEFT", OverviewFrame, "BOTTOMLEFT", 10, 2)
 		tabs[2]:SetPoint("LEFT", tabs[1], "RIGHT", -15, 0)
@@ -839,8 +840,8 @@ local function SetupTabs(numTabs)
 end
 
 local function InitializeFrames()
-	local numTabs = AUR.GAME_TYPE_MAINLINE and 3 or 2
-	local insetTemplate = AUR.GAME_TYPE_MAINLINE and "InsetFrameTemplate4" or "InsetFrameTemplate"
+	local numTabs = AWL.GAME_TYPE_MAINLINE and 3 or 2
+	local insetTemplate = AWL.GAME_TYPE_MAINLINE and "InsetFrameTemplate4" or "InsetFrameTemplate"
 
 	OverviewFrame = CreateFrame("Frame", "Aurarium_OverviewFrame", UIParent, "PortraitFrameTemplate")
 	OverviewFrame:SetPoint("CENTER")
@@ -857,13 +858,13 @@ local function InitializeFrames()
 
 	local portrait = OverviewFrame:GetPortrait()
 	portrait:SetPoint('TOPLEFT', -5, 8)
-	portrait:SetTexture(AUR.MEDIA_PATH .. "icon-round.blp")
+	portrait:SetTexture(Addon:GetMediaPath("icon-round.blp"))
 
 	local background = CreateFrame("Frame", nil, OverviewFrame, insetTemplate)
 	background:SetSize(454, 430)
 	background:SetPoint("BOTTOM", OverviewFrame, "BOTTOM", 0, 37)
 
-	if AUR.GAME_TYPE_MAINLINE then
+	if AWL.GAME_TYPE_MAINLINE then
 		background.texture = background:CreateTexture(nil, "BACKGROUND")
 		background.texture:SetAllPoints(background)
 		background.texture:SetPoint("CENTER")
@@ -946,7 +947,7 @@ function Overview:Refresh()
 	UpdateCharacterOverview()
 	UpdateAccountOverview()
 
-	if AUR.GAME_TYPE_MAINLINE then
+	if AWL.GAME_TYPE_MAINLINE then
 		UpdateWarbandOverview()
 	end
 end

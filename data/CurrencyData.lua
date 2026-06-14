@@ -1,6 +1,8 @@
 local _, AUR = ...
 
-if AUR.GAME_TYPE_MISTS then
+local AWL = ArcaneWizardLibrary
+
+if AWL.GAME_TYPE_MISTS then
 	AUR.CURRENCY_CATEGORY_ORDER = {
 		"misc",         -- 1
 		"pvp",          -- 2
@@ -30,7 +32,7 @@ if AUR.GAME_TYPE_MISTS then
 			777		-- Zeitlose Münze
 		}
 	}
-elseif AUR.GAME_TYPE_MAINLINE then
+elseif AWL.GAME_TYPE_MAINLINE then
 	AUR.CURRENCY_CATEGORY_ORDER = {
 		"misc",         -- 1
 		"profession",	-- xxx
