@@ -1,10 +1,9 @@
 local addonName, AUR = ...
 
-local L = AUR.Localization
-
 local AWL = ArcaneWizardLibrary
 local Addon = AWL:GetAddon(addonName)
 
+local L = AUR.Localization
 local Utils = AUR.modules.Utils
 
 local Overview = {}

@@ -1,9 +1,9 @@
 local addonName, AUR = ...
 
-local L = AUR.Localization
-
 local AWL = ArcaneWizardLibrary
 local Addon = AWL:GetAddon(addonName)
+
+local L = AUR.Localization
 
 local handlers = Addon:CreateCompartmentHandlers({
 	tooltip = L["minimap-button.tooltip"],
