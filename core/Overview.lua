@@ -4,7 +4,7 @@ local AWL = ArcaneWizardLibrary
 local Addon = AWL:GetAddon(addonName)
 
 local L = AUR.Localization
-local Utils = AUR.modules.Utils
+local Utils = AUR.Modules.Utils
 
 local Overview = {}
 
@@ -93,7 +93,7 @@ end
 local function BuildGenericHistory(rawData, currencyKey)
 	local entries = {}
 	local lastValue = 0
-	local dates = AUR.data.dates
+	local dates = AUR.Data.dates
 	local startIndex = nil
 
 	for i, date in ipairs(dates) do
@@ -129,7 +129,7 @@ end
 local function BuildGenericHistoryLookup(rawData, currencyKey)
 	local entries = {}
 	local lastValue = 0
-	local dates = AUR.data.dates
+	local dates = AUR.Data.dates
 	local startIndex = nil
 
 	for i, date in ipairs(dates) do
@@ -162,23 +162,23 @@ local function BuildGenericHistoryLookup(rawData, currencyKey)
 end
 
 local function BuildCharacterHistory(realm, char, currencyKey)
-	if not realm or not char or not AUR.data.balance[realm] or not AUR.data.balance[realm][char] then
+	if not realm or not char or not AUR.Data.balance[realm] or not AUR.Data.balance[realm][char] then
 		return {}
 	end
 
-	return BuildGenericHistory(AUR.data.balance[realm][char], currencyKey)
+	return BuildGenericHistory(AUR.Data.balance[realm][char], currencyKey)
 end
 
 local function BuildCharacterHistoryLookup(realm, char, currencyKey)
-	if not realm or not char or not AUR.data.balance[realm] or not AUR.data.balance[realm][char] then
+	if not realm or not char or not AUR.Data.balance[realm] or not AUR.Data.balance[realm][char] then
 		return {}
 	end
 
-	return BuildGenericHistoryLookup(AUR.data.balance[realm][char], currencyKey)
+	return BuildGenericHistoryLookup(AUR.Data.balance[realm][char], currencyKey)
 end
 
 local function HasCharacterData(realm, char)
-	return realm and char and AUR.data.balance[realm] and AUR.data.balance[realm][char]
+	return realm and char and AUR.Data.balance[realm] and AUR.Data.balance[realm][char]
 end
 
 local function IsCurrentCharacter(realm, char)
@@ -194,7 +194,7 @@ end
 local function GetSortedCharacters()
 	local characters = {}
 
-	for realm, realmData in pairs(AUR.data.balance) do
+	for realm, realmData in pairs(AUR.Data.balance) do
 		if realm ~= "Warband" then
 			for char, _ in pairs(realmData) do
 				table.insert(characters, {realm = realm, char = char})
@@ -252,21 +252,21 @@ local function DeleteCharacterData(realm, char)
 
 	local removed = false
 
-	if AUR.data.balance[realm] and AUR.data.balance[realm][char] then
-		AUR.data.balance[realm][char] = nil
+	if AUR.Data.balance[realm] and AUR.Data.balance[realm][char] then
+		AUR.Data.balance[realm][char] = nil
 
-		if not next(AUR.data.balance[realm]) then
-			AUR.data.balance[realm] = nil
+		if not next(AUR.Data.balance[realm]) then
+			AUR.Data.balance[realm] = nil
 		end
 
 		removed = true
 	end
 
-	if AUR.data.character[realm] and AUR.data.character[realm][char] then
-		AUR.data.character[realm][char] = nil
+	if AUR.Data.character[realm] and AUR.Data.character[realm][char] then
+		AUR.Data.character[realm][char] = nil
 
-		if not next(AUR.data.character[realm]) then
-			AUR.data.character[realm] = nil
+		if not next(AUR.Data.character[realm]) then
+			AUR.Data.character[realm] = nil
 		end
 
 		removed = true
@@ -280,15 +280,15 @@ local function DeleteCharacterData(realm, char)
 end
 
 local function BuildWarbandHistory(currencyKey)
-	return BuildGenericHistory(AUR.data.balance["Warband"], currencyKey)
+	return BuildGenericHistory(AUR.Data.balance["Warband"], currencyKey)
 end
 
 local function BuildAccountHistory(currencyKey)
-	local dates = AUR.data.dates
+	local dates = AUR.Data.dates
 	local temp = {}
 	local entries = {}
 
-	for realm, realmData in pairs(AUR.data.balance) do
+	for realm, realmData in pairs(AUR.Data.balance) do
 		if realm ~= "Warband" then
 			for char, _ in pairs(realmData) do
 				local characterHistory = BuildCharacterHistoryLookup(realm, char, currencyKey)
@@ -330,7 +330,7 @@ local function BuildMonthHistory(history, monthPrefix)
 end
 
 local function FilterUnchangedHistory(history)
-	if not AUR.settings.currencyOverview["hide-unchanged-entries"] then
+	if not AUR.Settings.currencyOverview["hide-unchanged-entries"] then
 		return history
 	end
 
@@ -676,7 +676,7 @@ local function CreateCharacterDropdown(scrollFrame, background)
 		end
 
 		local realms = {}
-		for realm, _ in pairs(AUR.data.balance) do
+		for realm, _ in pairs(AUR.Data.balance) do
 			if realm ~= "Warband" then table.insert(realms, realm) end
 		end
 		table.sort(realms)
@@ -684,7 +684,7 @@ local function CreateCharacterDropdown(scrollFrame, background)
 		for _, realmKey in ipairs(realms) do
 			local realmButton = root:CreateButton(realmKey)
 			local chars = {}
-			for charName, _ in pairs(AUR.data.balance[realmKey]) do
+			for charName, _ in pairs(AUR.Data.balance[realmKey]) do
 				table.insert(chars, charName)
 			end
 			table.sort(chars)
@@ -695,9 +695,9 @@ local function CreateCharacterDropdown(scrollFrame, background)
 					local factionFileID = 0
 					local classColor = WHITE_FONT_COLOR
 
-					if AUR.data.character[realmKey] and AUR.data.character[realmKey][charKey] then
-						local class = AUR.data.character[realmKey][charKey].class
-						local faction = AUR.data.character[realmKey][charKey].faction
+					if AUR.Data.character[realmKey] and AUR.Data.character[realmKey][charKey] then
+						local class = AUR.Data.character[realmKey][charKey].class
+						local faction = AUR.Data.character[realmKey][charKey].faction
 
 						if AWL.GAME_TYPE_MAINLINE then
 							---@diagnostic disable-next-line: cast-local-type
@@ -955,4 +955,4 @@ function Overview:IsShown()
 	return OverviewFrame and OverviewFrame:IsShown()
 end
 
-AUR.modules.Overview = Overview
+AUR.Modules.Overview = Overview

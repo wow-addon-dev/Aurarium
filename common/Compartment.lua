@@ -8,10 +8,10 @@ local L = AUR.Localization
 local handlers = Addon:CreateCompartmentHandlers({
 	tooltip = L["minimap-button.tooltip"],
 	onLeftClick = function()
-		if AUR.modules.Overview:IsShown() then
-			AUR.modules.Overview:Hide()
+		if AUR.Modules.Overview:IsShown() then
+			AUR.Modules.Overview:Hide()
 		else
-			AUR.modules.Overview:Show()
+			AUR.Modules.Overview:Show()
 		end
 	end
 })

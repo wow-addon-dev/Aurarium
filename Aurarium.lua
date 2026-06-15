@@ -3,16 +3,16 @@ local addonName, AUR = ...
 local AWL = ArcaneWizardLibrary
 local Addon = AWL:GetAddon(addonName)
 
-local Options = AUR.modules.Options
-local Overview = AUR.modules.Overview
-local Utils = AUR.modules.Utils
+local Options = AUR.Modules.Options
+local Overview = AUR.Modules.Overview
+local Utils = AUR.Modules.Utils
 
 -----------------------
 --- Local Functions ---
 -----------------------
 
 local function UpdateDateHistory(today)
-	local dates = AUR.data.dates
+	local dates = AUR.Data.dates
 
 	for _, d in ipairs(dates) do
 		if d == today then return end
@@ -26,12 +26,12 @@ local function SaveCharacterMetadata(realm, char)
 	local classFilename = UnitClassBase("player")
 	local englishFaction = UnitFactionGroup("player")
 
-	AUR.data.character[realm][char] = {class = classFilename, faction = englishFaction}
+	AUR.Data.character[realm][char] = {class = classFilename, faction = englishFaction}
 end
 
 local function TrackGoldBalance(realm, char, today)
-	local characterHistory = AUR.data.balance[realm][char]
-	AUR.data.balance[realm][char][today] = AUR.data.balance[realm][char][today] or {}
+	local characterHistory = AUR.Data.balance[realm][char]
+	AUR.Data.balance[realm][char][today] = AUR.Data.balance[realm][char][today] or {}
 
 	local newGold = Utils:GetGold()
 	local prevGold = 0
@@ -45,16 +45,16 @@ local function TrackGoldBalance(realm, char, today)
 	end
 
 	if newGold ~= prevGold then
-		AUR.data.balance[realm][char][today]["gold"] = newGold
+		AUR.Data.balance[realm][char][today]["gold"] = newGold
 		return true
 	else
-		AUR.data.balance[realm][char][today]["gold"] = nil
+		AUR.Data.balance[realm][char][today]["gold"] = nil
 		return false
 	end
 end
 
 local function TrackCharacterCurrencies(realm, char, today)
-	local characterHistory = AUR.data.balance[realm][char]
+	local characterHistory = AUR.Data.balance[realm][char]
 	local changed = false
 
 	for _, currencies in pairs(AUR.CHARACTER_CURRENCIES) do
@@ -75,10 +75,10 @@ local function TrackCharacterCurrencies(realm, char, today)
 				end
 
 				if newQty ~= prevQty then
-					AUR.data.balance[realm][char][today][key] = newQty
+					AUR.Data.balance[realm][char][today][key] = newQty
 					changed = true
 				else
-					AUR.data.balance[realm][char][today][key] = nil
+					AUR.Data.balance[realm][char][today][key] = nil
 				end
 			end
 		end
@@ -88,8 +88,8 @@ local function TrackCharacterCurrencies(realm, char, today)
 end
 
 local function TrackWarbandCurrencies(today)
-	local warbandHistory = AUR.data.balance["Warband"]
-	AUR.data.balance["Warband"][today] = AUR.data.balance["Warband"][today] or {}
+	local warbandHistory = AUR.Data.balance["Warband"]
+	AUR.Data.balance["Warband"][today] = AUR.Data.balance["Warband"][today] or {}
 	local changed = false
 
 	for _, currencies in pairs(AUR.WARBAND_CURRENCIES) do
@@ -108,10 +108,10 @@ local function TrackWarbandCurrencies(today)
 			end
 
 			if newQty ~= prevQty then
-				AUR.data.balance["Warband"][today][key] = newQty
+				AUR.Data.balance["Warband"][today][key] = newQty
 				changed = true
 			else
-				AUR.data.balance["Warband"][today][key] = nil
+				AUR.Data.balance["Warband"][today][key] = nil
 			end
 		end
 	end
@@ -131,7 +131,7 @@ local function SaveBalance()
 		local charCurChanged = TrackCharacterCurrencies(realm, char, today)
 
 		if not (goldChanged or charCurChanged) then
-			AUR.data.balance[realm][char][today] = nil
+			AUR.Data.balance[realm][char][today] = nil
 		end
 	elseif AWL.GAME_TYPE_MAINLINE then
 		local goldChanged = TrackGoldBalance(realm, char, today)
@@ -139,17 +139,17 @@ local function SaveBalance()
 		local warbandChanged = TrackWarbandCurrencies(today)
 
 		if not (goldChanged or charCurChanged) then
-			AUR.data.balance[realm][char][today] = nil
+			AUR.Data.balance[realm][char][today] = nil
 		end
 
 		if not warbandChanged then
-			AUR.data.balance["Warband"][today] = nil
+			AUR.Data.balance["Warband"][today] = nil
 		end
 	else
 		local goldChanged = TrackGoldBalance(realm, char, today)
 
 		if not goldChanged then
-			AUR.data.balance[realm][char][today] = nil
+			AUR.Data.balance[realm][char][today] = nil
 		end
 	end
 
@@ -208,7 +208,7 @@ function AurariumFrame:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
 			SaveBalance()
 		end)
 
-		if AUR.settings.currencyOverview["open-on-login"] then
+		if AUR.Settings.currencyOverview["open-on-login"] then
 			Overview:Show()
 		end
 	end

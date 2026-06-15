@@ -122,11 +122,11 @@ function Utils:InitializeDatabase()
 	local useAccountProfile = Aurarium_Options_v3.profileKeys[characterRealmKey]["use-account"]
 
 	if useAccountProfile then
-		AUR.settings.general = Aurarium_Options_v3.account["general"]
-		AUR.settings.currencyOverview = Aurarium_Options_v3.account["currency-overview"]
+		AUR.Settings.general = Aurarium_Options_v3.account["general"]
+		AUR.Settings.currencyOverview = Aurarium_Options_v3.account["currency-overview"]
 	else
-		AUR.settings.general = Aurarium_Options_v3.profiles[characterRealmKey]["general"]
-		AUR.settings.currencyOverview = Aurarium_Options_v3.profiles[characterRealmKey]["currency-overview"]
+		AUR.Settings.general = Aurarium_Options_v3.profiles[characterRealmKey]["general"]
+		AUR.Settings.currencyOverview = Aurarium_Options_v3.profiles[characterRealmKey]["currency-overview"]
 	end
 
 	if not Aurarium_DataDates then
@@ -141,18 +141,18 @@ function Utils:InitializeDatabase()
 		Aurarium_DataBalance = {}
 	end
 
-	AUR.data.dates = Aurarium_DataDates
-	AUR.data.character = Aurarium_DataCharacter
-	AUR.data.balance = Aurarium_DataBalance
+	AUR.Data.dates = Aurarium_DataDates
+	AUR.Data.character = Aurarium_DataCharacter
+	AUR.Data.balance = Aurarium_DataBalance
 
-	AUR.data.character[realm] = AUR.data.character[realm] or {}
-	AUR.data.character[realm][char] = AUR.data.character[realm][char] or {}
+	AUR.Data.character[realm] = AUR.Data.character[realm] or {}
+	AUR.Data.character[realm][char] = AUR.Data.character[realm][char] or {}
 
-	AUR.data.balance[realm] = AUR.data.balance[realm] or {}
-	AUR.data.balance[realm][char] = AUR.data.balance[realm][char] or {}
+	AUR.Data.balance[realm] = AUR.Data.balance[realm] or {}
+	AUR.Data.balance[realm][char] = AUR.Data.balance[realm][char] or {}
 
 	if AWL.GAME_TYPE_MAINLINE then
-		AUR.data.balance["Warband"] = AUR.data.balance["Warband"] or {}
+		AUR.Data.balance["Warband"] = AUR.Data.balance["Warband"] or {}
 	end
 
 	return {
@@ -165,16 +165,16 @@ end
 
 function Utils:InitializeMinimapButton()
 	self.minimapButton = Addon:RegisterMinimapButton({
-		db = AUR.settings.general["minimap-button"],
+		db = AUR.Settings.general["minimap-button"],
 		tooltip = L["minimap-button.tooltip"],
 		onLeftClick = function()
-			if AUR.modules.Overview:IsShown() then
-				AUR.modules.Overview:Hide()
+			if AUR.Modules.Overview:IsShown() then
+				AUR.Modules.Overview:Hide()
 			else
-				AUR.modules.Overview:Show()
+				AUR.Modules.Overview:Show()
 			end
 		end
 	})
 end
 
-AUR.modules.Utils = Utils
+AUR.Modules.Utils = Utils

@@ -1,14 +1,14 @@
 local addonName, AUR = ...
 
-AUR.settings = AUR.settings or {}
-AUR.data = AUR.data or {}
-AUR.state = AUR.state or {}
-AUR.modules = AUR.modules or {}
+AUR.Settings = AUR.Settings or {}
+AUR.Data = AUR.Data or {}
+AUR.State = AUR.State or {}
+AUR.Modules = AUR.Modules or {}
 
 local AWL = ArcaneWizardLibrary
 
 AWL:NewAddon(addonName, {
 	debugEnabled = function()
-		return AUR.settings.general and AUR.settings.general["debug-mode"]
+		return AUR.Settings.general and AUR.Settings.general["debug-mode"]
 	end
 })

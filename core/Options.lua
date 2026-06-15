@@ -4,7 +4,7 @@ local AWL = ArcaneWizardLibrary
 local Addon = AWL:GetAddon(addonName)
 
 local L = AUR.Localization
-local Utils = AUR.modules.Utils
+local Utils = AUR.Modules.Utils
 
 local Options = {}
 
@@ -15,7 +15,7 @@ local Options = {}
 local minimapButtonProxy = setmetatable({}, {
 	__index = function(_, key)
 		if key == "hide" then
-			return not AUR.settings.general["minimap-button"]["hide"]
+			return not AUR.Settings.general["minimap-button"]["hide"]
 		end
 	end,
 	__newindex = function(_, key, value)
@@ -23,7 +23,7 @@ local minimapButtonProxy = setmetatable({}, {
 			return
 		end
 
-		AUR.settings.general["minimap-button"]["hide"] = not value
+		AUR.Settings.general["minimap-button"]["hide"] = not value
 
 		if value then
 			Utils.minimapButton:Show("Aurarium")
@@ -36,7 +36,7 @@ local minimapButtonProxy = setmetatable({}, {
 local currencyOverviewProxy = setmetatable({}, {
 	__index = function(_, key)
 		if key == "hide-unchanged-entries" then
-			return AUR.settings.currencyOverview["hide-unchanged-entries"]
+			return AUR.Settings.currencyOverview["hide-unchanged-entries"]
 		end
 	end,
 	__newindex = function(_, key, value)
@@ -44,10 +44,10 @@ local currencyOverviewProxy = setmetatable({}, {
 			return
 		end
 
-		AUR.settings.currencyOverview["hide-unchanged-entries"] = value
+		AUR.Settings.currencyOverview["hide-unchanged-entries"] = value
 
-		if AUR.modules.Overview and AUR.modules.Overview:IsShown() then
-			AUR.modules.Overview:Refresh()
+		if AUR.Modules.Overview and AUR.Modules.Overview:IsShown() then
+			AUR.Modules.Overview:Refresh()
 		end
 	end,
 })
@@ -73,7 +73,7 @@ function Options:Initialize()
 
 	-- Debug Mode
 	AWL.Settings:AddCheckbox(category, {
-		variableTable = AUR.settings.general,
+		variableTable = AUR.Settings.general,
 		settingKey    = addonName .. "_debug-mode",
 		variableName  = "debug-mode",
 		name          = L["options.general.debug-mode.name"],
@@ -85,7 +85,7 @@ function Options:Initialize()
 
 	-- Open on Login
 	AWL.Settings:AddCheckbox(category, {
-		variableTable = AUR.settings.currencyOverview,
+		variableTable = AUR.Settings.currencyOverview,
 		settingKey    = addonName .. "_open-on-login",
 		variableName  = "open-on-login",
 		name          = L["options.currency-overview.open-on-login.name"],
@@ -124,4 +124,4 @@ function Options:Initialize()
 	Addon:SetMainCategoryId(category:GetID())
 end
 
-AUR.modules.Options = Options
+AUR.Modules.Options = Options
