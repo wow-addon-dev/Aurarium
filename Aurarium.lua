@@ -22,14 +22,14 @@ local function UpdateDateHistory(today)
 	table.sort(dates)
 end
 
-local function SaveCharacterMetadata(realm, char)
+local function SaveCharacterMetadata(char, realm)
 	local classFilename = UnitClassBase("player")
 	local englishFaction = UnitFactionGroup("player")
 
 	AUR.Data.character[realm][char] = {class = classFilename, faction = englishFaction}
 end
 
-local function TrackGoldBalance(realm, char, today)
+local function TrackGoldBalance(char, realm, today)
 	local characterHistory = AUR.Data.balance[realm][char]
 	AUR.Data.balance[realm][char][today] = AUR.Data.balance[realm][char][today] or {}
 
@@ -53,7 +53,7 @@ local function TrackGoldBalance(realm, char, today)
 	end
 end
 
-local function TrackCharacterCurrencies(realm, char, today)
+local function TrackCharacterCurrencies(char, realm, today)
 	local characterHistory = AUR.Data.balance[realm][char]
 	local changed = false
 
@@ -120,22 +120,22 @@ local function TrackWarbandCurrencies(today)
 end
 
 local function SaveBalance()
-	local realm, char = Utils:GetCharacterInfo()
+	local char, realm = AWL.Utils:GetCharacterAndRealm()
 	local today = Utils:GetToday()
 
 	UpdateDateHistory(today)
-	SaveCharacterMetadata(realm, char)
+	SaveCharacterMetadata(char, realm)
 
 	if AWL.GAME_TYPE_MISTS then
-		local goldChanged = TrackGoldBalance(realm, char, today)
-		local charCurChanged = TrackCharacterCurrencies(realm, char, today)
+		local goldChanged = TrackGoldBalance(char, realm, today)
+		local charCurChanged = TrackCharacterCurrencies(char, realm, today)
 
 		if not (goldChanged or charCurChanged) then
 			AUR.Data.balance[realm][char][today] = nil
 		end
 	elseif AWL.GAME_TYPE_MAINLINE then
-		local goldChanged = TrackGoldBalance(realm, char, today)
-		local charCurChanged = TrackCharacterCurrencies(realm, char, today)
+		local goldChanged = TrackGoldBalance(char, realm, today)
+		local charCurChanged = TrackCharacterCurrencies(char, realm, today)
 		local warbandChanged = TrackWarbandCurrencies(today)
 
 		if not (goldChanged or charCurChanged) then
@@ -146,14 +146,14 @@ local function SaveBalance()
 			AUR.Data.balance["Warband"][today] = nil
 		end
 	else
-		local goldChanged = TrackGoldBalance(realm, char, today)
+		local goldChanged = TrackGoldBalance(char, realm, today)
 
 		if not goldChanged then
 			AUR.Data.balance[realm][char][today] = nil
 		end
 	end
 
-	Utils:PrintDebug("Balance saved.")
+	Addon:PrintDebug("Balance saved.")
 end
 
 local function SlashCommand(msg, editbox)
@@ -162,7 +162,7 @@ local function SlashCommand(msg, editbox)
 	elseif strtrim(msg) == "overview" then
 		Overview:Show()
 	else
-		Utils:PrintDebug("These arguments are not accepted.")
+		Addon:PrintDebug("These arguments are not accepted.")
 	end
 end
 
@@ -189,16 +189,16 @@ function AurariumFrame:ADDON_LOADED(_, addOnName)
 
 		Utils:OpenSettingsOnLoading()
 
-		Utils:PrintDebug(string.format(
+		Addon:PrintDebug(string.format(
 			"InitializeDatabase: key=%s, createdProfile=%s, createdProfileKey=%s, activeProfile=%s",
 			tostring(dbInit.characterRealmKey), tostring(dbInit.createdProfile), tostring(dbInit.createdProfileKey), tostring(dbInit.activeProfile)
 		))
-		Utils:PrintDebug("Addon fully loaded.")
+		Addon:PrintDebug("Addon fully loaded.")
 	end
 end
 
 function AurariumFrame:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
-	Utils:PrintDebug(string.format(
+	Addon:PrintDebug(string.format(
 		"Event 'PLAYER_ENTERING_WORLD' fired. Payload: isInitialLogin=%s, isReloadingUi=%s",
 		tostring(isInitialLogin), tostring(isReloadingUi)
 	))
@@ -215,13 +215,13 @@ function AurariumFrame:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
 end
 
 function AurariumFrame:PLAYER_MONEY(...)
-	Utils:PrintDebug("Event 'PLAYER_MONEY' fired. No payload.")
+	Addon:PrintDebug("Event 'PLAYER_MONEY' fired. No payload.")
 
 	SaveBalance()
 end
 
 function AurariumFrame:CURRENCY_DISPLAY_UPDATE(_, currencyType, quantity, quantityChange, quantityGainSource, quantityLostSource)
-	Utils:PrintDebug(string.format(
+	Addon:PrintDebug(string.format(
 		"Event 'CURRENCY_DISPLAY_UPDATE' fired. Payload: currencyType=%s, quantity=%s, quantityChange=%s, quantityGainSource=%s, quantityLostSource=%s",
 		tostring(currencyType), tostring(quantity), tostring(quantityChange), tostring(quantityGainSource), tostring(quantityLostSource)
 	))

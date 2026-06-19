@@ -13,7 +13,7 @@ local selectedCurrency = {}
 selectedCurrency[1] = "gold"
 selectedCurrency[2] = "gold"
 selectedCurrency[3] = "w-2032"
-local selectedRealm, selectedChar = Utils:GetCharacterInfo()
+local selectedChar, selectedRealm = AWL.Utils:GetCharacterAndRealm()
 
 --------------
 --- Frames ---
@@ -161,7 +161,7 @@ local function BuildGenericHistoryLookup(rawData, currencyKey)
 	return entries
 end
 
-local function BuildCharacterHistory(realm, char, currencyKey)
+local function BuildCharacterHistory(char, realm, currencyKey)
 	if not realm or not char or not AUR.Data.balance[realm] or not AUR.Data.balance[realm][char] then
 		return {}
 	end
@@ -169,7 +169,7 @@ local function BuildCharacterHistory(realm, char, currencyKey)
 	return BuildGenericHistory(AUR.Data.balance[realm][char], currencyKey)
 end
 
-local function BuildCharacterHistoryLookup(realm, char, currencyKey)
+local function BuildCharacterHistoryLookup(char, realm, currencyKey)
 	if not realm or not char or not AUR.Data.balance[realm] or not AUR.Data.balance[realm][char] then
 		return {}
 	end
@@ -177,18 +177,18 @@ local function BuildCharacterHistoryLookup(realm, char, currencyKey)
 	return BuildGenericHistoryLookup(AUR.Data.balance[realm][char], currencyKey)
 end
 
-local function HasCharacterData(realm, char)
+local function HasCharacterData(char, realm)
 	return realm and char and AUR.Data.balance[realm] and AUR.Data.balance[realm][char]
 end
 
-local function IsCurrentCharacter(realm, char)
+local function IsCurrentCharacter(char, realm)
 	if not realm or not char then
 		return false
 	end
 
-	local currentRealm, currentChar = Utils:GetCharacterInfo()
+	local currentChar, currentRealm = AWL.Utils:GetCharacterAndRealm()
 
-	return realm == currentRealm and char == currentChar
+	return char == currentChar and realm == currentRealm
 end
 
 local function GetSortedCharacters()
@@ -214,15 +214,15 @@ local function GetSortedCharacters()
 end
 
 local function SelectFallbackCharacter()
-	if HasCharacterData(selectedRealm, selectedChar) then
+	if HasCharacterData(selectedChar, selectedRealm) then
 		return true
 	end
 
-	local currentRealm, currentChar = Utils:GetCharacterInfo()
+	local currentChar, currentRealm = AWL.Utils:GetCharacterAndRealm()
 
-	if HasCharacterData(currentRealm, currentChar) then
-		selectedRealm = currentRealm
+	if HasCharacterData(currentChar, currentRealm) then
 		selectedChar = currentChar
+		selectedRealm = currentRealm
 		return true
 	end
 
@@ -241,12 +241,12 @@ local function SelectFallbackCharacter()
 	return false
 end
 
-local function DeleteCharacterData(realm, char)
+local function DeleteCharacterData(char, realm)
 	if not realm or not char then
 		return false, "invalid-target"
 	end
 
-	if IsCurrentCharacter(realm, char) then
+	if IsCurrentCharacter(char, realm) then
 		return false, "current-character"
 	end
 
@@ -291,7 +291,7 @@ local function BuildAccountHistory(currencyKey)
 	for realm, realmData in pairs(AUR.Data.balance) do
 		if realm ~= "Warband" then
 			for char, _ in pairs(realmData) do
-				local characterHistory = BuildCharacterHistoryLookup(realm, char, currencyKey)
+				local characterHistory = BuildCharacterHistoryLookup(char, realm, currencyKey)
 				table.insert(temp, {id = realm .. "-" .. char ,characterHistory = characterHistory})
 			end
 		end
@@ -503,7 +503,7 @@ end
 local function UpdateCharacterOverview()
 	SelectFallbackCharacter()
 
-	local characterHistory = BuildCharacterHistory(selectedRealm, selectedChar, selectedCurrency[1])
+	local characterHistory = BuildCharacterHistory(selectedChar, selectedRealm, selectedCurrency[1])
 	UpdateOverview(selectedCurrency[1], currentMonthOffset[1], characterHistory, OverviewScrollFrames[1])
 
 	if OverviewScrollFrames[1].actionsButton then
@@ -521,8 +521,8 @@ local function UpdateWarbandOverview()
 	UpdateOverview(selectedCurrency[3], currentMonthOffset[3], warbandHistory, OverviewScrollFrames[3])
 end
 
-local function HandleCharacterDeleteConfirmed(realm, char)
-	local removed, errorCode = DeleteCharacterData(realm, char)
+local function HandleCharacterDeleteConfirmed(char, realm)
+	local removed, errorCode = DeleteCharacterData(char, realm)
 
 	if not removed then
 		if errorCode == "current-character" then
@@ -550,20 +550,20 @@ local function HandleCharacterDeleteConfirmed(realm, char)
 	Utils:PrintMessage(string.format(L["chat.delete-character.deleted"], char, realm))
 end
 
-local function ShowCharacterDeleteConfirm(realm, char)
+local function ShowCharacterDeleteConfirm(char, realm)
 	if not realm or not char then
 		return
 	end
 
 	if not AWL or not AWL.Dialogs or not AWL.Dialogs.ShowConfirmDialog then
-		Utils:PrintDebug("ArcaneWizardLibrary dialog API is not available.")
+		Addon:PrintDebug("ArcaneWizardLibrary dialog API is not available.")
 		return
 	end
 
 	local confirmText = string.format(L["currency-overview.delete-character.confirm"], char, realm)
 
 	AWL.Dialogs:ShowConfirmDialog(confirmText, function()
-		HandleCharacterDeleteConfirmed(realm, char)
+		HandleCharacterDeleteConfirmed(char, realm)
 	end)
 end
 
@@ -733,10 +733,10 @@ local function CreateCharacterDropdown(scrollFrame, background)
 end
 
 local function OpenCharacterActionsMenu(ownerButton)
-	local realm = selectedRealm
 	local char = selectedChar
+	local realm = selectedRealm
 	local hasSelection = realm ~= nil and char ~= nil
-	local isCurrentCharacter = IsCurrentCharacter(realm, char)
+	local isCurrentCharacter = IsCurrentCharacter(char, realm)
 
 	if MenuUtil and MenuUtil.CreateContextMenu then
 		MenuUtil.CreateContextMenu(ownerButton, function(_, root)
@@ -750,7 +750,7 @@ local function OpenCharacterActionsMenu(ownerButton)
 					return
 				end
 
-				ShowCharacterDeleteConfirm(realm, char)
+				ShowCharacterDeleteConfirm(char, realm)
 			end)
 
 			if deleteAction and deleteAction.SetEnabled then
@@ -767,7 +767,7 @@ local function OpenCharacterActionsMenu(ownerButton)
 			return
 		end
 
-		ShowCharacterDeleteConfirm(realm, char)
+		ShowCharacterDeleteConfirm(char, realm)
 	end
 end
 
