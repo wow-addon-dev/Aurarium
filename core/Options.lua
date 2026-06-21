@@ -1,17 +1,19 @@
 local addonName, AUR = ...
 
+-- Library
 local AWL = ArcaneWizardLibrary
 local Addon = AWL:GetAddon(addonName)
 
+-- Localization
 local L = AUR.Localization
+
+-- Current module
+local Options = AUR.Modules.Options
+
+-- Module imports
 local Utils = AUR.Modules.Utils
 
-local Options = {}
-
------------------------
---- Local Functions ---
------------------------
-
+-- Variables
 local minimapButtonProxy = setmetatable({}, {
 	__index = function(_, key)
 		if key == "hide" then
@@ -53,7 +55,7 @@ local currencyOverviewProxy = setmetatable({}, {
 })
 
 ------------------------
---- Public Functions ---
+--- Module Functions ---
 ------------------------
 
 function Options:Initialize()
@@ -123,5 +125,3 @@ function Options:Initialize()
 
 	Addon:SetMainCategoryId(category:GetID())
 end
-
-AUR.Modules.Options = Options

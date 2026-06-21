@@ -1,19 +1,27 @@
 local addonName, AUR = ...
 
+-- Library
 local AWL = ArcaneWizardLibrary
 local Addon = AWL:GetAddon(addonName)
 
+-- Localization
 local L = AUR.Localization
+
+-- Current module
+local Overview = AUR.Modules.Overview
+
+-- Module imports
 local Utils = AUR.Modules.Utils
 
-local Overview = {}
-
+-- Variables
 local currentMonthOffset = {}
 local selectedCurrency = {}
 selectedCurrency[1] = "gold"
 selectedCurrency[2] = "gold"
 selectedCurrency[3] = "w-2032"
-local selectedChar, selectedRealm = AWL.Utils:GetCharacterAndRealm()
+local selectedChar
+local selectedRealm
+selectedChar, selectedRealm = AWL.Utils:GetCharacterAndRealm()
 
 --------------
 --- Frames ---
@@ -22,9 +30,9 @@ local selectedChar, selectedRealm = AWL.Utils:GetCharacterAndRealm()
 local OverviewFrame
 local OverviewScrollFrames = {}
 
-----------------------
+-----------------------
 --- Local Functions ---
-----------------------
+-----------------------
 
 local function GetYearMonthString(offset)
 	local now = time()
@@ -923,9 +931,9 @@ local function InitializeFrames()
 	SetupTabs(numTabs)
 end
 
----------------------
---- Public Functions ---
----------------------
+------------------------
+--- Module Functions ---
+------------------------
 
 function Overview:Initialize()
 	InitializeFrames()
@@ -954,5 +962,3 @@ end
 function Overview:IsShown()
 	return OverviewFrame and OverviewFrame:IsShown()
 end
-
-AUR.Modules.Overview = Overview

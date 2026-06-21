@@ -1,15 +1,18 @@
 local addonName, AUR = ...
 
+-- Library
 local AWL = ArcaneWizardLibrary
 local Addon = AWL:GetAddon(addonName)
 
+-- Localization
 local L = AUR.Localization
 
-local Utils = {}
+-- Current module
+local Utils = AUR.Modules.Utils
 
------------------------
---- Local Functions ---
------------------------
+------------------------
+--- Module Functions ---
+------------------------
 
 function Utils:GetToday()
 	return date("%Y-%m-%d")
@@ -18,10 +21,6 @@ end
 function Utils:GetGold()
 	return GetMoney()
 end
-
-------------------------
---- Public Functions ---
-------------------------
 
 function Utils:PrintMessage(msg)
 	Addon:PrintMessage(msg)
@@ -157,5 +156,3 @@ function Utils:InitializeMinimapButton()
 		end
 	})
 end
-
-AUR.Modules.Utils = Utils

@@ -1,11 +1,19 @@
 local addonName, AUR = ...
 
+-- Library
 local AWL = ArcaneWizardLibrary
 local Addon = AWL:GetAddon(addonName)
 
+-- Module imports
 local Options = AUR.Modules.Options
 local Overview = AUR.Modules.Overview
 local Utils = AUR.Modules.Utils
+
+--------------
+--- Frames ---
+--------------
+
+local AurariumFrame = CreateFrame("Frame", "Aurarium")
 
 -----------------------
 --- Local Functions ---
@@ -165,12 +173,6 @@ local function SlashCommand(msg, editbox)
 		Addon:PrintDebug("These arguments are not accepted.")
 	end
 end
-
---------------
---- Frames ---
---------------
-
-local AurariumFrame = CreateFrame("Frame", "Aurarium")
 
 ------------------------
 --- Public Functions ---
