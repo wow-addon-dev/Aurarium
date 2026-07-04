@@ -1,3 +1,9 @@
+**v2.15 (2026-07-04)**
+- Added: TOC version for patch 12.1.0 [retail]
+- Added: TOC version for patch 2.5.6 [burning crusade - classic anniversary edition]
+- Removed: TOC version for patch 12.0.5 [retail]
+- Minor code adjustments
+
 **v2.14 (2026-06-26)**
 - Minor code adjustments
 
