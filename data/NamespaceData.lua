@@ -11,8 +11,4 @@ AUR.Modules.Utils = AUR.Modules.Utils or {}
 
 local AWL = ArcaneWizardLibrary
 
-AWL:NewAddon(addonName, {
-	debugEnabled = function()
-		return AUR.Settings.general and AUR.Settings.general["debug-mode"]
-	end
-})
+AWL:NewAddon(addonName)

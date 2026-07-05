@@ -564,7 +564,7 @@ local function ShowCharacterDeleteConfirm(char, realm)
 	end
 
 	if not AWL or not AWL.Dialogs or not AWL.Dialogs.ShowConfirmDialog then
-		Addon:PrintDebug("ArcaneWizardLibrary dialog API is not available.")
+		Utils:PrintDebug("ArcaneWizardLibrary dialog API is not available.")
 		return
 	end
 

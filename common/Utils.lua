@@ -10,6 +10,14 @@ local L = AUR.Localization
 -- Current module
 local Utils = AUR.Modules.Utils
 
+-----------------------
+--- Local Functions ---
+-----------------------
+
+local function PrintChatMessage(color, prefix, msg)
+	DEFAULT_CHAT_FRAME:AddMessage(color:WrapTextInColorCode(prefix .. ": ") .. tostring(msg))
+end
+
 ------------------------
 --- Module Functions ---
 ------------------------
@@ -23,7 +31,13 @@ function Utils:GetGold()
 end
 
 function Utils:PrintMessage(msg)
-	Addon:PrintMessage(msg)
+	PrintChatMessage(NORMAL_FONT_COLOR, addonName, msg)
+end
+
+function Utils:PrintDebug(msg)
+	if AUR.Settings.general["debug-mode"] then
+		PrintChatMessage(ORANGE_FONT_COLOR, addonName .. " (Debug)", msg)
+	end
 end
 
 function Utils:IsAccountProfile()
@@ -36,7 +50,9 @@ function Utils:OpenSettingsOnLoading()
 	local characterRealmKey = AWL.Utils:GetCharacterRealmKey()
 
 	if Aurarium_Options_v3.profileKeys[characterRealmKey]["open-settings"] then
-		Addon:OpenCategory()
+		if not Addon:OpenCategory() then
+			self:PrintDebug("In combat. The options menu cannot be opened.")
+		end
 
 		Aurarium_Options_v3.profileKeys[characterRealmKey]["open-settings"] = false
 	end

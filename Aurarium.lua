@@ -161,16 +161,18 @@ local function SaveBalance()
 		end
 	end
 
-	Addon:PrintDebug("Balance saved.")
+	Utils:PrintDebug("Balance saved.")
 end
 
 local function SlashCommand(msg, editbox)
 	if not msg or strtrim(msg) == "" then
-		Addon:OpenCategory()
+		if not Addon:OpenCategory() then
+			Utils:PrintDebug("In combat. The options menu cannot be opened.")
+		end
 	elseif strtrim(msg) == "overview" then
 		Overview:Show()
 	else
-		Addon:PrintDebug("These arguments are not accepted.")
+		Utils:PrintDebug("These arguments are not accepted.")
 	end
 end
 
@@ -191,16 +193,16 @@ function AurariumFrame:ADDON_LOADED(_, addOnName)
 
 		Utils:OpenSettingsOnLoading()
 
-		Addon:PrintDebug(string.format(
+		Utils:PrintDebug(string.format(
 			"InitializeDatabase: key=%s, createdProfile=%s, createdProfileKey=%s, activeProfile=%s",
 			tostring(dbInit.characterRealmKey), tostring(dbInit.createdProfile), tostring(dbInit.createdProfileKey), tostring(dbInit.activeProfile)
 		))
-		Addon:PrintDebug("Addon fully loaded.")
+		Utils:PrintDebug("Addon fully loaded.")
 	end
 end
 
 function AurariumFrame:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
-	Addon:PrintDebug(string.format(
+	Utils:PrintDebug(string.format(
 		"Event 'PLAYER_ENTERING_WORLD' fired. Payload: isInitialLogin=%s, isReloadingUi=%s",
 		tostring(isInitialLogin), tostring(isReloadingUi)
 	))
@@ -217,13 +219,13 @@ function AurariumFrame:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
 end
 
 function AurariumFrame:PLAYER_MONEY(...)
-	Addon:PrintDebug("Event 'PLAYER_MONEY' fired. No payload.")
+	Utils:PrintDebug("Event 'PLAYER_MONEY' fired. No payload.")
 
 	SaveBalance()
 end
 
 function AurariumFrame:CURRENCY_DISPLAY_UPDATE(_, currencyType, quantity, quantityChange, quantityGainSource, quantityLostSource)
-	Addon:PrintDebug(string.format(
+	Utils:PrintDebug(string.format(
 		"Event 'CURRENCY_DISPLAY_UPDATE' fired. Payload: currencyType=%s, quantity=%s, quantityChange=%s, quantityGainSource=%s, quantityLostSource=%s",
 		tostring(currencyType), tostring(quantity), tostring(quantityChange), tostring(quantityGainSource), tostring(quantityLostSource)
 	))
