@@ -1,3 +1,6 @@
+**v2.16 (2026-07-06)**
+- Adapted to the latest version of Arcane Wizard: Library to ensure full compatibility
+
 **v2.15 (2026-07-04)**
 - Added: TOC version for patch 12.1.0 [retail]
 - Added: TOC version for patch 2.5.6 [burning crusade - classic anniversary edition]
