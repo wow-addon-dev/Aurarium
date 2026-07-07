@@ -2,7 +2,6 @@ local addonName, AUR = ...
 
 -- Library
 local AWL = ArcaneWizardLibrary
-local Addon = AWL:GetAddon(addonName)
 
 -- Module imports
 local Options = AUR.Modules.Options
@@ -166,9 +165,7 @@ end
 
 local function SlashCommand(msg, editbox)
 	if not msg or strtrim(msg) == "" then
-		if not Addon:OpenCategory() then
-			Utils:PrintDebug("In combat. The options menu cannot be opened.")
-		end
+		Utils:OpenSettings()
 	elseif strtrim(msg) == "overview" then
 		Overview:Show()
 	else
