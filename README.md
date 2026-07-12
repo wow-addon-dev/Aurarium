@@ -12,7 +12,7 @@ Aurarium is a World of Warcraft addon that provides a detailed insight into weal
 
 ## Installation & Quick Start
 
-> ⚠️ **Required Dependency:** This addon requires the **Arcane Wizard: Library**. If you install Aurarium via the CurseForge client, the library will be downloaded automatically. If you install it manually, please ensure the library is also downloaded and enabled.
+> ⚠️ **Required Dependency:** This addon requires the **Arcane Wizard: Library**. If you install Aurarium via the CurseForge client, the library will be downloaded automatically. If you install the addon manually, via Wago, or through another third-party updater that does not resolve dependencies, you must download and enable the library separately.
 
 To manage the addon, use the following commands in your chat and press enter:
 * Type `/aur` or `/aurarium` to access the addon options menu.
