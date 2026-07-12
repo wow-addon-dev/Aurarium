@@ -10,6 +10,14 @@ Aurarium is a World of Warcraft addon that provides a detailed insight into weal
 
 * **Gold and Currency Overview** - Displays a comprehensive overview of your gold and currencies across your entire account.
 
+## Installation & Quick Start
+
+> ⚠️ **Required Dependency:** This addon requires the **Arcane Wizard: Library**. If you install Aurarium via the CurseForge client, the library will be downloaded automatically. If you install it manually, please ensure the library is also downloaded and enabled.
+
+To manage the addon, use the following commands in your chat and press enter:
+* Type `/aur` or `/aurarium` to access the addon options menu.
+* Type `/aur overview` or `/aurarium overview` to manually display the Gold and Currency Overview.
+
 ## Features
 
 * Gold and currency overview with a daily and monthly view*.
@@ -27,14 +35,6 @@ Aurarium is a World of Warcraft addon that provides a detailed insight into weal
 
 * Languages: English, German, Russian
 * Flavors: Classic, Burning Crusade - Classic Anniversary Edition, Mists of Pandaria - Classic, Retail
-
-## Installation & Quick Start
-
-> ⚠️ **Required Dependency:** This addon requires the **Arcane Wizard: Library**. If you install Aurarium via the CurseForge client, the library will be downloaded automatically. If you install it manually, please ensure the library is also downloaded and enabled.
-
-To manage the addon, use the following commands in your chat and press enter:
-* Type `/aur` or `/aurarium` to access the addon options menu.
-* Type `/aur overview` or `/aurarium overview` to manually display the Gold and Currency Overview.
 
 ## Bugs & Feedback
 
