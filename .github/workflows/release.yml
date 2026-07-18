@@ -1,5 +1,5 @@
 name: Publish 'Aurarium'
-run-name: Publish 'Aurarium' (${{ github.event.inputs.release-type }})
+run-name: Publish 'Aurarium' (${{ inputs.release-type }})
 
 on:
   workflow_dispatch:

@@ -163,10 +163,12 @@ local function SaveBalance()
 	Utils:PrintDebug("Balance saved.")
 end
 
-local function SlashCommand(msg, editbox)
-	if not msg or strtrim(msg) == "" then
+local function SlashCommand(msg)
+	local command = strtrim(msg or "")
+
+	if command == "" then
 		Utils:OpenSettings()
-	elseif strtrim(msg) == "overview" then
+	elseif command == "overview" then
 		Overview:Show()
 	else
 		Utils:PrintDebug("These arguments are not accepted.")

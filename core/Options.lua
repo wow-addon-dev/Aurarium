@@ -28,9 +28,9 @@ local minimapButtonProxy = setmetatable({}, {
 		AUR.Settings.general["minimap-button"]["hide"] = not value
 
 		if value then
-			Utils.minimapButton:Show("Aurarium")
+			Utils.minimapButton:Show(addonName)
 		else
-			Utils.minimapButton:Hide("Aurarium")
+			Utils.minimapButton:Hide(addonName)
 		end
 	end,
 })
