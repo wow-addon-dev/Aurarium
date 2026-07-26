@@ -186,6 +186,7 @@ end
 function AurariumFrame:ADDON_LOADED(_, addOnName)
 	if addOnName == addonName then
 		local dbInit = Utils:InitializeDatabase()
+		Utils:InitializeUpdateNotice()
 		Utils:InitializeMinimapButton()
 		Options:Initialize()
 		Overview:Initialize()
