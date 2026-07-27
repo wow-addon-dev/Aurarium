@@ -6,17 +6,11 @@ _Track your gold & currencies. Know your worth._
 
 Aurarium is a World of Warcraft addon that provides a detailed insight into wealth progression by tracking gold and currencies across all characters and displaying them over time. It helps you keep an accurate eye on your daily and monthly earnings.
 
+> ⚠️ **Important!** This addon requires **Arcane Wizard: Library**. See [Installation & Quick Start](#installation--quick-start) for installation details.
+
 **Key Feature**
 
 * **Gold and Currency Overview** - Displays a comprehensive overview of your gold and currencies across your entire account.
-
-## Installation & Quick Start
-
-> ⚠️ **Required Dependency:** This addon requires the **Arcane Wizard: Library**. If you install Aurarium via the CurseForge client, the library will be downloaded automatically. If you install the addon manually, via Wago, or through another third-party updater that does not resolve dependencies, you must download and enable the library separately.
-
-To manage the addon, use the following commands in your chat and press enter:
-* Type `/aur` or `/aurarium` to access the addon options menu.
-* Type `/aur overview` or `/aurarium overview` to manually display the Gold and Currency Overview.
 
 ## Features
 
@@ -35,6 +29,14 @@ To manage the addon, use the following commands in your chat and press enter:
 
 * Languages: English, German, Russian
 * Flavors: Classic, Burning Crusade - Classic Anniversary Edition, Mists of Pandaria - Classic, Retail
+
+## Installation & Quick Start
+
+> **Required Dependency:** This addon requires the **Arcane Wizard: Library**. If you install Aurarium via the CurseForge client, the library will be downloaded automatically. If you install the addon manually, via Wago, or through another third-party updater that does not resolve dependencies, you must download and enable the library separately.
+
+To manage the addon, use the following commands in your chat and press enter:
+* Type `/aur` or `/aurarium` to access the addon options menu.
+* Type `/aur overview` or `/aurarium overview` to manually display the Gold and Currency Overview.
 
 ## Bugs & Feedback
 
