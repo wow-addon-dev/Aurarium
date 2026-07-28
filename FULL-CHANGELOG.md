@@ -1,3 +1,8 @@
+**v2.20 (2026-07-28)**
+- Added: TOC version for patch 1.15.9 [classic]
+- Removed: TOC version for patch 1.15.8 [classic]
+- Adapted to the latest version of Arcane Wizard: Library to ensure full compatibility
+
 **v2.19 (2026-07-18)**
 - Minor code adjustments
 
