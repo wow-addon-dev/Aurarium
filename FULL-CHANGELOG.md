@@ -1,3 +1,6 @@
+**v2.21 (2026-08-04)**
+- Minor code adjustments
+
 **v2.20 (2026-07-28)**
 - Added: TOC version for patch 1.15.9 [classic]
 - Removed: TOC version for patch 1.15.8 [classic]
