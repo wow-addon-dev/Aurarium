@@ -35,7 +35,7 @@ if AWL.GAME_TYPE_MISTS then
 elseif AWL.GAME_TYPE_MAINLINE then
 	AUR.CURRENCY_CATEGORY_ORDER = {
 		"misc",         -- 1
-		"profession",	-- xxx
+		"profession",	-- 280
 		"pvp",          -- 2
 		"dungeonraid",  -- 22
 		"season",		-- 268, 263, 265
@@ -51,7 +51,7 @@ elseif AWL.GAME_TYPE_MAINLINE then
 		"sl",           -- 245
 		"df",           -- 250
 		"tww",			-- 260
-		"mid"			-- 264
+		"mid"			-- 264, 283
 	}
 
 	AUR.WARBAND_CURRENCIES = {
@@ -78,7 +78,8 @@ elseif AWL.GAME_TYPE_MAINLINE then
 			3263,	-- Tatkraft des Lederverarbeitungsfachmanns
 			3264,	-- Tatkraft des Bergbaufachmanns
 			3265,	-- Tatkraft des Kürschnereifachmanns
-			3266	-- Tatkraft des Schneiderfachmanns
+			3266,	-- Tatkraft des Schneiderfachmanns
+			3546	-- Gewundenes Filament
 		},
 		pvp = {
 			391,    -- Belobigungsabzeichen von Tol Barad
@@ -176,7 +177,8 @@ elseif AWL.GAME_TYPE_MAINLINE then
 			3379,	-- Übersprudelndes Arkana
 			3385,	-- Leuchtender Staub
 			3393,	-- Illusionäre Münze
-			3405	-- Feldauszeichnung
+			3405,	-- Feldauszeichnung
+			3448	-- Korrosive Münze
 		}
 	}
 end

@@ -2,4 +2,5 @@
 ### [@project-version@](https://github.com/wow-addon-dev/Aurarium/tree/@project-version@) (@build-date@)
 [Full Changelog](@full-changelog@) - [Previous Releases](https://github.com/wow-addon-dev/Aurarium/releases)
 
-- Minor code adjustments
+- Added: Currencies for the patch 'Midnight - The Curse of Ula’tek' [retail]
+- Removed: TOC version for patch 12.0.7 [retail]
