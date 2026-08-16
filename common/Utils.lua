@@ -160,31 +160,12 @@ function Utils:InitializeDatabase()
 		AUR.Data.balance["Warband"] = AUR.Data.balance["Warband"] or {}
 	end
 
-	if not Aurarium_Options_v3["update-notice"] then
-		Aurarium_Options_v3["update-notice"] = {}
-	end
-
-	AUR.Data.updateNotice = Aurarium_Options_v3["update-notice"]
-
 	return {
 		characterRealmKey = characterRealmKey,
 		createdProfile = createdProfile,
 		createdProfileKey = createdProfileKey,
 		activeProfile = useAccountProfile and "account" or "character"
 	}
-end
-
-function Utils:InitializeUpdateNotice()
-	local data = AUR.Data.updateNotice
-
-	if data.lastVersion ~= Addon.version then
-		data.lastVersion = Addon.version
-		data.show = AUR.SHOW_UPDATE_NOTICE
-	end
-
-	if Addon:ShowUpdateNotice(data.show == true) then
-		data.show = false
-	end
 end
 
 function Utils:InitializeMinimapButton()

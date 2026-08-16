@@ -3,5 +3,6 @@
 	<Script file="NamespaceData.lua" />
 
 	<Script file="CommonData.lua" />
+	<Script file="ChangelogData.lua" />
 	<Script file="CurrencyData.lua" />
 </Ui>
