@@ -36,6 +36,7 @@ Aurarium is a World of Warcraft addon that provides a detailed insight into weal
 
 To manage the addon, use the following commands in your chat and press enter:
 * Type `/aur` or `/aurarium` to access the addon options menu.
+* Type `/aur changelog` or `/aurarium changelog` to open the changelog.
 * Type `/aur overview` or `/aurarium overview` to manually display the Gold and Currency Overview.
 
 ## Bugs & Feedback

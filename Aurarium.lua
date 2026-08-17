@@ -168,6 +168,8 @@ local function SlashCommand(msg)
 
 	if command == "" then
 		Utils:OpenSettings()
+	elseif command == "changelog" then
+		AWL.Frames:OpenChangelog(addonName, AUR.CHANGELOG)
 	elseif command == "overview" then
 		Overview:Show()
 	else
