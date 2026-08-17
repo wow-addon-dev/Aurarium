@@ -60,7 +60,7 @@ local currencyOverviewProxy = setmetatable({}, {
 
 function Options:Initialize()
 	local category, layout = Settings.RegisterVerticalLayoutCategory(addonName)
-	Addon:SetChangelog(AUR.CHANGELOG_TEXT)
+	Addon:SetChangelog(AUR.CHANGELOG)
 
 	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.general"]))
 
