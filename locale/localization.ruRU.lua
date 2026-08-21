@@ -18,6 +18,12 @@ L["options.currency-overview.open-on-login.tooltip"] = "Если этот пар
 L["options.currency-overview.hide-unchanged-entries.name"] = "Скрывать записи без изменений"
 L["options.currency-overview.hide-unchanged-entries.tooltip"] = "Если этот параметр включен, дни без изменения баланса скрываются в обзорах персонажа, аккаунта и отряда."
 
+L["options.gold-display"] = "Индикатор золота"
+L["options.gold-display.show.name"] = "Показывать индикатор золота"
+L["options.gold-display.show.tooltip"] = "Если этот параметр включен, небольшой перемещаемый индикатор показывает текущее золото и изменение за сегодня."
+L["options.gold-display.display-mode.name"] = "Отображаемые монеты"
+L["options.gold-display.display-mode.tooltip"] = "Определяет, какие монеты отображаются в индикаторе золота."
+
 -- General
 
 L["minimap-button.tooltip"] = "|cnLINK_FONT_COLOR:Щелкните левой кнопкой мыши|r, чтобы открыть обзор золота и валюты.\n|cnLINK_FONT_COLOR:Щелкните правой кнопкой мыши|r, чтобы открыть настройки."

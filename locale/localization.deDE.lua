@@ -18,6 +18,12 @@ L["options.currency-overview.open-on-login.tooltip"] = "Bei Aktivierung öffnet 
 L["options.currency-overview.hide-unchanged-entries.name"] = "Unveränderte Einträge ausblenden"
 L["options.currency-overview.hide-unchanged-entries.tooltip"] = "Bei Aktivierung werden Tage ohne Bestandsänderung in der Charakter-, Account- und Kriegsmeute-Übersicht ausgeblendet."
 
+L["options.gold-display"] = "Goldanzeige"
+L["options.gold-display.show.name"] = "Goldanzeige anzeigen"
+L["options.gold-display.show.tooltip"] = "Bei Aktivierung zeigt eine kleine verschiebbare Anzeige den aktuellen Goldstand und die heutige Veränderung."
+L["options.gold-display.display-mode.name"] = "Angezeigte Münzen"
+L["options.gold-display.display-mode.tooltip"] = "Legt fest, welche Münzwerte in der Goldanzeige angezeigt werden."
+
 -- General
 
 L["minimap-button.tooltip"] = "|cnLINK_FONT_COLOR:Linksklick|r zum Öffnen der Gold- und Währungsübersicht.\n|cnLINK_FONT_COLOR:Rechtsklick|r zum Öffnen der Einstellungen."

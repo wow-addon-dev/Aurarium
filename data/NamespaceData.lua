@@ -7,6 +7,7 @@ AUR.Modules = AUR.Modules or {}
 
 AUR.Modules.Options = AUR.Modules.Options or {}
 AUR.Modules.Overview = AUR.Modules.Overview or {}
+AUR.Modules.GoldDisplay = AUR.Modules.GoldDisplay or {}
 AUR.Modules.Utils = AUR.Modules.Utils or {}
 
 local AWL = ArcaneWizardLibrary

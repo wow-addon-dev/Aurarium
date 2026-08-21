@@ -52,18 +52,18 @@ end
 function Utils:IsAccountProfile()
 	local characterRealmKey = AWL.Utils:GetCharacterRealmKey()
 
-	return Aurarium_Options_v3.profileKeys[characterRealmKey]["use-account"]
+	return Aurarium_Options_v4.profileKeys[characterRealmKey]["use-account"]
 end
 
 function Utils:OpenSettingsOnLoading()
 	local characterRealmKey = AWL.Utils:GetCharacterRealmKey()
 
-	if Aurarium_Options_v3.profileKeys[characterRealmKey]["open-settings"] then
+	if Aurarium_Options_v4.profileKeys[characterRealmKey]["open-settings"] then
 		if not self:OpenSettings() then
 			return
 		end
 
-		Aurarium_Options_v3.profileKeys[characterRealmKey]["open-settings"] = false
+		Aurarium_Options_v4.profileKeys[characterRealmKey]["open-settings"] = false
 	end
 end
 
@@ -71,17 +71,17 @@ function Utils:ToggleProfileMode()
 	local characterRealmKey = AWL.Utils:GetCharacterRealmKey()
 	local useAccountProfile = self:IsAccountProfile()
 
-	Aurarium_Options_v3.profileKeys[characterRealmKey]["use-account"] = not useAccountProfile
-	Aurarium_Options_v3.profileKeys[characterRealmKey]["open-settings"] = true
+	Aurarium_Options_v4.profileKeys[characterRealmKey]["use-account"] = not useAccountProfile
+	Aurarium_Options_v4.profileKeys[characterRealmKey]["open-settings"] = true
 end
 
 function Utils:ResetAllCharacterProfiles()
 	local characterRealmKey = AWL.Utils:GetCharacterRealmKey()
 
-	Aurarium_Options_v3.profiles = {}
-	Aurarium_Options_v3.profileKeys = {}
+	Aurarium_Options_v4.profiles = {}
+	Aurarium_Options_v4.profileKeys = {}
 
-	Aurarium_Options_v3.profileKeys[characterRealmKey] = {
+	Aurarium_Options_v4.profileKeys[characterRealmKey] = {
 		["use-account"] = true,
 		["open-settings"] = true
 	}
@@ -100,38 +100,41 @@ function Utils:InitializeDatabase()
 				["hide"] = false
 			}
 		},
-		["currency-overview"] = {}
+		["currency-overview"] = {},
+		["gold-display"] = {}
 	}
 
-	if not Aurarium_Options_v3 then
-		Aurarium_Options_v3 = {
+	if not Aurarium_Options_v4 then
+		Aurarium_Options_v4 = {
 			["account"] = AWL.Utils:CopyTable(defaults),
 			["profiles"] = {},
 			["profileKeys"] = {}
 		}
 	end
 
-	if not Aurarium_Options_v3.profiles[characterRealmKey] then
-		Aurarium_Options_v3.profiles[characterRealmKey] = AWL.Utils:CopyTable(defaults)
+	if not Aurarium_Options_v4.profiles[characterRealmKey] then
+		Aurarium_Options_v4.profiles[characterRealmKey] = AWL.Utils:CopyTable(defaults)
 		createdProfile = true
 	end
 
-	if not Aurarium_Options_v3.profileKeys[characterRealmKey] then
-		Aurarium_Options_v3.profileKeys[characterRealmKey] = {
+	if not Aurarium_Options_v4.profileKeys[characterRealmKey] then
+		Aurarium_Options_v4.profileKeys[characterRealmKey] = {
 			["use-account"] = true,
 			["open-settings"] = false
 		}
 		createdProfileKey = true
 	end
 
-	local useAccountProfile = Aurarium_Options_v3.profileKeys[characterRealmKey]["use-account"]
+	local useAccountProfile = Aurarium_Options_v4.profileKeys[characterRealmKey]["use-account"]
 
 	if useAccountProfile then
-		AUR.Settings.general = Aurarium_Options_v3.account["general"]
-		AUR.Settings.currencyOverview = Aurarium_Options_v3.account["currency-overview"]
+		AUR.Settings.general = Aurarium_Options_v4.account["general"]
+		AUR.Settings.currencyOverview = Aurarium_Options_v4.account["currency-overview"]
+		AUR.Settings.goldDisplay = Aurarium_Options_v4.account["gold-display"]
 	else
-		AUR.Settings.general = Aurarium_Options_v3.profiles[characterRealmKey]["general"]
-		AUR.Settings.currencyOverview = Aurarium_Options_v3.profiles[characterRealmKey]["currency-overview"]
+		AUR.Settings.general = Aurarium_Options_v4.profiles[characterRealmKey]["general"]
+		AUR.Settings.currencyOverview = Aurarium_Options_v4.profiles[characterRealmKey]["currency-overview"]
+		AUR.Settings.goldDisplay = Aurarium_Options_v4.profiles[characterRealmKey]["gold-display"]
 	end
 
 	if not Aurarium_DataDates then

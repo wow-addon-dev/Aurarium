@@ -21,6 +21,12 @@ L["options.currency-overview.open-on-login.tooltip"] = "When this is enabled, th
 L["options.currency-overview.hide-unchanged-entries.name"] = "Hide Unchanged Entries"
 L["options.currency-overview.hide-unchanged-entries.tooltip"] = "When this is enabled, days without a balance change are hidden in the character, account, and warband overviews."
 
+L["options.gold-display"] = "Gold Display"
+L["options.gold-display.show.name"] = "Show Gold Display"
+L["options.gold-display.show.tooltip"] = "When this is enabled, a small movable display shows the current gold and today's change."
+L["options.gold-display.display-mode.name"] = "Displayed Coins"
+L["options.gold-display.display-mode.tooltip"] = "Determines which coin values are shown in the gold display."
+
 -- General
 
 L["minimap-button.tooltip"] = "|cnLINK_FONT_COLOR:Left-click|r to open the gold and currency overview.\n|cnLINK_FONT_COLOR:Right-click|r to open the options."

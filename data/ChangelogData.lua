@@ -8,6 +8,13 @@ AUR.CHANGELOG = {
 		version = version,
 		date = buildDate ~= "" and buildDate or nil,
 		entries = {
+			"Added: Gold Display - A small movable display with a gold border shows the current gold and today's change with selectable coin detail, adaptive width, and a clickable translucent Aurarium logo"
+		}
+	},
+	{
+		version = "v2.23",
+		date = "2026-08-18",
+		entries = {
 			"Added: Changelog window available from the options menu",
 			"Added: Changelog window available through the 'changelog' slash command",
 			"Removed: Version notice chat messages",
@@ -42,6 +49,39 @@ AUR.CHANGELOG = {
 		version = "v2.19",
 		date = "2026-07-18",
 		entries = {
+			"Minor code adjustments"
+		}
+	},
+	{
+		version = "v2.18",
+		date = "2026-07-12",
+		entries = {
+			"Added: Wago project page buttona",
+			"Removed: TOC version for patch 5.5.3 [mists of pandaria - classic]",
+			"Removed: TOC version for patch 2.5.5 [burning crusade - classic anniversary edition]"
+		}
+	},
+	{
+		version = "v2.17",
+		date = "2026-07-09",
+		entries = {
+			"Minor code adjustments"
+		}
+	},
+	{
+		version = "v2.16",
+		date = "2026-07-06",
+		entries = {
+			"Adapted to the latest version of Arcane Wizard: Library to ensure full compatibility"
+		}
+	},
+	{
+		version = "v2.15",
+		date = "2026-07-04",
+		entries = {
+			"Added: TOC version for patch 12.1.0 [retail]",
+			"Added: TOC version for patch 2.5.6 [burning crusade - classic anniversary edition]",
+			"Removed: TOC version for patch 12.0.5 [retail]",
 			"Minor code adjustments"
 		}
 	}

@@ -2,7 +2,6 @@
 ### [@project-version@](https://github.com/wow-addon-dev/Aurarium/tree/@project-version@) (@build-date@)
 [Full Changelog](@full-changelog@) - [Previous Releases](https://github.com/wow-addon-dev/Aurarium/releases)
 
-- Added: Changelog window available from the options menu
-- Added: Changelog window available through the 'changelog' slash command
-- Removed: Version notice chat messages
-- Adapted to the latest version of Arcane Wizard: Library to ensure full compatibility
+**Important note: All settings have been reset to default values.**
+
+- Added: Gold Display - A small movable display with a gold border shows the current gold and today's change with selectable coin detail, adaptive width, and a clickable translucent Aurarium logo

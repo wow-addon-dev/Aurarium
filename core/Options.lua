@@ -11,9 +11,30 @@ local L = AUR.Localization
 local Options = AUR.Modules.Options
 
 -- Module imports
+local GoldDisplay = AUR.Modules.GoldDisplay
 local Utils = AUR.Modules.Utils
 
 -- Variables
+local goldDisplayModeOptions = {}
+local goldDisplayData = AUR.GOLD_DISPLAY_DATA
+
+for _, option in ipairs(goldDisplayData.displayModeOptions) do
+	local previewParts = {}
+
+	for _, coin in ipairs(option.coins) do
+		previewParts[#previewParts + 1] = string.format(
+			"%d |T%d:0|t",
+			goldDisplayData.displayModePreviewValues[coin],
+			goldDisplayData.coinIcons[coin]
+		)
+	end
+
+	goldDisplayModeOptions[#goldDisplayModeOptions + 1] = {
+		value = option.value,
+		label = table.concat(previewParts, " ")
+	}
+end
+
 local minimapButtonProxy = setmetatable({}, {
 	__index = function(_, key)
 		if key == "hide" then
@@ -50,6 +71,22 @@ local currencyOverviewProxy = setmetatable({}, {
 
 		if AUR.Modules.Overview and AUR.Modules.Overview:IsShown() then
 			AUR.Modules.Overview:Refresh()
+		end
+	end,
+})
+
+local goldDisplayProxy = setmetatable({}, {
+	__index = function(_, key)
+		if key == "show" or key == "display-mode" then
+			return AUR.Settings.goldDisplay[key]
+		end
+	end,
+	__newindex = function(_, key, value)
+		if key == "show" then
+			GoldDisplay:SetVisible(value)
+		elseif key == "display-mode" then
+			AUR.Settings.goldDisplay[key] = value
+			GoldDisplay:Refresh()
 		end
 	end,
 })
@@ -103,6 +140,29 @@ function Options:Initialize()
 		name			= L["options.currency-overview.hide-unchanged-entries.name"],
 		tooltip			= L["options.currency-overview.hide-unchanged-entries.tooltip"],
 		default			= false
+	})
+
+	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L["options.gold-display"]))
+
+	-- Show Gold Display
+	AWL.Settings:AddCheckbox(category, {
+		variableTable	= goldDisplayProxy,
+		settingKey		= addonName .. "_gold-display-show",
+		variableName	= "show",
+		name			= L["options.gold-display.show.name"],
+		tooltip			= L["options.gold-display.show.tooltip"],
+		default			= true
+	})
+
+	-- Displayed Coins
+	AWL.Settings:AddDropdown(category, {
+		variableTable	= goldDisplayProxy,
+		settingKey		= addonName .. "_gold-display-mode",
+		variableName	= "display-mode",
+		name			= L["options.gold-display.display-mode.name"],
+		tooltip			= L["options.gold-display.display-mode.tooltip"],
+		default			= AUR.GOLD_DISPLAY_DATA.defaultDisplayMode,
+		options			= goldDisplayModeOptions
 	})
 
 	-- Profiles Section

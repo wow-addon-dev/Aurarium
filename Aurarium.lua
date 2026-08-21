@@ -4,6 +4,7 @@ local addonName, AUR = ...
 local AWL = ArcaneWizardLibrary
 
 -- Module imports
+local GoldDisplay = AUR.Modules.GoldDisplay
 local Options = AUR.Modules.Options
 local Overview = AUR.Modules.Overview
 local Utils = AUR.Modules.Utils
@@ -161,6 +162,10 @@ local function SaveBalance()
 	end
 
 	Utils:PrintDebug("Balance saved.")
+
+	if GoldDisplay and GoldDisplay.Refresh then
+		GoldDisplay:Refresh()
+	end
 end
 
 local function SlashCommand(msg)
@@ -190,6 +195,7 @@ function AurariumFrame:ADDON_LOADED(_, addOnName)
 		local dbInit = Utils:InitializeDatabase()
 		Utils:InitializeMinimapButton()
 		Options:Initialize()
+		GoldDisplay:Initialize()
 		Overview:Initialize()
 
 		Utils:OpenSettingsOnLoading()
