@@ -1,3 +1,6 @@
+**v2.24 (2026-08-21)**
+- Added: Gold Display - A small movable display with a gold border shows the current gold and today's change with selectable coin detail, adaptive width, and a clickable translucent Aurarium logo
+
 **v2.23 (2026-08-18)**
 - Added: Changelog window available from the options menu
 - Added: Changelog window available through the 'changelog' slash command
