@@ -10,8 +10,8 @@ Aurarium is a World of Warcraft addon that provides a detailed insight into weal
 
 **Key Feature**
 
-* **Gold and Currency Overview** - Displays a comprehensive overview of your gold and currencies across your entire account.
 * **Gold Display** - Shows your current gold and today's change in a compact movable display, with selectable coin detail and quick access to the full overview.
+* **Gold and Currency Overview** - Displays a comprehensive overview of your gold and currencies across your entire account.
 
 ## Features
 
