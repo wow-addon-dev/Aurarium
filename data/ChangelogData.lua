@@ -8,6 +8,13 @@ AUR.CHANGELOG = {
 		version = version,
 		date = buildDate ~= "" and buildDate or nil,
 		entries = {
+			"Refactoring of the addon structure and source code"
+		}
+	},
+	{
+		version = "v2.34",
+		date = "2026-10-09",
+		entries = {
 			"Added: Chart - Visualize gold and currency balances over selectable date ranges",
 			"Added: Configurable date format",
 			"Minor code adjustments"
@@ -101,13 +108,6 @@ AUR.CHANGELOG = {
 		date = "2026-09-06",
 		entries = {
 			"Added: TOC version for patch 12.1.5 [retail]"
-		}
-	},
-	{
-		version = "v2.25",
-		date = "2026-08-30",
-		entries = {
-			"Minor code adjustments"
 		}
 	}
 }
