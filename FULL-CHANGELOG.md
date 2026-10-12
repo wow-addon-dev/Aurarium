@@ -1,3 +1,6 @@
+**v2.35 (2026-10-12)**
+- Refactoring of the addon structure and source code
+
 **v2.34 (2026-10-09)**
 - Added: Chart - Visualize gold and currency balances over selectable date ranges
 - Added: Configurable date format
