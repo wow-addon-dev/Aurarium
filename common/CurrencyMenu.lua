@@ -3,7 +3,7 @@ local _, AUR = ...
 local AWL = ArcaneWizardLibrary
 local CurrencyMenu = AUR.Modules.CurrencyMenu
 local Utils = AUR.Modules.Utils
-local Data = AUR.CURRENCY_MENU_DATA
+local CurrencyMenuConfig = AUR.UIConfig.CurrencyMenu
 
 local function GetCharacterBalances(characterKey)
 	local balances = {}
@@ -61,7 +61,7 @@ local function FormatAmount(quantity, info)
 end
 
 local function InitializeButton(button, entry, text)
-	local iconSize = entry.key:sub(1, 2) == "w-" and Data.warbandIconSize or Data.currencyIconSize
+	local iconSize = entry.key:sub(1, 2) == "w-" and CurrencyMenuConfig.warbandIconSize or CurrencyMenuConfig.currencyIconSize
 	local icon = button:AttachTexture()
 	icon:SetSize(iconSize, iconSize)
 	icon:SetPoint("RIGHT")
@@ -70,7 +70,7 @@ local function InitializeButton(button, entry, text)
 	local amount = button:AttachFontString()
 	amount:SetFontObject(button.fontString:GetFontObject())
 	amount:SetTextColor(1, 1, 1)
-	amount:SetPoint("RIGHT", icon, "LEFT", -Data.amountSpacing, 0)
+	amount:SetPoint("RIGHT", icon, "LEFT", -CurrencyMenuConfig.amountSpacing, 0)
 	amount:SetJustifyH("RIGHT")
 	amount:SetText(text)
 	local amountWidth = amount:GetUnboundedStringWidth()
@@ -84,11 +84,11 @@ local function InitializeButton(button, entry, text)
 	if entry.isNew and MenuTemplates and MenuTemplates.AttachNewFeatureFrame then
 		local badge = MenuTemplates.AttachNewFeatureFrame(button)
 		local badgeTextWidth = badge:GetTextWidth()
-		badgeWidth = badgeTextWidth + Data.badgePadding * 2
-		badge:SetPoint("CENTER", fontString, "RIGHT", badgeTextWidth / 2 + Data.badgePadding, 0)
+		badgeWidth = badgeTextWidth + CurrencyMenuConfig.badgePadding * 2
+		badge:SetPoint("CENTER", fontString, "RIGHT", badgeTextWidth / 2 + CurrencyMenuConfig.badgePadding, 0)
 	end
 
-	return nameWidth + iconSize + amountWidth + badgeWidth + Data.currencyWidthPadding, iconSize + Data.rowHeightPadding
+	return nameWidth + iconSize + amountWidth + badgeWidth + CurrencyMenuConfig.currencyWidthPadding, iconSize + CurrencyMenuConfig.rowHeightPadding
 end
 
 local function AddEntry(parent, option, context)

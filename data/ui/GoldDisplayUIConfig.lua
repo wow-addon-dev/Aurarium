@@ -1,6 +1,6 @@
 local _, AUR = ...
 
-AUR.GOLD_DISPLAY_DATA = {
+AUR.UIConfig.GoldDisplay = {
 	width = 180,
 	height = 52,
 	style = "tooltip",

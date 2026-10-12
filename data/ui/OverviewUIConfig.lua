@@ -1,6 +1,6 @@
 local _, AUR = ...
 
-AUR.OVERVIEW_DATA = {
+AUR.UIConfig.Overview = {
 	window = {
 		width = 470,
 		height = 560,

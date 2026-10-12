@@ -1,6 +1,6 @@
 local _, AUR = ...
 
-AUR.CURRENCY_MENU_DATA = {
+AUR.UIConfig.CurrencyMenu = {
 	currencyIconSize = 16,
 	warbandIconSize = 18,
 	amountSpacing = 5,

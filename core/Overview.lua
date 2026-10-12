@@ -13,8 +13,8 @@ local Overview = AUR.Modules.Overview
 -- Module imports
 local Utils = AUR.Modules.Utils
 local CurrencyMenu = AUR.Modules.CurrencyMenu
-local OverviewData = AUR.OVERVIEW_DATA
-local TabIndex = OverviewData.tabIndices
+local OverviewConfig = AUR.UIConfig.Overview
+local TabIndex = OverviewConfig.tabIndices
 
 -- Variables
 local selectedCharacterKey
@@ -337,7 +337,7 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 	scrollFrame.rows = {}
 
 	local header = scrollFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-	header:SetPoint("TOP", scrollFrame.scrollFrame, "TOP", OverviewData.monthHeading.x, OverviewData.monthHeading.y)
+	header:SetPoint("TOP", scrollFrame.scrollFrame, "TOP", OverviewConfig.monthHeading.x, OverviewConfig.monthHeading.y)
 	header:SetText(FormatMonthText(filterPrefix))
 	table.insert(scrollFrame.rows, {header})
 
@@ -347,7 +347,7 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 		noEntry:SetText(L["currency-overview.table.no-entries"])
 		table.insert(scrollFrame.rows, {noEntry})
 
-		scrollFrame:SetContentHeight(OverviewData.history.rowHeight)
+		scrollFrame:SetContentHeight(OverviewConfig.history.rowHeight)
 
 		scrollFrame.prevButton:SetEnabled(HasAnyDataBeforeMonth(displayHistory, filterPrefix))
 		scrollFrame.nextButton:SetEnabled(HasAnyDataAfterMonth(displayHistory, filterPrefix))
@@ -358,23 +358,23 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 	local offsetY = 0
 
 	local headerDate = scrollFrame.content:CreateFontString(nil,"OVERLAY", "GameFontNormal")
-	headerDate:SetPoint("TOPLEFT", OverviewData.history.columns.date, offsetY)
+	headerDate:SetPoint("TOPLEFT", OverviewConfig.history.columns.date, offsetY)
 	headerDate:SetText(L["currency-overview.table.date"])
 
 	local headerAmount  = scrollFrame.content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-	headerAmount:SetPoint("TOPLEFT", OverviewData.history.columns.amount, offsetY)
+	headerAmount:SetPoint("TOPLEFT", OverviewConfig.history.columns.amount, offsetY)
 	headerAmount:SetText(L["currency-overview.table.amount"])
 
 	local headerDifference = scrollFrame.content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-	headerDifference:SetPoint("TOPLEFT", OverviewData.history.columns.difference, offsetY)
+	headerDifference:SetPoint("TOPLEFT", OverviewConfig.history.columns.difference, offsetY)
 	headerDifference:SetText(L["currency-overview.table.difference"])
 
 	table.insert(scrollFrame.rows, {headerDate, headerAmount, headerDifference})
-	offsetY = offsetY - OverviewData.history.rowHeight
+	offsetY = offsetY - OverviewConfig.history.rowHeight
 
 	for i, entry in ipairs(monthHistory) do
 		local background = CreateFrame("Frame", nil, scrollFrame.content)
-		background:SetSize(OverviewData.history.rowWidth, OverviewData.history.rowHeight)
+		background:SetSize(OverviewConfig.history.rowWidth, OverviewConfig.history.rowHeight)
 		background:SetPoint("TOPLEFT", scrollFrame.content, "TOPLEFT", 0, offsetY)
 
 		background.texture = background:CreateTexture(nil, "BACKGROUND")
@@ -383,7 +383,7 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 		background.texture:SetAlpha(0)
 
 		background:SetScript("OnEnter", function(self)
-			self.texture:SetAlpha(OverviewData.history.hoverAlpha)
+			self.texture:SetAlpha(OverviewConfig.history.hoverAlpha)
 		end)
 
 		background:SetScript("OnLeave", function(self)
@@ -396,15 +396,15 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 		local prevValue = GetPreviousValueFromHistory(history, dateStr) or 0
 
 		local rowDate = background:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-		rowDate:SetPoint("LEFT", OverviewData.history.columns.date, 0)
+		rowDate:SetPoint("LEFT", OverviewConfig.history.columns.date, 0)
 		rowDate:SetText(Utils:FormatDate(entry.date))
 
 		local rowAmount = background:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-		rowAmount:SetPoint("LEFT", OverviewData.history.columns.amount, 0)
+		rowAmount:SetPoint("LEFT", OverviewConfig.history.columns.amount, 0)
 		rowAmount:SetText(FormatCurrency(currentValue, selectedCurrency))
 
 		local rowDifference = background:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-		rowDifference:SetPoint("LEFT", OverviewData.history.columns.difference, 0)
+		rowDifference:SetPoint("LEFT", OverviewConfig.history.columns.difference, 0)
 
 		local firstDate = history[1].date
 
@@ -425,7 +425,7 @@ local function UpdateOverview(selectedCurrency, currentMonthOffset, history, scr
 		end
 
 		table.insert(scrollFrame.rows, {background, rowDate, rowAmount, rowDifference})
-		offsetY = offsetY - OverviewData.history.rowHeight
+		offsetY = offsetY - OverviewConfig.history.rowHeight
 	end
 
 	scrollFrame:SetContentHeight(math.abs(offsetY))
@@ -524,8 +524,8 @@ end
 
 local function CreateCurrencyDropdown(scrollFrame, background, tabIndex)
 	local currencyDropdown = CreateFrame("DropdownButton", nil, scrollFrame, "WowStyle1DropdownTemplate")
-	currencyDropdown:SetPoint("BOTTOMRIGHT", background, "TOPRIGHT", -OverviewData.dropdown.offset, OverviewData.dropdown.offset)
-	currencyDropdown:SetSize(OverviewData.dropdown.currencyWidth, OverviewData.dropdown.height)
+	currencyDropdown:SetPoint("BOTTOMRIGHT", background, "TOPRIGHT", -OverviewConfig.dropdown.offset, OverviewConfig.dropdown.offset)
+	currencyDropdown:SetSize(OverviewConfig.dropdown.currencyWidth, OverviewConfig.dropdown.height)
 
 	currencyDropdown:SetupMenu(function(self, root)
 		local function IsSelected(value) return value == selectedCurrency[tabIndex] end
@@ -544,7 +544,7 @@ local function CreateCurrencyDropdown(scrollFrame, background, tabIndex)
 		end
 
 		CurrencyMenu:Populate(root, {
-			scope = OverviewData.tabs[tabIndex].id,
+			scope = OverviewConfig.tabs[tabIndex].id,
 			characterKey = selectedCharacterKey,
 			isSelected = IsSelected,
 			onSelected = SetSelected
@@ -558,8 +558,8 @@ end
 
 local function CreateCharacterDropdown(scrollFrame, background)
 	local characterDropdown = CreateFrame("DropdownButton", nil, scrollFrame, "WowStyle1DropdownTemplate")
-	characterDropdown:SetPoint("BOTTOMLEFT", background, "TOPLEFT", OverviewData.dropdown.offset, OverviewData.dropdown.offset)
-	characterDropdown:SetSize(OverviewData.dropdown.characterWidth, OverviewData.dropdown.height)
+	characterDropdown:SetPoint("BOTTOMLEFT", background, "TOPLEFT", OverviewConfig.dropdown.offset, OverviewConfig.dropdown.offset)
+	characterDropdown:SetSize(OverviewConfig.dropdown.characterWidth, OverviewConfig.dropdown.height)
 
 	characterDropdown:SetupMenu(function(self, root)
 		local function IsSelected(value)
@@ -606,7 +606,7 @@ local function CreateCharacterDropdown(scrollFrame, background)
 				end
 
 				local rightTexture = button:AttachTexture()
-				rightTexture:SetSize(OverviewData.menu.factionIconSize, OverviewData.menu.factionIconSize)
+				rightTexture:SetSize(OverviewConfig.menu.factionIconSize, OverviewConfig.menu.factionIconSize)
 				rightTexture:SetPoint("RIGHT")
 
 				if factionFileID == 0 then
@@ -619,8 +619,8 @@ local function CreateCharacterDropdown(scrollFrame, background)
 				fontString:SetPoint("RIGHT")
 				fontString:SetTextColor(classColor:GetRGB())
 
-				return fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + OverviewData.menu.characterWidthPadding,
-					rightTexture:GetHeight() + OverviewData.menu.rowHeightPadding
+				return fontString:GetUnboundedStringWidth() + rightTexture:GetWidth() + OverviewConfig.menu.characterWidthPadding,
+					rightTexture:GetHeight() + OverviewConfig.menu.rowHeightPadding
 			end)
 		end
 
@@ -641,19 +641,19 @@ local function CreateCharacterDropdown(scrollFrame, background)
 end
 
 local function CreateMoreMenu(tabs)
-	local data = OverviewData.moreMenu
+	local MoreMenuConfig = OverviewConfig.moreMenu
 	local button = CreateFrame("DropdownButton", nil, OverviewFrame, "WowStyle1FilterDropdownTemplate")
 	button.resizeToText = false
-	button:SetPoint("TOPRIGHT", OverviewFrame, "TOPRIGHT", data.x, data.y)
+	button:SetPoint("TOPRIGHT", OverviewFrame, "TOPRIGHT", MoreMenuConfig.x, MoreMenuConfig.y)
 	button:SetText(L["currency-overview.menu.more"])
-	local width = math.max(data.minimumWidth, math.ceil(button.Text:GetUnboundedStringWidth()) + data.arrowSize + data.textInset * 2)
-	button:SetSize(width, data.height)
+	local width = math.max(MoreMenuConfig.minimumWidth, math.ceil(button.Text:GetUnboundedStringWidth()) + MoreMenuConfig.arrowSize + MoreMenuConfig.textInset * 2)
+	button:SetSize(width, MoreMenuConfig.height)
 	button.Text:ClearAllPoints()
-	button.Text:SetPoint("LEFT", data.textInset, 0)
-	button.Text:SetPoint("RIGHT", -data.textInset, 0)
+	button.Text:SetPoint("LEFT", MoreMenuConfig.textInset, 0)
+	button.Text:SetPoint("RIGHT", -MoreMenuConfig.textInset, 0)
 	button.Text:SetJustifyH("CENTER")
 
-	button:SetMenuAnchor(AnchorUtil.CreateAnchor("TOPLEFT", button, "TOPRIGHT", data.menuGap, 0))
+	button:SetMenuAnchor(AnchorUtil.CreateAnchor("TOPLEFT", button, "TOPRIGHT", MoreMenuConfig.menuGap, 0))
 	button:SetupMenu(function(_, root)
 		local chartButton = root:CreateButton(L["chart.title"], function()
 			local scope = tabs:GetSelectedTab()
@@ -664,20 +664,20 @@ local function CreateMoreMenu(tabs)
 			})
 		end)
 		chartButton:AddInitializer(function(menuButton)
-			for index, height in ipairs(data.icon.barHeights) do
+			for index, height in ipairs(MoreMenuConfig.icon.barHeights) do
 				local bar = menuButton:AttachTexture()
-				bar:SetColorTexture(unpack(data.icon.color))
-				bar:SetSize(data.icon.barWidth, height)
-				bar:SetPoint("BOTTOMLEFT", menuButton, "LEFT", data.itemPadding + (index - 1) * (data.icon.barWidth + data.icon.barGap), -data.icon.size / 2)
+				bar:SetColorTexture(unpack(MoreMenuConfig.icon.color))
+				bar:SetSize(MoreMenuConfig.icon.barWidth, height)
+				bar:SetPoint("BOTTOMLEFT", menuButton, "LEFT", MoreMenuConfig.itemPadding + (index - 1) * (MoreMenuConfig.icon.barWidth + MoreMenuConfig.icon.barGap), -MoreMenuConfig.icon.size / 2)
 			end
 
 			local text = menuButton.fontString
 			local textWidth = text:GetUnboundedStringWidth()
 			text:ClearAllPoints()
-			text:SetPoint("LEFT", data.itemPadding + data.icon.size + data.iconGap, 0)
+			text:SetPoint("LEFT", MoreMenuConfig.itemPadding + MoreMenuConfig.icon.size + MoreMenuConfig.iconGap, 0)
 			text:SetWidth(textWidth)
 
-			return textWidth + data.icon.size + data.iconGap + data.itemPadding * 2, data.itemHeight
+			return textWidth + MoreMenuConfig.icon.size + MoreMenuConfig.iconGap + MoreMenuConfig.itemPadding * 2, MoreMenuConfig.itemHeight
 		end)
 	end)
 	button:HookScript("OnHide", function(self)
@@ -691,39 +691,39 @@ end
 
 local function InitializeFrames()
 	local lastTabIndex = AWL.GAME_TYPE_RETAIL and TabIndex.warband or TabIndex.account
-	local windowConfig = AWL.Utils:CopyTable(OverviewData.window)
+	local windowConfig = AWL.Utils:CopyTable(OverviewConfig.window)
 	windowConfig.title = addonName
 	OverviewFrame = AWL.Frames:CreateWindow(windowConfig)
 	OverviewFrame:SetFrameStrata("HIGH")
-	OverviewFrame.portrait:SetPoint("TOPLEFT", OverviewData.portrait.x, OverviewData.portrait.y)
+	OverviewFrame.portrait:SetPoint("TOPLEFT", OverviewConfig.portrait.x, OverviewConfig.portrait.y)
 	OverviewFrame.portrait:SetTexture(Addon:GetMediaPath("icon-round.tga"))
 
-	local insetConfig = AWL.Utils:CopyTable(OverviewData.inset)
+	local insetConfig = AWL.Utils:CopyTable(OverviewConfig.inset)
 	insetConfig.parent = OverviewFrame
 	local background = AWL.Frames:CreateInset(insetConfig)
-	background:SetPoint("BOTTOM", OverviewFrame, "BOTTOM", 0, OverviewData.inset.bottom)
+	background:SetPoint("BOTTOM", OverviewFrame, "BOTTOM", 0, OverviewConfig.inset.bottom)
 	local tabs = AWL.Frames:CreateTabGroup(OverviewFrame)
 
 	for tabIndex = TabIndex.character, lastTabIndex do
 		currentMonthOffset[tabIndex] = 0
-		local tabData = OverviewData.tabs[tabIndex]
-		local page = tabs:AddTab(tabData.id, L[tabData.label])
+		local TabConfig = OverviewConfig.tabs[tabIndex]
+		local page = tabs:AddTab(TabConfig.id, L[TabConfig.label])
 		page:ClearAllPoints()
 		page:SetAllPoints(background)
 		local scrollFrame = AWL.ScrollFrames:CreateScrollFrame({
 			parent = page,
-			width = OverviewData.inset.width,
-			height = OverviewData.inset.height,
+			width = OverviewConfig.inset.width,
+			height = OverviewConfig.inset.height,
 			backgroundAlpha = 0,
 			showBorder = false,
-			contentInsets = OverviewData.contentInsets
+			contentInsets = OverviewConfig.contentInsets
 		})
 		scrollFrame:SetAllPoints(page)
-		scrollFrame:SetScrollStep(OverviewData.scrollStep)
+		scrollFrame:SetScrollStep(OverviewConfig.scrollStep)
 
 		scrollFrame.nextButton = AWL.Controls:CreateButton({
 			parent = scrollFrame,
-			width = OverviewData.buttonWidth,
+			width = OverviewConfig.buttonWidth,
 			label = L["button.next"],
 			onClick = function()
 				currentMonthOffset[tabIndex] = currentMonthOffset[tabIndex] - 1
@@ -738,11 +738,11 @@ local function InitializeFrames()
 			end
 		})
 
-		scrollFrame.nextButton:SetPoint("TOPRIGHT", background, "BOTTOMRIGHT", -OverviewData.buttonOffset.x, OverviewData.buttonOffset.y)
+		scrollFrame.nextButton:SetPoint("TOPRIGHT", background, "BOTTOMRIGHT", -OverviewConfig.buttonOffset.x, OverviewConfig.buttonOffset.y)
 
 		scrollFrame.prevButton = AWL.Controls:CreateButton({
 			parent = scrollFrame,
-			width = OverviewData.buttonWidth,
+			width = OverviewConfig.buttonWidth,
 			label = L["button.prev"],
 			onClick = function()
 				currentMonthOffset[tabIndex] = currentMonthOffset[tabIndex] + 1
@@ -757,7 +757,7 @@ local function InitializeFrames()
 			end
 		})
 
-		scrollFrame.prevButton:SetPoint("TOPLEFT", background, "BOTTOMLEFT", OverviewData.buttonOffset.x, OverviewData.buttonOffset.y)
+		scrollFrame.prevButton:SetPoint("TOPLEFT", background, "BOTTOMLEFT", OverviewConfig.buttonOffset.x, OverviewConfig.buttonOffset.y)
 
 		CreateCurrencyDropdown(scrollFrame, background, tabIndex)
 

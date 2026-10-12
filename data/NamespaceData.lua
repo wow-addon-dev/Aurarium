@@ -3,6 +3,7 @@ local addonName, AUR = ...
 AUR.Settings = AUR.Settings or {}
 AUR.Data = AUR.Data or {}
 AUR.State = AUR.State or {}
+AUR.UIConfig = AUR.UIConfig or {}
 AUR.Modules = AUR.Modules or {}
 
 AUR.Modules.Options = AUR.Modules.Options or {}

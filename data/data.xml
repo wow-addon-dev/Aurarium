@@ -4,10 +4,11 @@
 	<Script file="OptionsData.lua" />
 
 	<Script file="CommonData.lua" />
-	<Script file="GoldDisplayData.lua" />
-	<Script file="CurrencyMenuData.lua" />
-	<Script file="OverviewData.lua" />
+	<Script file="ui/GoldDisplayUIConfig.lua" />
+	<Script file="ui/CurrencyMenuUIConfig.lua" />
+	<Script file="ui/OverviewUIConfig.lua" />
 	<Script file="ChartData.lua" />
+	<Script file="ui/ChartUIConfig.lua" />
 	<Script file="ChangelogData.lua" />
 	<Script file="CurrencyData.lua" />
 </Ui>

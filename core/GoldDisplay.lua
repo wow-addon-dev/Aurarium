@@ -10,6 +10,7 @@ local GoldDisplay = AUR.Modules.GoldDisplay
 -- Module imports
 local Overview = AUR.Modules.Overview
 local Utils = AUR.Modules.Utils
+local GoldDisplayConfig = AUR.UIConfig.GoldDisplay
 
 -- Variables
 local GoldDisplayFrame
@@ -21,15 +22,14 @@ local DailyChangeText
 -----------------------
 
 local function GetDisplayMode()
-	local data = AUR.GOLD_DISPLAY_DATA
-	local displayModeKey = AUR.Settings.goldDisplay["display-mode"] or data.defaultDisplayMode
+	local displayModeKey = AUR.Settings.goldDisplay["display-mode"] or GoldDisplayConfig.defaultDisplayMode
 
-	return data.displayModes[displayModeKey] or data.displayModes[data.defaultDisplayMode]
+	return GoldDisplayConfig.displayModes[displayModeKey] or GoldDisplayConfig.displayModes[GoldDisplayConfig.defaultDisplayMode]
 end
 
 local function FormatGold(copper)
 	local value = copper or 0
-	local coinIcons = AUR.GOLD_DISPLAY_DATA.coinIcons
+	local coinIcons = GoldDisplayConfig.coinIcons
 	local displayMode = GetDisplayMode()
 	local gold = floor(value / (100 * 100))
 	local silver = floor((value / 100) % 100)
@@ -57,7 +57,7 @@ local function FormatGoldDiff(diff)
 end
 
 local function SetDiffTextColor(fontString, diff)
-	local colors = AUR.GOLD_DISPLAY_DATA.colors
+	local colors = GoldDisplayConfig.colors
 	local color = colors.neutral
 
 	if diff > 0 then
@@ -92,7 +92,7 @@ end
 local function GetPosition()
 	local settings = AUR.Settings.goldDisplay or {}
 	local position = settings.position or {}
-	local defaultPosition = AUR.GOLD_DISPLAY_DATA.defaultPosition
+	local defaultPosition = GoldDisplayConfig.defaultPosition
 
 	return {
 		point = position.point or defaultPosition.point,
@@ -129,11 +129,10 @@ local function RestorePosition()
 end
 
 local function CreateLogoButton(frame)
-	local data = AUR.GOLD_DISPLAY_DATA
-	local logoData = data.logo
+	local LogoConfig = GoldDisplayConfig.logo
 	local button = CreateFrame("Button", nil, frame)
-	button:SetSize(logoData.size, logoData.size)
-	button:SetPoint("LEFT", frame, "LEFT", logoData.x, logoData.y)
+	button:SetSize(LogoConfig.size, LogoConfig.size)
+	button:SetPoint("LEFT", frame, "LEFT", LogoConfig.x, LogoConfig.y)
 	button:RegisterForClicks("LeftButtonUp")
 
 	button:SetScript("OnClick", function()
@@ -141,16 +140,15 @@ local function CreateLogoButton(frame)
 	end)
 
 	local logo = button:CreateTexture(nil, "BACKGROUND")
-	logo:SetTexture(Addon:GetMediaPath(logoData.path))
+	logo:SetTexture(Addon:GetMediaPath(LogoConfig.path))
 	logo:SetAllPoints()
-	logo:SetAlpha(logoData.alpha)
+	logo:SetAlpha(LogoConfig.alpha)
 end
 
 local function CreateValue(parent, yOffset)
-	local data = AUR.GOLD_DISPLAY_DATA
-	local value = parent:CreateFontString(nil, "OVERLAY", data.valueFontObject)
+	local value = parent:CreateFontString(nil, "OVERLAY", GoldDisplayConfig.valueFontObject)
 	value:SetPoint("LEFT", parent, "LEFT", 0, yOffset)
-	value:SetPoint("RIGHT", parent, "RIGHT", data.valueOffsetX, yOffset)
+	value:SetPoint("RIGHT", parent, "RIGHT", GoldDisplayConfig.valueOffsetX, yOffset)
 	value:SetJustifyH("RIGHT")
 	value:SetWordWrap(false)
 
@@ -158,18 +156,15 @@ local function CreateValue(parent, yOffset)
 end
 
 local function CreateFrameContent(frame)
-	local data = AUR.GOLD_DISPLAY_DATA
 	local content = frame.content
 
-	CurrentGoldText = CreateValue(content, data.rows.currentValue)
-	DailyChangeText = CreateValue(content, data.rows.changeValue)
+	CurrentGoldText = CreateValue(content, GoldDisplayConfig.rows.currentValue)
+	DailyChangeText = CreateValue(content, GoldDisplayConfig.rows.changeValue)
 end
 
 local function CreateGoldDisplay()
-	local data = AUR.GOLD_DISPLAY_DATA
-
-	GoldDisplayFrame = AWL.Frames:CreatePopup(data)
-	GoldDisplayFrame:SetBackdropColor(unpack(data.backgroundColor))
+	GoldDisplayFrame = AWL.Frames:CreatePopup(GoldDisplayConfig)
+	GoldDisplayFrame:SetBackdropColor(unpack(GoldDisplayConfig.backgroundColor))
 
 	CreateLogoButton(GoldDisplayFrame)
 

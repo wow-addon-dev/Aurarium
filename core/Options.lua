@@ -21,16 +21,16 @@ for _, format in ipairs(AUR.DATE_FORMATS) do
 end
 
 local goldDisplayModeOptions = {}
-local goldDisplayData = AUR.GOLD_DISPLAY_DATA
+local GoldDisplayConfig = AUR.UIConfig.GoldDisplay
 
-for _, option in ipairs(goldDisplayData.displayModeOptions) do
+for _, option in ipairs(GoldDisplayConfig.displayModeOptions) do
 	local previewParts = {}
 
 	for _, coin in ipairs(option.coins) do
 		previewParts[#previewParts + 1] = string.format(
 			"%d |T%d:0|t",
-			goldDisplayData.displayModePreviewValues[coin],
-			goldDisplayData.coinIcons[coin]
+			GoldDisplayConfig.displayModePreviewValues[coin],
+			GoldDisplayConfig.coinIcons[coin]
 		)
 	end
 
