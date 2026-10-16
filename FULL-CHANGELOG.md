@@ -1,3 +1,8 @@
+**v2.37 (2026-10-16)**
+- Added: Daily WoW Token price history in the overview and chart [retail]
+- Adapted to the latest version of Arcane Wizard: Library to ensure full compatibility
+- Minor code adjustments
+
 **v2.36 (2026-10-14)**
 - Fixed: Repeated error messages for missing translations
 
