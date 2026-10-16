@@ -12,7 +12,7 @@ AUR.UIConfig.Overview = {
 		closeOnEscape = true
 	},
 	portrait = {x = -5, y = 8},
-	inset = {width = 454, height = 430, bottom = 37, backgroundStyle = "character", backgroundAlpha = 1},
+	inset = {width = 454, height = 430, bottom = 37, backgroundStyle = "textured", backgroundAlpha = 1},
 	contentInsets = {left = 10, right = 25, top = 15, bottom = 15},
 	monthHeading = {x = 5, y = 70},
 	history = {
@@ -34,6 +34,7 @@ AUR.UIConfig.Overview = {
 		menuGap = 6,
 		itemPadding = 4,
 		itemHeight = 20,
+		itemTextOffsetY = -2,
 		iconGap = 4,
 		icon = {
 			size = 14,
@@ -54,10 +55,12 @@ AUR.UIConfig.Overview = {
 		characterWidthPadding = 20,
 		rowHeightPadding = 4
 	},
-	tabIndices = {character = 1, account = 2, warband = 3},
+	tokenPriceFormat = "%s |T237618:0|t",
+	tabIndices = {character = 1, account = 2, warband = 3, token = 4},
 	tabs = {
 		{id = "character", label = "currency-overview.tab.character"},
 		{id = "account", label = "currency-overview.tab.account"},
-		{id = "warband", label = "currency-overview.tab.warband"}
+		{id = "warband", label = "currency-overview.tab.warband"},
+		{id = "token", label = "wow-token.title"}
 	}
 }

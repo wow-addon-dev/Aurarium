@@ -9,6 +9,7 @@ local Chart = AUR.Modules.Chart
 local GoldDisplay = AUR.Modules.GoldDisplay
 local Options = AUR.Modules.Options
 local Overview = AUR.Modules.Overview
+local WowToken = AUR.Modules.WowToken
 local Utils = AUR.Modules.Utils
 
 -- Variables
@@ -234,6 +235,10 @@ function AurariumFrame:PLAYER_ENTERING_WORLD(_, isInitialLogin, isReloadingUi)
 
 	if isInitialized and (isInitialLogin or isReloadingUi) then
 		SaveBalance({gold = true})
+
+		if AWL.GAME_TYPE_RETAIL then
+			WowToken:Initialize()
+		end
 
 		C_Timer.After(5, function()
 			Utils:InitializeCurrencies()

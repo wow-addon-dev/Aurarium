@@ -163,7 +163,10 @@ local function CreateFrameContent(frame)
 end
 
 local function CreateGoldDisplay()
-	GoldDisplayFrame = AWL.Frames:CreatePopup(GoldDisplayConfig)
+	local config = AWL.Utils:CopyTable(GoldDisplayConfig)
+	config.addonName = addonName
+
+	GoldDisplayFrame = AWL.Frames:CreatePopup(config)
 	GoldDisplayFrame:SetBackdropColor(unpack(GoldDisplayConfig.backgroundColor))
 
 	CreateLogoButton(GoldDisplayFrame)

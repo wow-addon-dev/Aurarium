@@ -38,6 +38,12 @@ L["chart.summary.end"] = "Ende"
 L["chart.summary.change"] = "Änderung"
 L["chart.history-note"] = "Die Grafik zeigt den zuletzt erfassten Bestand pro Tag. Für Tage ohne neuen Wert wird der vorherige Bestand angezeigt. Der Verlauf beginnt mit dem ersten erfassten Wert."
 
+L["wow-token.title"] = "WoW-Marke"
+L["wow-token.region"] = "Region"
+L["wow-token.price"] = "Goldpreis"
+L["wow-token.no-data"] = "Für den gewählten Zeitraum wurden noch keine Preise der WoW-Marke aufgezeichnet."
+L["wow-token.history-note"] = "Das Diagramm zeigt den zuletzt pro Tag aufgezeichneten Goldpreis der WoW-Marke für deine Spielregion. Preise werden erfasst, während du eingeloggt bist. An Tagen ohne neuen Preis wird der zuletzt erfasste Preis angezeigt. Die Aufzeichnung beginnt mit der ersten erfolgreichen Abfrage."
+
 -- Options
 
 L["options.general"] = "Allgemeine Einstellungen"

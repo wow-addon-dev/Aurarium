@@ -8,6 +8,7 @@
 	<Script file="ui/CurrencyMenuUIConfig.lua" />
 	<Script file="ui/OverviewUIConfig.lua" />
 	<Script file="ChartData.lua" />
+	<Script file="WowTokenData.lua" />
 	<Script file="ui/ChartUIConfig.lua" />
 	<Script file="ChangelogData.lua" />
 	<Script file="CurrencyData.lua" />

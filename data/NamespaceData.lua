@@ -10,6 +10,7 @@ AUR.Modules.Options = AUR.Modules.Options or {}
 AUR.Modules.CurrencyMenu = AUR.Modules.CurrencyMenu or {}
 AUR.Modules.Overview = AUR.Modules.Overview or {}
 AUR.Modules.Chart = AUR.Modules.Chart or {}
+AUR.Modules.WowToken = AUR.Modules.WowToken or {}
 AUR.Modules.GoldDisplay = AUR.Modules.GoldDisplay or {}
 AUR.Modules.Utils = AUR.Modules.Utils or {}
 

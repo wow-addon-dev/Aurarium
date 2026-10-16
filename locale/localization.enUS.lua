@@ -46,6 +46,12 @@ L["chart.summary.end"] = "End"
 L["chart.summary.change"] = "Change"
 L["chart.history-note"] = "The chart shows the last recorded balance for each day. Days without a new value show the previous balance. The chart starts with the first recorded value."
 
+L["wow-token.title"] = "WoW Token"
+L["wow-token.region"] = "Region"
+L["wow-token.price"] = "Gold Price"
+L["wow-token.no-data"] = "No WoW Token prices have been recorded for the selected period."
+L["wow-token.history-note"] = "The chart shows the last WoW Token gold price recorded each day for your game region. Prices are collected while you are logged in. Days without a new price show the last recorded price. Recording starts with the first successful query."
+
 -- Options
 
 L["options.general"] = "General Options"

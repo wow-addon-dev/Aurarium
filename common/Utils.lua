@@ -202,9 +202,9 @@ function Utils:PrintMessage(msg)
 end
 
 function Utils:PrintDebug(msg)
-	if AUR.Settings.general["debug-mode"] then
-		PrintChatMessage(ORANGE_FONT_COLOR, addonName .. " (Debug)", msg)
-	end
+	if not AUR.Settings.general["debug-mode"] then return end
+
+	Addon:PrintDebug(msg)
 end
 
 function Utils:OpenSettings()

@@ -5,4 +5,5 @@
 	<Script file="GoldDisplay.lua" />
 	<Script file="Overview.lua" />
 	<Script file="Chart.lua" />
+	<Script file="WowToken.lua" />
 </Ui>

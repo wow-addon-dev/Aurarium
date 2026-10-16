@@ -6,11 +6,13 @@ local L = AUR.Localization
 local Chart = AUR.Modules.Chart
 local Utils = AUR.Modules.Utils
 local CurrencyMenu = AUR.Modules.CurrencyMenu
+local WowToken = AUR.Modules.WowToken
 local ChartData = AUR.CHART_DATA
 local ChartConfig = AUR.UIConfig.Chart
 local OverviewConfig = AUR.UIConfig.Overview
 
 local window, plot, scopeGroup, characterDropdown, currencyDropdown, periodDropdown
+local characterLabel
 local firstInput, lastInput, applyButton, statusText, captionText, customPanel, customButton
 local summaryValues = {}
 local selectedOwner, selectedCurrency = nil, "gold"
@@ -141,6 +143,11 @@ function Chart:GetRange(config)
 end
 
 function Chart:GetHistory(scope, characterKey, currencyKey)
+	if scope == "token" then
+		return WowToken:IsSupported() and WowToken:GetHistory() or {}
+	end
+	if currencyKey == "token" then return {} end
+
 	local owners = {}
 
 	if scope == "warband" then
@@ -351,7 +358,7 @@ function Chart:ReduceSeries(series, limit)
 end
 
 local function Scope()
-	if selectedOwner == "account" or selectedOwner == "warband" then return selectedOwner end
+	if selectedOwner == "account" or selectedOwner == "warband" or selectedOwner == "token" then return selectedOwner end
 
 	return "character"
 end
@@ -359,6 +366,10 @@ end
 local function FormatAmount(value)
 	local sign = value < 0 and "-" or ""
 	value = math.abs(value)
+
+	if selectedCurrency == "token" then
+		return sign .. string.format(OverviewConfig.tokenPriceFormat, BreakUpLargeNumbers(math.floor(value / 10000)))
+	end
 
 	if selectedCurrency == "gold" then
 		return string.format(
@@ -386,7 +397,7 @@ local function GetAxisFormat(value)
 end
 
 local function FormatAxis(value)
-	if selectedCurrency == "gold" then
+	if selectedCurrency == "gold" or selectedCurrency == "token" then
 		value = value / 10000
 	end
 
@@ -401,7 +412,7 @@ local function FormatAxis(value)
 end
 
 local function GetReadableAxisBounds(lower, upper)
-	local scale = selectedCurrency == "gold" and 10000 or 1
+	local scale = (selectedCurrency == "gold" or selectedCurrency == "token") and 10000 or 1
 	lower, upper = lower / scale, upper / scale
 
 	local divisor, _, decimals = GetAxisFormat(upper)
@@ -605,6 +616,7 @@ local function DrawChart()
 	end
 
 	plot.singlePoint:Hide()
+	plot.empty:SetText(L[Scope() == "token" and "wow-token.no-data" or "chart.no-data"])
 	plot.empty:SetShown(not points or #points == 0)
 
 	if not points or #points == 0 then
@@ -753,12 +765,40 @@ local function DrawChart()
 	))
 end
 
+local function CreateScopeGroup(sidebar)
+	local scopes = {
+		{label = L["currency-overview.tab.character"], value = "character"},
+		{label = L["currency-overview.tab.account"], value = "account"}
+	}
+
+	if AWL.GAME_TYPE_RETAIL then
+		scopes[#scopes + 1] = {label = L["currency-overview.tab.warband"], value = "warband"}
+	end
+
+	if WowToken:IsSupported() then
+		scopes[#scopes + 1] = {label = L["wow-token.title"], value = "token"}
+	end
+
+	scopeGroup = AWL.Controls:CreateOptionGroup({
+		parent = sidebar,
+		width = ChartConfig.sidebar.controlWidth,
+		options = scopes,
+		selectedValue = "character",
+		onValueChanged = function(value)
+			selectedOwner = value == "character" and (lastCharacterKey or AWL.Utils:GetCharacterGUID()) or value
+			Chart:Refresh(true)
+		end
+	})
+	scopeGroup:SetPoint("TOPLEFT", ChartConfig.margin, -ChartConfig.sidebar.scopeTop)
+end
+
 function Chart:Refresh(rebuildHistory)
 	if not window then
 		return
 	end
 
 	if selectedOwner == "warband" and not AWL.GAME_TYPE_RETAIL
+		or selectedOwner == "token" and not WowToken:IsSupported()
 		or Scope() == "character" and not Utils:GetCharacterEntry(selectedOwner) then
 		selectedOwner = AWL.Utils:GetCharacterGUID()
 
@@ -777,11 +817,25 @@ function Chart:Refresh(rebuildHistory)
 			or characters[1] and characters[1].key
 	end
 
+	if WowToken:IsSupported() and not scopeGroup.buttonsByValue.token then
+		local sidebar = scopeGroup:GetParent()
+		scopeGroup:Hide()
+		CreateScopeGroup(sidebar)
+	end
+
 	scopeGroup:SetValue(Scope())
-	characterDropdown:SetValue(lastCharacterKey)
-	characterDropdown:SetEnabled(Scope() == "character" and lastCharacterKey ~= nil)
+	local characterEnabled = Scope() == "character" and lastCharacterKey ~= nil
+	characterLabel:SetText(L[Scope() == "token" and "wow-token.region" or "currency-overview.tab.character"])
+	characterDropdown:SetDefaultText(Scope() == "token" and L["wow-token.region"] .. ": " .. WowToken:GetRegionName() or "-")
+	characterDropdown:SetValue(characterEnabled and lastCharacterKey or nil)
+	characterDropdown:SetEnabled(characterEnabled)
 
 	local options = CurrencyMenu:GetOptions(Scope())
+
+	if Scope() == "token" then
+		options = {{label = L["wow-token.title"], value = "token"}}
+	end
+
 	local option = FindOption(options, selectedCurrency) or FindOption(options)
 	local nextCurrency = option and option.value
 	selectedCurrencyIcon = option and option.icon
@@ -791,9 +845,17 @@ function Chart:Refresh(rebuildHistory)
 		rebuildHistory = true
 	end
 
+	currencyDropdown:SetDefaultText(L[Scope() == "token" and "wow-token.title" or "chart.currency"])
 	currencyDropdown:SetOptions(options)
 	currencyDropdown:SetValue(selectedCurrency)
-	captionText:SetText(option and option.label .. " - " .. L["chart.period." .. selectedPeriod] or "")
+	currencyDropdown:SetEnabled(Scope() ~= "token")
+	local caption = option and option.label or ""
+
+	if Scope() == "token" then
+		caption = caption .. " (" .. WowToken:GetRegionName() .. ")"
+	end
+
+	captionText:SetText(option and caption .. " - " .. L["chart.period." .. selectedPeriod] or "")
 
 	if rebuildHistory or not history then
 		history = selectedCurrency and self:GetHistory(Scope(), selectedOwner, selectedCurrency) or {}
@@ -860,26 +922,7 @@ local function CreateSidebar(content)
 	sidebar:SetPoint("BOTTOMLEFT", 0, 0)
 	Label(sidebar, L["chart.scope"]):SetPoint("TOPLEFT", ChartConfig.margin, -ChartConfig.margin)
 
-	local scopes = {
-		{label = L["currency-overview.tab.character"], value = "character"},
-		{label = L["currency-overview.tab.account"], value = "account"}
-	}
-
-	if AWL.GAME_TYPE_RETAIL then
-		scopes[#scopes + 1] = {label = L["currency-overview.tab.warband"], value = "warband"}
-	end
-
-	scopeGroup = AWL.Controls:CreateOptionGroup({
-		parent = sidebar,
-		width = ChartConfig.sidebar.controlWidth,
-		options = scopes,
-		selectedValue = "character",
-		onValueChanged = function(value)
-			selectedOwner = value == "character" and (lastCharacterKey or AWL.Utils:GetCharacterGUID()) or value
-			Chart:Refresh(true)
-		end
-	})
-	scopeGroup:SetPoint("TOPLEFT", ChartConfig.margin, -ChartConfig.sidebar.scopeTop)
+	CreateScopeGroup(sidebar)
 
 	characterDropdown = AWL.Controls:CreateDropdown({
 		parent = sidebar,
@@ -892,7 +935,8 @@ local function CreateSidebar(content)
 	})
 	characterDropdown:SetDefaultText(L["currency-overview.tab.character"])
 	characterDropdown:SetPoint("TOPLEFT", ChartConfig.margin, -ChartConfig.sidebar.characterTop)
-	Label(sidebar, L["currency-overview.tab.character"]):SetPoint("BOTTOMLEFT", characterDropdown, "TOPLEFT", 0, ChartConfig.labelGap)
+	characterLabel = Label(sidebar, L["currency-overview.tab.character"])
+	characterLabel:SetPoint("BOTTOMLEFT", characterDropdown, "TOPLEFT", 0, ChartConfig.labelGap)
 
 	currencyDropdown = AWL.Controls:CreateDropdown({
 		parent = sidebar,
@@ -905,6 +949,8 @@ local function CreateSidebar(content)
 		end
 	})
 	currencyDropdown:SetupMenu(function(owner, root)
+		if Scope() == "token" then return end
+
 		CurrencyMenu:Populate(root, {
 			scope = Scope(),
 			characterKey = selectedOwner,
@@ -1029,6 +1075,7 @@ end
 local function CreateWindow()
 	local ArtworkConfig = ChartConfig.artwork
 	local windowConfig = AWL.Utils:CopyTable(OverviewConfig.window)
+	windowConfig.addonName = addonName
 	windowConfig.width = ArtworkConfig.width
 	windowConfig.height = ArtworkConfig.height
 	windowConfig.title = addonName .. " - " .. L["chart.title"] .. " (" .. L["chart.beta"] .. ")"
@@ -1154,7 +1201,7 @@ local function CreateWindow()
 		GameTooltip:SetText(
 			L["chart.title"], ChartConfig.normalColor[1], ChartConfig.normalColor[2], ChartConfig.normalColor[3]
 		)
-		GameTooltip:AddLine(L["chart.history-note"], 1, 1, 1, true)
+		GameTooltip:AddLine(L[Scope() == "token" and "wow-token.history-note" or "chart.history-note"], 1, 1, 1, true)
 		GameTooltip:Show()
 	end)
 
@@ -1175,7 +1222,7 @@ function Chart:Show(config)
 		lastCharacterKey = config.characterKey
 	end
 
-	if config.scope == "account" or config.scope == "warband" then
+	if config.scope == "account" or config.scope == "warband" or config.scope == "token" then
 		selectedOwner = config.scope
 	elseif config.characterKey then
 		selectedOwner = config.characterKey
@@ -1201,7 +1248,7 @@ function Chart:IsShown()
 end
 
 function Chart:OnBalanceUpdated(update)
-	if not self:IsShown() or refreshPending then
+	if not self:IsShown() or Scope() == "token" or refreshPending then
 		return
 	end
 
@@ -1223,4 +1270,12 @@ function Chart:OnBalanceUpdated(update)
 			Chart:Refresh(true)
 		end
 	end)
+end
+
+function Chart:OnTokenUpdated()
+	if not self:IsShown() then return end
+
+	if Scope() == "token" or not scopeGroup.buttonsByValue.token then
+		self:Refresh(true)
+	end
 end

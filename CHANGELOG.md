@@ -2,6 +2,8 @@
 ### [@project-version@](https://github.com/arcane-wizard-dev/Aurarium/tree/@project-version@) (@build-date@)
 [Full Changelog](@full-changelog@) - [Previous Releases](https://github.com/arcane-wizard-dev/Aurarium/releases)
 
-**Important note: This is an initial test version for World of Warcraft: Forever. Some addon features may not work correctly yet.**
+**Important note: Migration of older character data will be removed at the end of 2026. Log in once with each character using an up-to-date version of Aurarium before then to preserve their gold and currency history.**
 
-- Fixed: Repeated error messages for missing translations
+- Added: Daily WoW Token price history in the overview and chart [retail]
+- Adapted to the latest version of Arcane Wizard: Library to ensure full compatibility
+- Minor code adjustments
